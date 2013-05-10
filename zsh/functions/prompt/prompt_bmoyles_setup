@@ -146,6 +146,8 @@ function prompt_bmoyles_precmd {
         fi
     fi
 
+    print
+
     zstyle -a ":prompt:bmoyles" prompt tmp
     if (( ${#tmp} > 1 )) ; then
         local line
