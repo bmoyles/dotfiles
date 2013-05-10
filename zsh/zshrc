@@ -1,0 +1,15 @@
+local -a configs
+configs=( config functions editor aliases prompt )
+local config
+for config in ${ZDOTDIR}/${^configs}/${^flavors}.zsh(N) ; do
+    source ${config}
+done
+
+for config in ${DOTLOCAL}/zsh/${^configs}.zsh(N) ; do
+    source ${config}
+done
+
+unset config
+unset configs
+
+# vim: filetype=zsh:ts=4:sw=4:expandtab

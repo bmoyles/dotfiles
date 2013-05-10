@@ -1,0 +1,188 @@
+function prompt_bmoyles_setup {
+    autoload -Uz add-zsh-hook
+
+    zstyle -t ":prompt:bmoyles:user_at" enabled
+    [[ $? -eq 2 ]] &&
+        zstyle ":prompt:bmoyles:user_at" enabled 'true'
+
+    zstyle -m ":prompt:bmoyles" user_at '*' ||
+        zstyle ":prompt:bmoyles" user_at '%B%F{blue}user(%f%b%(!.%F{red}%U.%F{green})%n%(!.%u.)%f%B@%b%F{yellow}%m%f%B%F{blue})%f%b'
+
+    zstyle -t ":prompt:bmoyles:curdir" enabled
+    [[ $? -eq 2 ]] &&
+        zstyle ":prompt:bmoyles:curdir" enabled 'true'
+
+    zstyle -m ":prompt:bmoyles" curdir '*' ||
+        zstyle ":prompt:bmoyles" curdir '%B%F{blue}curdir(%f%b%F{green}%~%f%B%F{blue})%f%b'
+
+    zstyle -t ":prompt:bmoyles:curtime" enabled
+    [[ $? -eq 2 ]] &&
+        zstyle ":prompt:bmoyles:user_at" curtime 'true'
+
+    zstyle -m ":prompt:bmoyles" curtime '*' ||
+        zstyle ":prompt:bmoyles" curtime '%B%F{blue}now(%f%b%F{magenta}%D{%a %Y-%m-%d}%f %F{cyan}%D{%r}%f%B%F{blue})%f%b'
+
+    zstyle -t ":prompt:bmoyles:aws" enabled
+    [[ $? -eq 2 ]] &&
+        zstyle ":prompt:bmoyles:aws" enabled 'true'
+
+    zstyle -m ":prompt:bmoyles:aws" account '*' ||
+        zstyle ":prompt:bmoyles:aws" account '%F{red}%A%f'
+
+    zstyle -m ":prompt:bmoyles:aws" region '*' ||
+        zstyle ":prompt:bmoyles:aws" region '%F{yellow}%R%f'
+
+    zstyle -m ":prompt:bmoyles:aws" format '*' ||
+        zstyle ":prompt:bmoyles:aws" format '%B%F{blue}aws(%f%b%A@%R%B%F{green})%f%b'
+
+    zstyle -m ":prompt:bmoyles:aws" unavailable '*' ||
+        zstyle ":prompt:bmoyles:aws" unavailable '%B%F{green}aws(%f%b%B%F{red}unavailable%f%b%B%F{green})%f%b'
+
+    if ! zstyle -m ":prompt:bmoyles" prompt '*' ; then
+        local -a promptstr
+        promptstr=(
+            "%u %a %V"
+            "%c"
+            "%# "
+        )
+        zstyle ":prompt:bmoyles" prompt ${promptstr}
+        unset promptstr
+    fi
+
+    if ! zstyle -m ":prompt:bmoyles" rprompt '*' ; then
+        local -a rpromptstr
+        rpromptstr=(
+            "%t"
+        )
+        zstyle ":prompt:bmoyles" rprompt ${rpromptstr}
+        unset rpromptstr
+    fi
+
+
+    prompt_bmoyles_vcs
+
+    add-zsh-hook precmd prompt_bmoyles_precmd
+    add-zsh-hook preexec prompt_bmoyles_preexec
+}
+
+function prompt_bmoyles_vcs {
+    autoload -Uz vcs_info
+    zstyle ':vcs_info:*' enable git
+    zstyle ':vcs_info:git*' check-for-changes true
+    zstyle ':vcs_info:git*' unstagedstr '%B%F{yellow}☻%f%b '
+    zstyle ':vcs_info:git*' stagedstr '%B%F{green}☻%f%b '
+    zstyle ':vcs_info:git*' formats \
+        " %B%F{blue}%s(%f%F{green}%r[%f%F{red}%b:%m %u%c%f%F{green}]%f%F{blue})%f%%b"
+    zstyle ':vcs_info:git*' actionformats \
+        " %B%F{blue}%s(%f%F{green}%r[%f%F{red}%b|%a:%m %u%c%f%F{green}]%f%F{blue})%f%%b"
+
+    function +vi-git-st() {
+        local ahead behind
+        local -a gitstatus
+
+        # for git prior to 1.7
+        # ahead=$(git rev-list origin/${hook_com[branch]}..HEAD | wc -l)
+        ahead=$(git rev-list ${hook_com[branch]}@{upstream}..HEAD 2>/dev/null | wc -l)
+        (( $ahead )) && gitstatus+=( "%F{magenta}↑${ahead//[[:space:]]/}%f" )
+
+        # for git prior to 1.7
+        # behind=$(git rev-list HEAD..origin/${hook_com[branch]} | wc -l)
+        behind=$(git rev-list HEAD..${hook_com[branch]}@{upstream} 2>/dev/null | wc -l)
+        (( $behind )) && gitstatus+=( "%F{magenta}↓${behind//[[:space:]]/}%f" )
+
+        hook_com[misc]+=${(j:/:)gitstatus}
+    }
+
+    function +vi-git-remotebranch() {
+        local remote
+
+        # Are we on a remote-tracking branch?
+        remote=${$(git rev-parse --verify ${hook_com[branch]}@{upstream} \
+            --symbolic-full-name 2>/dev/null)/refs\/remotes\/}
+
+        if [[ -n ${remote} ]] ; then
+            hook_com[branch]="${hook_com[branch]}<${remote}>"
+        fi
+    }
+
+    zstyle ':vcs_info:git*+set-message:*' hooks git-st git-remotebranch
+}
+
+
+function prompt_bmoyles_precmd {
+    setopt noxtrace localoptions
+    local tmp awstmp
+    local -A promptvars
+
+    vcs_info
+
+    zstyle -s ":prompt:bmoyles" user_at tmp
+    promptvars[user_at]=${tmp}
+    zstyle -s ":prompt:bmoyles" curdir tmp
+    promptvars[curdir]=${tmp}
+    zstyle -s ":prompt:bmoyles" curtime tmp
+    promptvars[curtime]=${tmp}
+
+
+    if zstyle -t ":prompt:bmoyles:aws" enabled ; then
+        if [[ -r ${AWS_CONFIG_FILE} ]] && [[ -n ${AWS_DEFAULT_REGION} ]]; then
+            zstyle -s ':prompt:bmoyles:aws' account tmp
+            print $tmp wahoo
+            zformat -f awstmp ${tmp} A:${AWS_CONFIG_FILE:t}
+            promptvars[aws_account]=${awstmp}
+
+            zstyle -s ':prompt:bmoyles:aws' region tmp
+            zformat -f awstmp ${tmp} R:${AWS_DEFAULT_REGION}
+            promptvars[aws_region]=${awstmp}
+
+            zstyle -s ':prompt:bmoyles:aws' format tmp
+            zformat -f awstmp ${tmp} \
+                A:${promptvars[aws_account]} \
+                R:${promptvars[aws_region]}
+            promptvars[aws]=${awstmp}
+        else
+            zstyle -s ':prompt:bmoyles:aws' unavailable tmp
+            promptvars[aws]=${tmp}
+        fi
+    fi
+
+    zstyle -a ":prompt:bmoyles" prompt tmp
+    if (( ${#tmp} > 1 )) ; then
+        local line
+        for line in ${tmp[1,-2]} ; do
+            zformat -f line ${line} \
+                t:${promptvars[curtime]} \
+                a:${promptvars[aws]} \
+                c:${promptvars[curdir]} \
+                u:${promptvars[user_at]} \
+                V:${vcs_info_msg_0_}
+            print -P ${line}
+        done
+        unset line
+    fi
+    zformat -f PROMPT ${tmp[-1]} \
+        t:${promptvars[curtime]} \
+        a:${promptvars[aws]} \
+        c:${promptvars[curdir]} \
+        u:${promptvars[user_at]} \
+        V:${vcs_info_msg_0_}
+
+    zstyle -a ":prompt:bmoyles" rprompt tmp
+    zformat -f RPROMPT ${tmp[-1]} \
+        t:${promptvars[curtime]} \
+        a:${promptvars[aws]} \
+        c:${promptvars[curdir]} \
+        u:${promptvars[user_at]} \
+        V:${vcs_info_msg_0_}
+
+
+    unset promptvars tmp awstmp
+}
+
+function prompt_bmoyles_preexec {
+
+}
+
+prompt_bmoyles_setup
+
+# vim: ft=zsh sw=4 sts=4 ts=4 expandtab

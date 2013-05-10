@@ -1,0 +1,7 @@
+export ZDOTDIR=${${:-~/.zshenv}:A:h}
+export DOTDIR=${ZDOTDIR:h}
+export DOTLOCAL=~/.local
+
+source ${ZDOTDIR}/.zshenv
+
+# vim: filetype=zsh:ts=4:sw=4:expandtab

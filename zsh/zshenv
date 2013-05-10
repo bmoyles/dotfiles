@@ -1,0 +1,32 @@
+typeset -x OS
+typeset -x DISTRO
+
+OS=$(uname -s)
+DISTRO=''
+
+if [[ ${os} == "Linux" ]]; then
+    if [[ -e /etc/redhat-release ]]; then
+        DISTRO=rhel
+    elif [[ -e /etc/debian_version ]]; then
+        DISTRO=deb
+    fi
+fi
+
+typeset -ga flavors
+flavors=( all ${OS:+${OS}} ${DISTRO:+${DISTRO}} )
+
+local -a configs
+configs=( env path )
+local config
+for config in ${ZDOTDIR}/${^configs}/${^flavors}.zsh(N) ; do
+    source ${config}
+done
+
+for config in ${DOTLOCAL}/zsh/${^configs}.zsh(N) ; do
+    source ${config}
+done
+
+unset config
+unset configs
+
+# vim: filetype=zsh:ts=4:sw=4:expandtab
