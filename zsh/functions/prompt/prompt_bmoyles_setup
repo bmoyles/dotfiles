@@ -1,5 +1,6 @@
 function prompt_bmoyles_setup {
     autoload -Uz add-zsh-hook
+    setopt prompt_subst
 
     zstyle -t ":prompt:bmoyles:user_at" enabled
     [[ $? -eq 2 ]] &&
@@ -127,7 +128,6 @@ function prompt_bmoyles_precmd {
     if zstyle -t ":prompt:bmoyles:aws" enabled ; then
         if [[ -r ${AWS_CONFIG_FILE} ]] && [[ -n ${AWS_DEFAULT_REGION} ]]; then
             zstyle -s ':prompt:bmoyles:aws' account tmp
-            print $tmp wahoo
             zformat -f awstmp ${tmp} A:${AWS_CONFIG_FILE:t}
             promptvars[aws_account]=${awstmp}
 
