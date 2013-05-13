@@ -40,12 +40,11 @@ function prompt_bmoyles_setup {
         zstyle ":prompt:bmoyles:aws" unavailable '%B%F{green}aws(%f%b%B%F{red}unavailable%f%b%B%F{green})%f%b'
 
     if ! zstyle -m ":prompt:bmoyles" prompt '*' ; then
-        local -a promptstr
-        promptstr=(
-            "%u %a %V"
-            "%c"
-            "%# "
-        )
+        local promptstr
+        promptstr="
+%u %a %V
+%c
+%# "
         zstyle ":prompt:bmoyles" prompt ${promptstr}
         unset promptstr
     fi
@@ -148,29 +147,16 @@ function prompt_bmoyles_precmd {
 
     print
 
-    zstyle -a ":prompt:bmoyles" prompt tmp
-    if (( ${#tmp} > 1 )) ; then
-        local line
-        for line in ${tmp[1,-2]} ; do
-            zformat -f line ${line} \
-                t:${promptvars[curtime]} \
-                a:${promptvars[aws]} \
-                c:${promptvars[curdir]} \
-                u:${promptvars[user_at]} \
-                V:${vcs_info_msg_0_}
-            print -P ${line}
-        done
-        unset line
-    fi
-    zformat -f PROMPT ${tmp[-1]} \
+    zstyle -s ":prompt:bmoyles" prompt tmp
+    zformat -f PROMPT ${tmp} \
         t:${promptvars[curtime]} \
         a:${promptvars[aws]} \
         c:${promptvars[curdir]} \
         u:${promptvars[user_at]} \
         V:${vcs_info_msg_0_}
 
-    zstyle -a ":prompt:bmoyles" rprompt tmp
-    zformat -f RPROMPT ${tmp[-1]} \
+    zstyle -s ":prompt:bmoyles" rprompt tmp
+    zformat -f RPROMPT ${tmp} \
         t:${promptvars[curtime]} \
         a:${promptvars[aws]} \
         c:${promptvars[curdir]} \

@@ -1,0 +1,31 @@
+local session=general
+
+function _tmux_create_or_attach {
+    if ! tmux has-session -t ${session} 2>/dev/null ; then
+        if [[ -r ${DOTDIR}/tmux/${session}.tmx ]] ; then
+            source ${DOTDIR}/tmux/${session}.tmx
+        else
+            tmux new-session -d -s ${session}
+        fi
+    fi
+    tmux attach -d -t ${session}
+}
+
+if (( $# > 0 )) ; then
+    case $1 in
+        list|ls)
+            tmux list-sessions 2>/dev/null
+            if (( $? != 0 )) ; then
+                echo "No sessions found"
+            fi
+            return
+            ;;
+        *)
+            session=$1
+            ;;
+    esac
+fi
+_tmux_create_or_attach
+unset session
+
+# vim:filetype=zsh ts=4 sw=4 sts=4 et

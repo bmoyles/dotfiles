@@ -2,7 +2,7 @@ set nocompatible
 filetype off
 
 set rtp+=${DOTDIR}/vim/bundle/vundle/
-call vundle#rc()
+call vundle#rc(expand('$DOTDIR/vim/bundle'))
 
 Bundle 'gmarik/vundle'
 Bundle 'chriskempson/base16-vim'
@@ -13,5 +13,58 @@ Bundle 'scrooloose/nerdtree'
 Bundle 'wincent/Command-T'
 
 filetype plugin indent on
+syntax on
+
+" colors and terminal
+set t_Co=256
+set background=dark
+color base16-tomorrow
+set noexrc " disable local exrc/vimrc foo
+let mapleader = "," " switch the leader to something more reachable
+" enable line numbers but allow them to be easily toggled
+set number
+nmap <C-N><C-N> :set invnumber<CR>
+set backspace=indent,eol,start " enhance backspace
+" show vim status bar and ruler
+set laststatus=2
+set ruler
+set encoding=utf-8
+" Whitespace stuff
+set nowrap " don't wrap lines
+set tabstop=4 " a tab should be four spaces
+set shiftwidth=4 " indents should also use 4 space base
+set softtabstop=4 " to be safe, soft tabs at 4 too
+set expandtab " no tabs!
+set smarttab
+" highlighting unprintables
+set list listchars=tab:\ \ ,trail:·
+" Searching
+set nohlsearch " don't do the highlight search thing after we've searched
+set incsearch " but please highlight search as we type
+set ignorecase " case insensitive
+set smartcase " unless we look like we want case-sensitive
+" Use modeline overrides
+set modeline
+set modelines=3
+
+" Directories for swp files
+let backup_folder = "$DOTDIR/vim/backup"
+if !isdirectory(expand(backup_folder))
+    call mkdir(expand(backup_folder), "p")
+endif
+let &backupdir = expand(backup_folder)
+let &directory = &backupdir
+
+" Show (partial) command in the status line
+set showcmd
+
+set mouse=a
+
+au BufNewFile,BufRead *.gradle setf groovy
+
+" Include user's local vim config
+if filereadable(expand("$DOTLOCAL/vim/vimrc"))
+  source $DOTLOCAL/vim/vimrc
+endif
 
 " vim: ft=vim ts=4 sts=4 sw=4 expandtab
