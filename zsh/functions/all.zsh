@@ -1,15 +1,15 @@
 typeset -Ux fpath
 
-local -a funcs
+local -a funcdirs
 funcdirs=( ${ZDOTDIR}/functions/*(/N) )
 
 fpath=( ${funcdirs} ${fpath})
 
-local funcpath
+local func
 for func in ${^funcdirs}/*(.N); do
     autoload -Uz ${func}(:t)
 done
-unset funcpath
-unset funcs
+unset func
+unset funcdirs
 
 # vim: filetype=zsh:ts=4:sw=4:expandtab
