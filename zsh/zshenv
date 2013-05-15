@@ -16,7 +16,7 @@ typeset -ga flavors
 flavors=( all ${OS:+${OS}} ${DISTRO:+${DISTRO}} )
 
 local -a configs
-configs=( env path )
+configs=( env path functions )
 local config
 for config in ${ZDOTDIR}/${^configs}/${^flavors}.zsh(N) ; do
     source ${config}
