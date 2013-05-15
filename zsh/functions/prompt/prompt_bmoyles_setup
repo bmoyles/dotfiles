@@ -41,8 +41,7 @@ function prompt_bmoyles_setup {
 
     if ! zstyle -m ":prompt:bmoyles" prompt '*' ; then
         local promptstr
-        promptstr="
-%u %a %V
+        promptstr="%u %a %V
 %c
 %# "
         zstyle ":prompt:bmoyles" prompt ${promptstr}
@@ -50,14 +49,11 @@ function prompt_bmoyles_setup {
     fi
 
     if ! zstyle -m ":prompt:bmoyles" rprompt '*' ; then
-        local -a rpromptstr
-        rpromptstr=(
-            "%t"
-        )
+        local rpromptstr
+        rpromptstr="%t"
         zstyle ":prompt:bmoyles" rprompt ${rpromptstr}
         unset rpromptstr
     fi
-
 
     prompt_bmoyles_vcs
 
