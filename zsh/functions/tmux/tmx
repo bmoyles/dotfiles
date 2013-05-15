@@ -1,4 +1,4 @@
-local session=general
+local _session=general
 
 function _tmux_create_or_attach {
     if ! tmux has-session -t ${session} 2>/dev/null ; then

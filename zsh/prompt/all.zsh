@@ -1,3 +1,4 @@
+fpath=( ${ZDOTDIR}/prompt/themes/ ${fpath} )
 autoload -Uz promptinit && promptinit
 prompt bmoyles
 

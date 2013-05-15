@@ -1,5 +1,5 @@
 local -a configs
-configs=( config functions editor completion prompt ext )
+configs=( config functions editor completion aliases prompt ext )
 local config
 for config in ${ZDOTDIR}/${^configs}/${^flavors}.zsh(N) ; do
     source ${config}
