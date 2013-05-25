@@ -10,6 +10,9 @@ export TZ="PST8PDT"
 
 export LS_OPTIONS="-F"
 
-export TMUXRC=${DOTDIR}/tmux/tmux.conf
+typeset -ax TMUXOPTS
+typeset -x TMUXRC
+TMUXRC=${DOTDIR}/tmux/tmux.conf
+[[ -r ${TMUXRC} ]] && TMUXOPTS=( -f ${TMUXRC} )
 
 # vim: filetype=zsh:ts=4:sw=4:expandtab

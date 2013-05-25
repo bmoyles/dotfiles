@@ -1,5 +1,61 @@
 fpath=( ${ZDOTDIR}/prompt/themes/ ${fpath} )
+
+typeset -Ax chars
+chars[branch]=''
+chars[line]=''
+chars[padlock]=''
+chars[right-black-arrow]=''
+chars[right-arrow]=''
+chars[left-black-arrow]=''
+chars[left-arrow]=''
+chars[plus-minus]='±'
+chars[hook-right-arrow]='➦'
+chars[hook-left-arrow]='↩'
+chars[check]='✔'
+chars[x]='✘'
+chars[zap]='⚡'
+chars[star]='🌟'
+chars[ghost]='👻'
+chars[alien]='👽'
+chars[octopus]='🐙'
+chars[fire]='🔥'
+chars[hammer]='🔨'
+chars[outbox]='📤'
+chars[inbox]='📥'
+chars[burger]='🍔'
+chars[cookie]='🍪'
+chars[no]='🚫'
+chars[poo]='💩'
+chars[buff]='💪'
+chars[thumbsup]='👍'
+chars[fistbump]='👊'
+chars[thumbsdown]='👎'
+chars[jazzhands]='👐'
+chars[recycle]='♻'
+chars[noentry]='⛔'
+chars[heavybang]='❗'
+chars[wrench]='🔧'
+chars[crown]='👑'
+chars[bug]='🐛'
+chars[sheep]='🐑'
+chars[clock]='⏰'
+chars[sun]='☀'
+chars[cloud]='☁'
+chars[rainbow]='🌈'
+chars[warning]='⚠'
+chars[wheelchair]='♿'
+chars[toilet]='🚽'
+chars[ok]='🆗'
+chars[new]='🆕'
+chars[sos]='🆘'
+chars[lightbulb]='💡'
+chars[boom]='💥'
+chars[newline]=$'\n'
+
 autoload -Uz promptinit && promptinit
+zstyle :prompt:bmoyles vcs_info true
+zstyle :prompt:bmoyles aws true
+
 prompt bmoyles
 
 # vim: ft=zsh sw=4 sts=4 ts=4 expandtab
