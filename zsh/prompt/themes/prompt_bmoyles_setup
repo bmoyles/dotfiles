@@ -9,8 +9,8 @@ function prompt_bmoyles_setup {
     autoload -Uz vcs_info
     zstyle ':vcs_info:*' enable git
     zstyle ':vcs_info:git*' check-for-changes true
-    zstyle ':vcs_info:git*' unstagedstr "|modified|"
-    zstyle ':vcs_info:git*' stagedstr "|staged|"
+    zstyle ':vcs_info:git*' unstagedstr "|$FX[bold]modified$FX[no-bold]|"
+    zstyle ':vcs_info:git*' stagedstr "|$FX[bold]staged$FX[no-bold]|"
     zstyle ':vcs_info:git*' formats \
         "%b$chars[branch]%r(%m%u%c)"
     zstyle ':vcs_info:git*' actionformats \
@@ -25,17 +25,13 @@ function +vi-git-st() {
     local ahead behind
     local -a gitstatus
 
-    # for git prior to 1.7
-    # ahead=$(git rev-list origin/${hook_com[branch]}..HEAD | wc -l)
-    ahead=$(git rev-list ${hook_com[branch]}@{upstream}..HEAD 2>/dev/null | wc -l)
-    (( $ahead )) && gitstatus+=( "$chars[uparrow]${ahead//[[:space:]]/}" )
+    behind=$(git rev-list HEAD..origin/${hook_com[branch]} | wc -l)
+    (( $behind )) && gitstatus+=( $(prompt_segment magenta 0 left "$chars[downarrow]${behind//[[:space:]]/}") )
 
-    # for git prior to 1.7
-    # behind=$(git rev-list HEAD..origin/${hook_com[branch]} | wc -l)
-    behind=$(git rev-list HEAD..${hook_com[branch]}@{upstream} 2>/dev/null | wc -l)
-    (( $behind )) && gitstatus+=( '$chars[downarrow]${behind//[[:space:]]/}' )
+    ahead=$(git rev-list origin/${hook_com[branch]}..HEAD | wc -l)
+    (( $ahead )) && gitstatus+=( $(prompt_segment magenta 0 left "$chars[uparrow]${ahead//[[:space:]]/}") )
 
-    hook_com[misc]+=${(j:/:)gitstatus}
+    hook_com[misc]+=$FX[bold]${(j::)gitstatus}$FX[no-bold]
 }
 
 function +vi-git-remotebranch() {
