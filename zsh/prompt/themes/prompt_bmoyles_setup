@@ -1,142 +1,161 @@
 function prompt_bmoyles_setup {
     emulate -L zsh
+    setopt localoptions
+    prompt_opts=(cr percent subst)
+
     autoload -Uz add-zsh-hook
-    setopt prompt_subst
-
-    [[ zstyle -T :prompt:bmoyles vcs_info ]] && prompt_bmoyles_vcs
-
     add-zsh-hook precmd prompt_bmoyles_precmd
-}
 
-function prompt_bmoyles_vcs {
-    emulate -L zsh
     autoload -Uz vcs_info
     zstyle ':vcs_info:*' enable git
     zstyle ':vcs_info:git*' check-for-changes true
-    zstyle ':vcs_info:git*' unstagedstr '%B%F{yellow}☻%f%b '
-    zstyle ':vcs_info:git*' stagedstr '%B%F{green}☻%f%b '
+    zstyle ':vcs_info:git*' unstagedstr "|modified|"
+    zstyle ':vcs_info:git*' stagedstr "|staged|"
     zstyle ':vcs_info:git*' formats \
-        ' %B%F{blue}%s(%f%F{green}%r[%f%F{red}%b:%m %u%c%f%F{green}]%f%F{blue})%f%%b'
+        "%b$chars[branch]%r(%m%u%c)"
     zstyle ':vcs_info:git*' actionformats \
-        ' %B%F{blue}%s(%f%F{green}%r[%f%F{red}%b|%a:%m %u%c%f%F{green}]%f%F{blue})%f%%b'
+        "%b$chars[branch]%r$chars[plus-minus]%a(%m%u%c)"
+    zstyle ':vcs_info:git*+set-message:*' hooks git-st git-remotebranch git-untracked
 
-    function +vi-git-st() {
-        local ahead behind
-        local -a gitstatus
-
-        # for git prior to 1.7
-        # ahead=$(git rev-list origin/${hook_com[branch]}..HEAD | wc -l)
-        ahead=$(git rev-list ${hook_com[branch]}@{upstream}..HEAD 2>/dev/null | wc -l)
-        (( $ahead )) && gitstatus+=( '%F{magenta}↑${ahead//[[:space:]]/}%f' )
-
-        # for git prior to 1.7
-        # behind=$(git rev-list HEAD..origin/${hook_com[branch]} | wc -l)
-        behind=$(git rev-list HEAD..${hook_com[branch]}@{upstream} 2>/dev/null | wc -l)
-        (( $behind )) && gitstatus+=( '%F{magenta}↓${behind//[[:space:]]/}%f' )
-
-        hook_com[misc]+=${(j:/:)gitstatus}
-    }
-
-    function +vi-git-remotebranch() {
-        local remote
-
-        # Are we on a remote-tracking branch?
-        remote=${$(git rev-parse --verify ${hook_com[branch]}@{upstream} \
-            --symbolic-full-name 2>/dev/null)/refs\/remotes\/}
-
-        if [[ -n ${remote} ]] ; then
-            hook_com[branch]='${hook_com[branch]}<${remote}>'
-        fi
-    }
-
-    zstyle ':vcs_info:git*+set-message:*' hooks git-st git-remotebranch
+    PROMPT='%{%f%b%k%}$(prompt_bmoyles_build_prompt)'
+    RPROMPT='%{%f%b%k%}$(prompt_bmoyles_build_rprompt)'
 }
 
+function +vi-git-st() {
+    local ahead behind
+    local -a gitstatus
+
+    # for git prior to 1.7
+    # ahead=$(git rev-list origin/${hook_com[branch]}..HEAD | wc -l)
+    ahead=$(git rev-list ${hook_com[branch]}@{upstream}..HEAD 2>/dev/null | wc -l)
+    (( $ahead )) && gitstatus+=( "$chars[uparrow]${ahead//[[:space:]]/}" )
+
+    # for git prior to 1.7
+    # behind=$(git rev-list HEAD..origin/${hook_com[branch]} | wc -l)
+    behind=$(git rev-list HEAD..${hook_com[branch]}@{upstream} 2>/dev/null | wc -l)
+    (( $behind )) && gitstatus+=( '$chars[downarrow]${behind//[[:space:]]/}' )
+
+    hook_com[misc]+=${(j:/:)gitstatus}
+}
+
+function +vi-git-remotebranch() {
+    local remote
+
+    # Are we on a remote-tracking branch?
+    remote=${$(git rev-parse --verify ${hook_com[branch]}@{upstream} \
+        --symbolic-full-name 2>/dev/null)/refs\/remotes\/}
+
+    if [[ -n ${remote} ]] ; then
+        hook_com[branch]="${hook_com[branch]}$chars[hook-right-arrow]${remote}"
+    fi
+}
+
++vi-git-untracked(){
+    if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]] && \
+        git status --porcelain | grep '??' &> /dev/null ; then
+        # This will show the marker if there are any untracked files in repo.
+        # If instead you want to show the marker only if there are untracked
+        # files in $PWD, use:
+        #[[ -n $(git ls-files --others --exclude-standard) ]] ; then
+        hook_com[staged]+="|new|"
+    fi
+}
 
 function prompt_bmoyles_precmd {
-    [[ zstyle -T :prompt:bmoyles vcs_info ]] && vcs_info
-    CURBG='default'
-    PROMPT=$chars[newline]
+    emulate -L zsh
+    zstyle -T ':prompt:bmoyles' vcs_info && vcs_info
+}
 
-    [[ zstyle -T :]]
+function prompt_segment() {
+    local bg fg dir
+    typeset -x CURBG
 
-    function render_segment {
-        local segment=$1
-        local fgcolor=$2
-        local bgcolor=$3
-        local direction=${4:-right}
-        local fg="%F{$fgcolor}"
-        local bg="%K{$bgcolor}"
-        local sep=$chars[${direction}-black-arrow]
+    [[ -n $1 ]] && bg="%K{$1}" || bg="%k"
+    [[ -n $2 ]] && fg="%F{$2}" || fg="%f"
+    dir=$3
 
-        if [[ ${direction} == 'right' ]]; then
-            if [[ ${current_bg} != 'default' ]] && \
-                    [[ ${current_bg} != ${bgcolor} ]]; then
-                echo -n "%F{$current_bg}$bg$sep%k%f"
-            fi
-        else
-            echo -n "%F{$bgcolor}%K{$current_bg}${sep}%k%f"
+    if [[ $CURBG == 'NONE' ]] || [[ $1 == $CURBG ]] \
+        || [[ $dir == 'right' ]]; then
+        echo -n "%{$bg$fg%}"
+    else
+        if [[ $dir == 'left' ]]; then
+            echo -n " %{$bg%F{$CURBG}%}$SEP%{$fg%} "
         fi
-        export current_bg=${bgcolor}
-        echo -n "${bg}${fg}${segment}"
-    }
-
-    function render_end_line {
-        local sep=$chars[right-black-arrow]
-        echo -n "%k%f%F{$current_bg}${sep}%f"
-        current_bg=default
-    }
-
-    function render_user_at {
-        render_segment '%(!.$chars[heavybang]$chars[heavybang].)%n@%m' black yellow $*
-    }
-
-    function render_promptchar {
-        render_segment '%(!.$chars[crown].)%#' black yellow $*
-    }
-
-    function render_curdir {
-        render_segment '%~' black green $*
-    }
-
-    function render_curdate {
-        render_segment '%D{%a %Y-%m-%d}' black magenta $*
-    }
-
-    function render_curtime {
-        render_segment '%D{%r}' black cyan $*
-    }
-
-    function render_aws_account {
-        render_segment 'aws: ${AWS_CONFIG_FILE:t}' black blue $*
-    }
-
-    function render_aws_region {
-        render_segment ${AWS_DEFAULT_REGION} black blue $*
-    }
-
-    function render_aws {
-        if [[ -r ${AWS_CONFIG_FILE} ]] && [[ -n ${AWS_DEFAULT_REGION} ]]; then
-            render_aws_account $*
-            render_aws_region $*
-        else
-            render_segment 'AWS:  $chars[noentry]  unavailable $chars[noentry]  ' black red $*
-        fi
-    }
-
-    PROMPT=""
-    if zstyle -t :prompt:bmoyles:aws enabled ; then
-        PROMPT="
-$(render_aws) $(render_end_line)"
     fi
 
-    PROMPT="$PROMPT
-$(render_curdir) $(render_end_line)"
-    PROMPT="$PROMPT
-$(render_user_at) $(render_promptchar) $(render_end_line) "
+    [[ -n $4 ]] && print -Pn $4
 
-    RPROMPT="$(render_curdate left)$(render_curtime left)%k%f"
-    current_bg=default
+    if [[ $dir == 'right' ]]; then
+        if [[ $CURBG != 'NONE' ]] && [[ $1 != $CURBG ]]; then
+            echo -n "%F{$1}$SEP"
+        fi
+    fi
+
+    CURBG=$1
+}
+
+function prompt_end {
+    local dir
+    typeset -x CURBG
+
+    dir=${1:-left}
+
+    if [[ $CURBG != 'NONE' ]] ; then
+        echo -n "%{%k%F{$CURBG}%}$SEP"
+    else
+        echo -n "%{%k%}"
+    fi
+    echo -n "%{%f%}"
+    [[ $dir == 'left' ]] && CURBG='NONE'
+}
+
+function prompt_aws {
+        local dir
+        dir=$1
+        [[ ! -r $AWS_CONFIG_FILE ]] && prompt_segment green red $dir "$chars[x]"
+        prompt_segment green 0 $dir "aws:${AWS_CONFIG_FILE:t}@${AWS_DEFAULT_REGION}"
+}
+
+function prompt_bmoyles_build_prompt {
+    emulate -L zsh
+
+    typeset -x CURBG
+    CURBG='NONE'
+    SEP=$chars[right-arrow-filled]
+    echo -n $prompt_newline
+    prompt_segment blue 0 left "%n@%m"
+    if zstyle -T ':prompt:bmoyles' aws ; then
+        prompt_aws left
+    fi
+    prompt_end
+    echo -n $prompt_newline
+
+    prompt_segment 214 0 left '%~'
+    if zstyle -T ':prompt:bmoyles' vcs_info ; then
+        [[ -n $vcs_info_msg_0_ ]] && \
+            prompt_segment magenta black left $vcs_info_msg_0_
+    fi
+    prompt_end
+    echo -n $prompt_newline
+
+    prompt_segment red 0 left '%(!.#.%%%%)'
+    prompt_end
+}
+
+function prompt_bmoyles_build_rprompt {
+    emulate -L zsh
+
+    local tmp
+
+    typeset -x CURBG='NONE'
+    SEP=$chars[left-arrow-filled]
+
+    tmp=$(prompt_segment 027 255 right '%D{%l:%M %p}')
+    CURBG=027
+    tmp=$(prompt_segment 033 255 right '%D{%a %b %e}')$tmp
+    CURBG=033
+    tmp=$(prompt_end right)$tmp
+    echo -n $tmp
 }
 
 prompt_bmoyles_setup $*

@@ -4,57 +4,37 @@ typeset -Ax chars
 chars[branch]=''
 chars[line]=''
 chars[padlock]=''
-chars[right-black-arrow]=''
+chars[right-arrow-filled]=''
 chars[right-arrow]=''
-chars[left-black-arrow]=''
+chars[left-arrow-filled]=''
 chars[left-arrow]=''
 chars[plus-minus]='±'
 chars[hook-right-arrow]='➦'
 chars[hook-left-arrow]='↩'
 chars[check]='✔'
 chars[x]='✘'
-chars[zap]='⚡'
-chars[star]='🌟'
-chars[ghost]='👻'
-chars[alien]='👽'
-chars[octopus]='🐙'
-chars[fire]='🔥'
-chars[hammer]='🔨'
-chars[outbox]='📤'
-chars[inbox]='📥'
-chars[burger]='🍔'
-chars[cookie]='🍪'
-chars[no]='🚫'
-chars[poo]='💩'
-chars[buff]='💪'
-chars[thumbsup]='👍'
-chars[fistbump]='👊'
-chars[thumbsdown]='👎'
-chars[jazzhands]='👐'
-chars[recycle]='♻'
-chars[noentry]='⛔'
-chars[heavybang]='❗'
-chars[wrench]='🔧'
-chars[crown]='👑'
-chars[bug]='🐛'
-chars[sheep]='🐑'
-chars[clock]='⏰'
-chars[sun]='☀'
-chars[cloud]='☁'
-chars[rainbow]='🌈'
-chars[warning]='⚠'
-chars[wheelchair]='♿'
-chars[toilet]='🚽'
 chars[ok]='🆗'
 chars[new]='🆕'
-chars[sos]='🆘'
-chars[lightbulb]='💡'
-chars[boom]='💥'
-chars[newline]=$'\n'
+chars[downarrow]='↓'
+chars[uparrow]='↑'
+
+typeset -Ag FX
+FX=(
+    reset     "%{[00m%}"
+    bold      "%{[01m%}" no-bold      "%{[22m%}"
+    italic    "%{[03m%}" no-italic    "%{[23m%}"
+    underline "%{[04m%}" no-underline "%{[24m%}"
+    blink     "%{[05m%}" no-blink     "%{[25m%}"
+    reverse   "%{[07m%}" no-reverse   "%{[27m%}"
+)
+
+function spectrum_ls() {
+  for code in {000..255}; do
+    print -P -- "$code: %F{$code}Test%f%K{$code}Test%k"
+  done
+}
 
 autoload -Uz promptinit && promptinit
-zstyle :prompt:bmoyles vcs_info true
-zstyle :prompt:bmoyles aws true
 
 prompt bmoyles
 
