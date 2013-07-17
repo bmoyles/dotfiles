@@ -1,4 +1,4 @@
 tmux new-session -d -s ${session}
-tmux split-window -v -p 50 -t ${session}:0
-tmux select-window -t ${session}:0
-tmux select-pane -t ${session}:0.0
+#tmux split-window -v -p 50 -t ${session}:0
+#tmux select-window -t ${session}:0
+#tmux select-pane -t ${session}:0.0

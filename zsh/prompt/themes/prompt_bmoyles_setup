@@ -25,10 +25,10 @@ function +vi-git-st() {
     local ahead behind
     local -a gitstatus
 
-    behind=$(git rev-list HEAD..origin/${hook_com[branch]} | wc -l)
+    behind=$(git rev-list HEAD..origin/${hook_com[branch]} 2>/dev/null | wc -l)
     (( $behind )) && gitstatus+=( $(prompt_segment magenta 0 left "$chars[downarrow]${behind//[[:space:]]/}") )
 
-    ahead=$(git rev-list origin/${hook_com[branch]}..HEAD | wc -l)
+    ahead=$(git rev-list origin/${hook_com[branch]}..HEAD 2>/dev/null | wc -l)
     (( $ahead )) && gitstatus+=( $(prompt_segment magenta 0 left "$chars[uparrow]${ahead//[[:space:]]/}") )
 
     hook_com[misc]+=$FX[bold]${(j::)gitstatus}$FX[no-bold]
@@ -42,7 +42,7 @@ function +vi-git-remotebranch() {
         --symbolic-full-name 2>/dev/null)/refs\/remotes\/}
 
     if [[ -n ${remote} ]] ; then
-        hook_com[branch]="${hook_com[branch]}$chars[hook-right-arrow]${remote}"
+        hook_com[branch]="${hook_com[branch]} $chars[hook-right-arrow] ${remote}"
     fi
 }
 
@@ -109,7 +109,7 @@ function prompt_aws {
         local dir
         dir=$1
         [[ ! -r $AWS_CONFIG_FILE ]] && prompt_segment green red $dir "$chars[x]"
-        prompt_segment green 0 $dir "aws:${AWS_CONFIG_FILE:t}@${AWS_DEFAULT_REGION}"
+        prompt_segment green magenta $dir "aws:${FX[bold]}${AWS_CONFIG_FILE:t}${FX[no-bold]}@${FX[bold]}${AWS_DEFAULT_REGION}${FX[no-bold]}"
 }
 
 function prompt_bmoyles_build_prompt {
@@ -146,9 +146,9 @@ function prompt_bmoyles_build_rprompt {
     typeset -x CURBG='NONE'
     SEP=$chars[left-arrow-filled]
 
-    tmp=$(prompt_segment 027 255 right '%D{%l:%M %p}')
+    tmp=$(prompt_segment 027 0 right "%D{%l:%M %p}")
     CURBG=027
-    tmp=$(prompt_segment 033 255 right '%D{%a %b %e}')$tmp
+    tmp=$(prompt_segment 033 0 right "%D{%a %b %e}")$tmp
     CURBG=033
     tmp=$(prompt_end right)$tmp
     echo -n $tmp
