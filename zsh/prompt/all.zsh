@@ -2,19 +2,10 @@ fpath=( ${ZDOTDIR}/prompt/themes/ ${fpath} )
 
 typeset -Ax chars
 chars[branch]=''
-chars[line]=''
-chars[padlock]=''
 chars[right-arrow-filled]=''
 chars[right-arrow]=''
 chars[left-arrow-filled]=''
 chars[left-arrow]=''
-chars[plus-minus]='±'
-chars[hook-right-arrow]='➦'
-chars[hook-left-arrow]='↩'
-chars[check]='✔'
-chars[x]='✘'
-chars[ok]='🆗'
-chars[new]='🆕'
 chars[downarrow]='↓'
 chars[uparrow]='↑'
 
