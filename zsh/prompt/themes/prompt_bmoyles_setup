@@ -42,7 +42,8 @@ function +vi-git-st() {
         ahead=$(git rev-list origin/${hook_com[branch]}..HEAD 2>/dev/null | wc -l)
         (( $ahead )) && gitstatus+=( "+${ahead//[[:space:]]/}" )
 
-        hook_com[misc]="$FX[bold]$chars[right-arrow]$FX[no-bold]${(j:/:)gitstatus}"
+        [[ -n $gitstatus ]] && \
+            hook_com[misc]="$FX[bold]$chars[right-arrow]$FX[no-bold]${(j:/:)gitstatus}"
     fi
 }
 
