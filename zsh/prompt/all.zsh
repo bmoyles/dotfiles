@@ -6,8 +6,6 @@ chars[right-arrow-filled]=''
 chars[right-arrow]=''
 chars[left-arrow-filled]=''
 chars[left-arrow]=''
-chars[downarrow]='↓'
-chars[uparrow]='↑'
 
 typeset -Ag FX
 FX=(
