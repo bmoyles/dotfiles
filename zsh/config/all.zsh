@@ -16,6 +16,6 @@ setopt nobeep
 
 unalias run-help
 autoload run-help
-HELPDIR=/usr/local/share/zsh/helpfiles
+export HELPDIR=/usr/share/zsh/help
 
 # vim: filetype=zsh:ts=4:sw=4:expandtab
