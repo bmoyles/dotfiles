@@ -14,7 +14,7 @@ setopt hist_verify
 
 setopt nobeep
 
-unalias run-help
+unalias run-help 2>/dev/null
 autoload run-help
 export HELPDIR=/usr/share/zsh/help
 
