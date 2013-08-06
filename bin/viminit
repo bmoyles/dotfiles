@@ -1,0 +1,10 @@
+#!/bin/bash
+
+SCRIPT=$(basename $0)
+SCRIPTPATH=$(dirname $0)
+DOTDIR=${SCRIPTPATH}/..
+
+pushd ${DOTDIR} > /dev/null 2>&1
+git submodule update --init
+vim +BundleInstall +qall
+popd > /dev/null 2>&1
