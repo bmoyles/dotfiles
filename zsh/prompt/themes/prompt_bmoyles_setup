@@ -105,6 +105,7 @@ function prompt_segment() {
     fi
 
     CURBG=$1
+    return $CURBG
 }
 
 function prompt_end {
@@ -149,6 +150,56 @@ function prompt_vcs {
     done
 }
 
+function prompt_user_at {
+    local dir
+    dir=${1:-left}
+
+    prompt_segment 202 0 $dir "%n@%m"
+}
+
+function prompt_cwd {
+    local dir
+    dir=${1:-left}
+
+    prompt_segment 208 0 $dir '%~'
+}
+
+function prompt_history {
+    local dir
+    dir=${1:-left}
+
+    if [[ $UID = 0 ]]; then
+        prompt_segment 88 255 $dir '%!'
+    else
+        prompt_segment 22 255 $dir '%!'
+    fi
+}
+
+function prompt_promptchar {
+    local dir
+    dir=${1:-left}
+
+    if [[ $UID -eq 0 ]]; then
+        prompt_segment 124 255 $dir '%%#'
+    else
+        prompt_segment 028 255 $dir '%%#'
+    fi
+}
+
+function prompt_date {
+    local dir
+    dir=${1:-left}
+
+    prompt_segment 053 255 $dir "%D{%l:%M %p}"
+}
+
+function prompt_time {
+    local dir
+    dir=${1:-left}
+
+    prompt_segment 055 255 $dir "%D{%a %b %e}"
+}
+
 function prompt_bmoyles_build_prompt {
     emulate -L zsh
 
@@ -165,18 +216,12 @@ function prompt_bmoyles_build_prompt {
     fi
     prompt_end
     echo -n $prompt_newline
-    prompt_segment 202 0 left "%n@%m"
-    prompt_segment 208 0 left '%/'
+    prompt_user_at
+    prompt_cwd
     prompt_end
     echo -n $prompt_newline
-
-    if [[ $UID -eq 0 ]]; then
-        prompt_segment 88 255 left '%!'
-        prompt_segment 124 255 left '%%#'
-    else
-        prompt_segment 22 255 left '%!'
-        prompt_segment 028 255 left '%%#'
-    fi
+    prompt_history
+    prompt_promptchar
     prompt_end
 }
 
@@ -184,15 +229,14 @@ function prompt_bmoyles_build_rprompt {
     emulate -L zsh
 
     local tmp
-
     typeset -x CURBG='NONE'
     SEP=$chars[left-arrow-filled]
 
-    tmp=$(prompt_segment 053 255 right "%D{%l:%M %p}")
-    CURBG=053
-    tmp=$(prompt_segment 055 255 right "%D{%a %b %e}")$tmp
-    CURBG=055
-    tmp=$(prompt_end right)$tmp
+    tmp=$(prompt_time right)
+    CURBG=$?
+    tmp=$(prompt_date right)${tmp}
+    CURBG=$?
+    tmp=$(prompt_end right)${tmp}
     echo -n $tmp
 }
 
