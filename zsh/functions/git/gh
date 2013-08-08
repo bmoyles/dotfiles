@@ -1,0 +1,11 @@
+function gh {
+  if git rev-parse --is-inside-work-tree &> /dev/null; then
+    local toplevel=$(git rev-parse --show-toplevel)
+    print -P "\nRepository root: %{%F{22}%K{250}%}${toplevel}%{%f%k%}"
+    [[ ${toplevel} != ${PWD} ]] && cd ${toplevel}
+  fi
+}
+
+gh
+
+# vim: ft=zsh sw=2 sts=2 ts=2 expandtab
