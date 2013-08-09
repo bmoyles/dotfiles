@@ -1,3 +1,3 @@
 export CLICOLOR=1
 
-# vim: filetype=zsh:ts=4:sw=4:expandtab
+# vim: ft=zsh ts=2 sts=2 sw=2 expandtab

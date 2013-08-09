@@ -15,4 +15,4 @@ typeset -x TMUXRC
 TMUXRC=${DOTDIR}/tmux/tmux.conf
 [[ -r ${TMUXRC} ]] && TMUXOPTS=( -f ${TMUXRC} )
 
-# vim: filetype=zsh:ts=4:sw=4:expandtab
+# vim: ft=zsh ts=2 sts=2 sw=2 expandtab

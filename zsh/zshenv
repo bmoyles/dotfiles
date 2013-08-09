@@ -29,4 +29,4 @@ done
 unset config
 unset configs
 
-# vim: filetype=zsh:ts=4:sw=4:expandtab
+# vim: ft=zsh sts=2 ts=2 sw=2 expandtab

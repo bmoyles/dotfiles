@@ -126,7 +126,10 @@ function prompt_end {
 function prompt_aws {
         local dir
         dir=$1
-        [[ ! -r $AWS_CONFIG_FILE ]] && prompt_segment 24 220 $dir "aws:config unavailable" && return
+        if [[ ! -r $AWS_CONFIG_FILE ]]; then
+            prompt_segment 24 220 $dir "aws:config unavailable"
+            return
+        fi
         prompt_segment 24 255 $dir "aws:${FX[bold]}%F{226}${AWS_CONFIG_FILE:t}%f%F{\$2}${FX[no-bold]}@${FX[bold]}%F{226}${AWS_DEFAULT_REGION}%f%F{\$2}${FX[no-bold]}"
 }
 
