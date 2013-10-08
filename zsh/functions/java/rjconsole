@@ -1,0 +1,13 @@
+host=$1
+port=$2
+proxy_port=$3
+ssh -f -D${proxy_port} ${host} 'while true; do sleep 90; done'
+ssh_pid=$(pgrep -f "ssh -f -D${proxy_port} ${host}")
+sleep 3
+jconsole \
+  -J-DsocksProxyHost=localhost \
+  -J-DsocksProxyPort=${proxy_port} \
+  service:jmx:rmi:///jndi/rmi://${host}:${port}/jmxrmi
+kill ${ssh_pid}
+
+# vim: filetype=zsh sts=2 ts=2 sw=2 expandtab
