@@ -211,7 +211,7 @@ function prompt_bmoyles_build_prompt {
     SEP=$chars[right-arrow-filled]
 
     echo -n $prompt_newline
-    if zstyle -T ':prompt:bmoyles' aws ; then
+    if zstyle -t ':prompt:bmoyles' aws ; then
         prompt_aws left
     fi
     if zstyle -T ':prompt:bmoyles' vcs_info ; then
