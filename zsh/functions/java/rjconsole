@@ -1,8 +1,8 @@
 host=$1
 port=$2
 proxy_port=$3
-ssh -f -D${proxy_port} ${host} 'while true; do sleep 90; done'
-ssh_pid=$(pgrep -f "ssh -f -D${proxy_port} ${host}")
+ssh -f -N -D${proxy_port} ${host}
+ssh_pid=$(pgrep -f "ssh -f -N -D${proxy_port} ${host}")
 sleep 3
 jconsole \
   -J-DsocksProxyHost=localhost \

@@ -12,6 +12,7 @@ Bundle 'tpope/vim-fugitive'
 Bundle 'scrooloose/nerdtree'
 Bundle 'wincent/Command-T'
 Bundle 'derekwyatt/vim-scala'
+Bundle 'JuliaLang/julia-vim'
 
 filetype plugin indent on
 syntax on
