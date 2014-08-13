@@ -64,13 +64,13 @@ set mouse=a
 
 au BufNewFile,BufRead *.gradle setf groovy
 
-"let powerline_bindings = "/usr/local/lib/python2.7/site-packages/powerline/bindings/vim"
-"if isdirectory(powerline_bindings)
-"    set rtp+=powerline_bindings
-"    python from powerline.vim import setup as powerline_setup
-"    python powerline_setup()
-"    python del powerline_setup
-"endif
+let powerline_bindings = "/usr/local/lib/python2.7/site-packages/powerline/bindings/vim"
+if isdirectory(powerline_bindings)
+    set rtp+=powerline_bindings
+    python from powerline.vim import setup as powerline_setup
+    python powerline_setup()
+    python del powerline_setup
+endif
 
 " Include user's local vim config
 if filereadable(expand("$DOTLOCAL/vim/vimrc"))
