@@ -10,6 +10,8 @@ export TZ="PST8PDT"
 
 export LS_OPTIONS="-F"
 
+export VIRTUAL_ENV_DISABLE_PROMPT="disable"
+
 typeset -ax TMUXOPTS
 typeset -x TMUXRC
 TMUXRC=${DOTDIR}/tmux/tmux.conf
