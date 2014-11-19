@@ -1,19 +1,23 @@
 set nocompatible
 filetype off
 
-set rtp+=${DOTDIR}/vim/bundle/vundle/
-call vundle#rc(expand('$DOTDIR/vim/bundle'))
+set rtp+=${DOTDIR}/vim/bundle/vundle
+call vundle#begin(expand('$DOTDIR/vim/bundle'))
 
-Bundle 'gmarik/vundle'
-Bundle 'chriskempson/base16-vim'
-Bundle 'tpope/vim-repeat'
-Bundle 'tpope/vim-surround'
-Bundle 'tpope/vim-fugitive'
-Bundle 'scrooloose/nerdtree'
-Bundle 'wincent/Command-T'
-Bundle 'derekwyatt/vim-scala'
-Bundle 'JuliaLang/julia-vim'
+Plugin 'gmarik/Vundle.git'
+Plugin 'chriskempson/base16-vim'
+Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-markdown'
+Plugin 'scrooloose/nerdtree'
+Plugin 'wincent/Command-T'
+Plugin 'derekwyatt/vim-scala'
+Plugin 'jnwhiteh/vim-golang'
+Plugin 'davidhalter/jedi-vim'
+Plugin 'guns/vim-clojure-static'
 
+call vundle#end()
 filetype plugin indent on
 syntax on
 
@@ -64,13 +68,9 @@ set mouse=a
 
 au BufNewFile,BufRead *.gradle setf groovy
 
-let powerline_bindings = "/usr/local/lib/python2.7/site-packages/powerline/bindings/vim"
-if isdirectory(powerline_bindings)
-    set rtp+=powerline_bindings
-    python from powerline.vim import setup as powerline_setup
-    python powerline_setup()
-    python del powerline_setup
-endif
+python from powerline.vim import setup as powerline_setup
+python powerline_setup()
+python del powerline_setup
 
 " Include user's local vim config
 if filereadable(expand("$DOTLOCAL/vim/vimrc"))
