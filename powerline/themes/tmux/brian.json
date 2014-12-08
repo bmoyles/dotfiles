@@ -5,13 +5,6 @@
                 "function": "powerline.segments.common.bat.battery",
                 "priority": 30
             },
-            {
-                "function": "powerline.segments.common.wthr.weather",
-                "priority": 40,
-                "args": {
-                    "unit": "F"
-                }
-            },
 			{
 				"function": "powerline.segments.common.net.external_ip",
 				"priority": 50
