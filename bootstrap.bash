@@ -18,7 +18,7 @@ readonly SCRIPT_DIR=$(_readlink ${BASH_SOURCE%/*})
 readonly SCRIPT_FILE=${BASH_SOURCE##*/}
 
 : ${DOTDIR:=~/.dotfiles}
-: ${DOTREPO:="git@github.com:bmoyles/dotfiles.git"}
+: ${DOTREPO:="https://github.com/bmoyles/dotfiles.git"}
 readonly DOTDIR DOTREPO
 
 
