@@ -1,6 +1,8 @@
-export ZDOTDIR=${${:-~/.zshenv}:A:h}
-export DOTDIR=${ZDOTDIR:h}
-export DOTLOCAL=~/.local
+typeset -rx ZDOTDIR=${${:-~/.zshenv}:A:h}
+typeset -rx DOTDIR=${ZDOTDIR:h}
+typeset -rx DOTLOCAL=~/.local
+typeset -rx DOTCONFIG=~/.config
+
 
 source ${ZDOTDIR}/.zshenv
 
