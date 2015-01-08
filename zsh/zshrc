@@ -1,15 +1,14 @@
-local -a configs
-configs=( config editor completion aliases prompt ext )
-local config
-for config in ${ZDOTDIR}/${^configs}/${^flavors}.zsh(N) ; do
-    source ${config}
+local -a _config_sections
+_config_sections=( config editor completion aliases prompt ext )
+
+local _config_dir
+local _config
+for _config_dir in ${_zsh_config_dirs}; do
+  for _config in ${_config_dir}/${^_config_sections}/${^_zsh_config_flavors}.zsh(N) ; do
+    source ${_config}
+  done
 done
 
-for config in ${DOTLOCAL}/zsh/${^configs}.zsh(N) ; do
-    source ${config}
-done
+unset _config _config_dir _config_sections
 
-unset config
-unset configs
-
-# vim: filetype=zsh:ts=4:sw=4:expandtab
+# vim: filetype=zsh:ts=2:sw=2:expandtab
