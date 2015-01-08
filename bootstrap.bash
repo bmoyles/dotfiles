@@ -10,13 +10,6 @@ log() {
   echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')]: " "$@" >&1
 }
 
-_readlink() {
-  python -c 'import os,sys; print os.path.realpath(sys.argv[1])' $1
-}
-
-readonly SCRIPT_DIR=$(_readlink ${BASH_SOURCE%/*})
-readonly SCRIPT_FILE=${BASH_SOURCE##*/}
-
 : ${DOTDIR:=~/.dotfiles}
 : ${DOTREPO:="https://github.com/bmoyles/dotfiles.git"}
 readonly DOTDIR DOTREPO
