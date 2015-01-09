@@ -69,7 +69,6 @@ setup_config() {
 
     config_basename=$(basename ${config_src})
     config_dst="~/.config/${config_basename}"
-    log "Linking ${config_src} to ${config_dst}"
     if [[ -e ${config_dst} ]]; then
       log "${config_dst} exists"
       if [[ -d ${config_dst} || -f ${config_dst} ]]; then
@@ -80,9 +79,9 @@ setup_config() {
         log "${config_dst} is a symlink, removing"
         rm -f ${config_dst}
       fi
-      log "linking ${config_src} to ${config_dst}"
-      ln -sf ${config_src} ${config_dst}
     fi
+    log "linking ${config_src} to ${config_dst}"
+    ln -sf ${config_src} ${config_dst}
     unset config_basename config_dst config_backup
   done
 }
