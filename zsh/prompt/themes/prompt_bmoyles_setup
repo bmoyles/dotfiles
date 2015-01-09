@@ -96,7 +96,7 @@ function prompt_segment() {
         fi
     fi
 
-    [[ -n $4 ]] && echo -n $4
+    [[ -n $4 ]] && echo -n ${(e)4}
 
     if [[ $dir == 'right' ]]; then
         if [[ $CURBG != 'NONE' ]] && [[ $1 != $CURBG ]]; then
@@ -131,7 +131,7 @@ function prompt_aws {
             prompt_segment 24 220 $dir "aws:config unavailable"
             return
         fi
-        prompt_segment 24 255 $dir "aws:${FX[bold]}%F{226}${AWS_ACCOUNT}%f%F{\$2}${FX[no-bold]}@${FX[bold]}%F{226}${AWS_REGION}%f%F{\$2}${FX[no-bold]}"
+        prompt_segment 24 255 $dir "aws:${FX[bold]}%F{226}${AWS_ACCOUNT}%f%F{\${fg}}${FX[no-bold]}@${FX[bold]}%F{226}${AWS_REGION}%f%F{\${fg}}${FX[no-bold]}"
     fi
 }
 
