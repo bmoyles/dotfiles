@@ -68,7 +68,7 @@ setup_config() {
     local config_backup
 
     config_basename=$(basename ${config_src})
-    config_dst="~/.config/${config_basename}"
+    config_dst=~/.config/${config_basename}
     if [[ -e ${config_dst} ]]; then
       log "${config_dst} exists"
       if [[ -d ${config_dst} || -f ${config_dst} ]]; then
