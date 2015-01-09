@@ -71,13 +71,13 @@ setup_config() {
     config_dst=~/.config/${config_basename}
     if [[ -e ${config_dst} ]]; then
       log "${config_dst} exists"
-      if [[ -d ${config_dst} || -f ${config_dst} ]]; then
+      if [[ -L ${config_dst} ]]; then
+        log "${config_dst} is a symlink, removing"
+        rm -f ${config_dst}
+      elif [[ -d ${config_dst} || -f ${config_dst} ]]; then
         config_backup="${config_dst}.bak.${datestamp}"
         log "${config_dst} is a file or directory, backing up to ${config_backup}"
         mv -f ${config_dst} ${config_backup}
-      elif [[ -L ${config_dst} ]]; then
-        log "${config_dst} is a symlink, removing"
-        rm -f ${config_dst}
       fi
     fi
     log "linking ${config_src} to ${config_dst}"
