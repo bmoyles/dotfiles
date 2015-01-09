@@ -131,7 +131,7 @@ function prompt_aws {
             prompt_segment 24 220 $dir "aws:config unavailable"
             return
         fi
-        prompt_segment 24 255 $dir 'aws:${FX[bold]}%F{226}${AWS_ACCOUNT}%f%F{$2}${FX[no-bold]}@${FX[bold]}%F{226}${AWS_REGION}%f%F{$2}${FX[no-bold]}'
+        prompt_segment 24 255 $dir "aws:${FX[bold]}%F{226}${AWS_ACCOUNT}%f%F{\$2}${FX[no-bold]}@${FX[bold]}%F{226}${AWS_REGION}%f%F{\$2}${FX[no-bold]}'
     fi
 }
 

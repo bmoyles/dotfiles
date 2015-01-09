@@ -105,9 +105,10 @@ zsh_over_bash() {
     fi
     log "Writing bash_profile to enable zsh w/o chsh"
     cat <<EOF > ${bash_profile}
-[[ -n "\${NO_ZSH}" ]] && exit
-export SHELL=${ZSH_PATH}
-exec ${ZSH_PATH} -l
+if [[ -z "\${NO_ZSH}" ]]; then
+  export SHELL=${ZSH_PATH}
+  exec ${ZSH_PATH} -d -l
+fi
 EOF
   else
     err "zsh not found on path ${PATH}"
