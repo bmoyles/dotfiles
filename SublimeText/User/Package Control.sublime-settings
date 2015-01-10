@@ -1,0 +1,25 @@
+{
+	"in_process_packages":
+	[
+	],
+	"installed_dependencies":
+	[
+		"0_package_control_loader",
+		"bz2"
+	],
+	"installed_packages":
+	[
+		"Alignment",
+		"Anaconda",
+		"Base16 Color Schemes",
+		"Bracketeer",
+		"BracketHighlighter",
+		"GitGutter",
+		"Markdown Preview",
+		"MarkdownEditing",
+		"Package Control",
+		"requirementstxt",
+		"SideBarEnhancements",
+		"Theme - Soda"
+	]
+}

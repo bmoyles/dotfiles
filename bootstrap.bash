@@ -12,7 +12,8 @@ log() {
 
 : ${DOTDIR:=~/.dotfiles}
 : ${DOTREPO:="https://github.com/bmoyles/dotfiles.git"}
-readonly DOTDIR DOTREPO
+: ${OS:=$(uname -s)}
+readonly DOTDIR DOTREPO OS
 
 
 move_existing_dotfiles() {
@@ -98,6 +99,7 @@ zsh_over_bash() {
       log "Existing bash_profile ${bash_profile} found"
       if [[ -L ${bash_profile} ]]; then
         log "${bash_profile} is a symlink, removing"
+        rm -f "${bash_profile}"
       else
         log "Renaming existing ${bash_profile} to ${bash_profile_backup}"
         mv -f ${bash_profile} ${bash_profile_backup}
@@ -115,6 +117,47 @@ EOF
   fi
 }
 
+os_specific_tasks() {
+  log "Looking for os-specific tasks"
+
+  # lowercase $OS, function name is <os>_tasks
+  # eg darwin_tasks for mac
+  local -r os_func="${OS,,}_tasks"
+  if [[ "$(type -t ${os_func})" == "function" ]]; then
+    ${os_func}
+  else 
+    log "No os-specific tasks defined for ${OS}"
+  fi
+}
+
+darwin_tasks() {
+  log "Running Darwin(Mac)-specific tasks"
+  setup_sublime_text_prefs
+}
+
+setup_sublime_text_prefs() {
+  local -r datestamp=$(date '+%Y%m%d%H%M%S')
+  local -r sublime_prefs_src="${DOTDIR}/SublimeText/User"
+  local -r sublime_prefs_base=~/"Library/Application Support/Sublime Text 3/Packages"
+  local -r sublime_prefs_dst="${sublime_prefs_base}/User"
+  local -r sublime_prefs_backup="${sublime_prefs_dst}.bak.${datestamp}"
+
+  log "Linking Sublime Text preferences"
+
+  if [[ -L "${sublime_prefs_dst}" ]]; then
+    log "Removing existing Sublime Text user prefs link at ${sublime_prefs_dst}"
+    rm -f "${sublime_prefs_dst}"
+  elif [[ -d "${sublime_prefs_dst}" ]]; then
+    log "Existing Sublime Text user prefs dir found at ${sublime_prefs_dst}"
+    log "Renaming to ${sublime_prefs_backup}"
+    mv -f "${sublime_prefs_dst}" "${sublime_prefs_backup}"
+  else
+    log "Ensuring ${sublime_prefs_base} exists"
+    mkdir -p "${sublime_prefs_base}"
+  fi
+  ln -sf "${sublime_prefs_src}" "${sublime_prefs_dst}"
+}
+
 
 main() {
   log "Dotfiles bootstrap"
@@ -123,7 +166,10 @@ main() {
   setup_zsh
   setup_config
   zsh_over_bash
+  os_specific_tasks
 }
 
 
 main "$@"
+
+# vim: ft=sh sts=2 ts=2 sw=2 expandtab
