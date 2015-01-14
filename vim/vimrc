@@ -40,9 +40,9 @@ set ruler
 set encoding=utf-8
 " Whitespace stuff
 set nowrap " don't wrap lines
-set tabstop=4 " a tab should be four spaces
-set shiftwidth=4 " indents should also use 4 space base
-set softtabstop=4 " to be safe, soft tabs at 4 too
+set tabstop=2 " a tab should be four spaces
+set shiftwidth=2 " indents should also use 4 space base
+set softtabstop=2 " to be safe, soft tabs at 4 too
 set expandtab " no tabs!
 set smarttab
 " highlighting unprintables
