@@ -1,0 +1,14 @@
+gohome() {
+  if [[ -n ${GOPATH} ]]; then
+    local gohome=$(dirname $(cut -f1 -d':' <<<${GOPATH}))
+    if [[ -d ${gohome} ]]; then
+      pushd ${gohome} > /dev/null
+    else
+      print "Path ${gohome} does not exist\n"
+      return 1
+    fi
+  fi
+}
+
+gohome
+# vim: ft=zsh sw=2 sts=2 ts=2 expandtab
