@@ -87,30 +87,50 @@ setup_config() {
   done
 }
 
-zsh_over_bash() {
-  local -r datestamp=$(date '+%Y%m%d%H%M%S')
-  local -r bash_profile=~/.bash_profile
-  local -r bash_profile_backup=${bash_profile}.bak.${datestamp}
+use_zsh() {
+  local -r profile=~/.profile
+  local -r profile_backup=${profile}.bootstrap
 
   PATH=/usr/local/bin:/usr/bin:/bin
   if which zsh > /dev/null; then
     ZSH_PATH=$(which zsh)
-    if [[ -e ${bash_profile} ]]; then
-      log "Existing bash_profile ${bash_profile} found"
-      if [[ -L ${bash_profile} ]]; then
-        log "${bash_profile} is a symlink, removing"
-        rm -f "${bash_profile}"
+    if [[ -e ${profile} ]]; then
+      log "Existing .profile found"
+      if [[ -e ${profile_backup} ]]; then
+        log "Existing ${profile_backup} found, ${profile} will be overwritten"
       else
-        log "Renaming existing ${bash_profile} to ${bash_profile_backup}"
-        mv -f ${bash_profile} ${bash_profile_backup}
+        if [[ -L ${profile} ]]; then
+          log "${profile} is a symlink, removing"
+          rm -f "${profile}"
+        else
+          log "Renaming existing ${profile} to ${profile_backup}"
+          mv -f ${profile} ${profile_backup}
+        fi
       fi
     fi
-    log "Writing bash_profile to enable zsh w/o chsh"
-    cat <<EOF > ${bash_profile}
-if [[ -z "\${NO_ZSH}" ]]; then
-  export SHELL=${ZSH_PATH}
-  exec ${ZSH_PATH} -d -l
-fi
+    log "Writing .profile to enable zsh w/o chsh"
+    cat <<EOF > ${profile}
+# if we aren't already in zsh...
+case "\${SHELL}" in
+  ${ZSH_PATH})
+    # we've already exec'd zsh. noop.
+    :
+    ;;
+  *)
+    # for all other shells, check for NO_ZSH and ~/.no_zsh before switching
+    # so we can disable auto-switch to zsh if need be
+    if [[ -n "\${NO_ZSH}" || -e "\${HOME}/.no_zsh" ]]; then
+      if [[ -e ${profile_backup} ]]; then
+        # if we've got a profile backup, pull that in
+        . ${profile_backup}
+      fi
+    else
+      # no sign of NO_ZSH or ~/.no_zsh, exec time!
+      export SHELL=${ZSH_PATH}
+      exec ${ZSH_PATH} -d -l
+    fi
+    ;;
+esac
 EOF
   else
     err "zsh not found on path ${PATH}"
@@ -125,7 +145,7 @@ os_specific_tasks() {
   local -r os_func="${OS,,}_tasks"
   if [[ "$(type -t ${os_func})" == "function" ]]; then
     ${os_func}
-  else 
+  else
     log "No os-specific tasks defined for ${OS}"
   fi
 }
@@ -165,7 +185,7 @@ main() {
   clone_fresh_dotfiles
   setup_zsh
   setup_config
-  zsh_over_bash
+  use_zsh
   os_specific_tasks
 }
 
