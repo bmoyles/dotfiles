@@ -112,8 +112,8 @@ use_zsh() {
     cat <<EOF > ${profile}
 # if we aren't already in zsh...
 case "\${SHELL}" in
-  ${ZSH_PATH})
-    # we've already exec'd zsh. noop.
+  *zsh)
+    # we've already exec'd zsh or used chsh. noop.
     :
     ;;
   *)
