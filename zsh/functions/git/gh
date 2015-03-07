@@ -1,11 +1,29 @@
 function gh {
-  if git rev-parse --is-inside-work-tree &> /dev/null; then
+  local opt
+  local OPTIND=1
+  local o_show=false
+  while getopts "s" opt; do
+    case "${opt}" in
+      s)
+        o_show=true
+        ;;
+    esac
+  done
+  shift "$((OPTIND-1))"
+
+  if cwd_part_of_git_repo; then
     local toplevel=$(git rev-parse --show-toplevel)
-    print -P "\nRepository root: %{%F{22}%K{250}%}${toplevel}%{%f%k%}"
-    [[ ${toplevel} != ${PWD} ]] && cd ${toplevel}
+    if [[ ${o_show} == true ]]; then
+      echo "${toplevel}"
+    else
+      [[ ${toplevel} != ${PWD} ]] && cd ${toplevel}
+    fi
+  else
+    echo "${PWD} is not a git repo" >&2
+    return 1
   fi
 }
 
-gh
+gh "$@"
 
 # vim: ft=zsh sw=2 sts=2 ts=2 expandtab

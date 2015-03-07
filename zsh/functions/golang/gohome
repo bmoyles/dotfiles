@@ -1,12 +1,8 @@
 gohome() {
-  if [[ -n ${GOPATH} ]]; then
-    local gohome=$(dirname $(cut -f1 -d':' <<<${GOPATH}))
-    if [[ -d ${gohome} ]]; then
-      pushd ${gohome} > /dev/null
-    else
-      print "Path ${gohome} does not exist\n"
-      return 1
-    fi
+  if [[ -n ${GOPATH} && -d ${GOPATH} ]]; then
+    cd ${GOPATH}
+  else
+    echo "GOPATH not set or is not a directory (GOPATH=${GOPATH:-})"
   fi
 }
 
