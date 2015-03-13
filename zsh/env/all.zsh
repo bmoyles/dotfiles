@@ -17,18 +17,6 @@ typeset -x TMUXRC
 TMUXRC=${DOTDIR}/tmux/tmux.conf
 [[ -r ${TMUXRC} ]] && TMUXOPTS=( -f ${TMUXRC} )
 
-_set_gopath() {
-  local dir=${PWD:A}
-  while [[ -n ${dir} ]]; do
-    if [[ -f ${dir}/.git ]]; then
-      export GOPATH=${dir}
-      break
-    fi
-    dir=${dir%/*}
-  done
-}
-
-chpwd_functions=(${chpwd_functions[@]} "_set_gopath")
-
+export GOPATH=~/work/golang
 
 # vim: ft=zsh ts=2 sts=2 sw=2 expandtab

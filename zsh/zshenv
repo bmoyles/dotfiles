@@ -27,13 +27,17 @@ local -a _config_sections
 _config_sections=( env path functions )
 
 local _config_dir
-local _config
-for _config_dir in ${_zsh_config_dirs}; do
-  for _config in ${_config_dir}/${^_config_sections}/${^_zsh_config_flavors}.zsh(N) ; do
-    source ${_config}
+local _config_section
+local _config_file
+
+for _config_section in ${_config_sections[@]}; do
+  for _config_dir in ${_zsh_config_dirs[@]}; do
+    for _config_file in ${_config_dir}/${_config_section}/${^_zsh_config_flavors}.zsh(N); do
+      source ${_config_file}
+    done
   done
 done
 
-unset _config _config_dir _config_sections
+unset _config_dir _config_sections _config_section _config_file
 
 # vim: ft=zsh sts=2 ts=2 sw=2 expandtab

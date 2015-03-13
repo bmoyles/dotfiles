@@ -1,10 +1,11 @@
-gohome() {
+_gohome() {
   if [[ -n ${GOPATH} && -d ${GOPATH} ]]; then
     cd ${GOPATH}
+    path=( ${GOPATH}/bin(N/) ${path} )
   else
     echo "GOPATH not set or is not a directory (GOPATH=${GOPATH:-})"
   fi
 }
 
-gohome
+_gohome
 # vim: ft=zsh sw=2 sts=2 ts=2 expandtab
