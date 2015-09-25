@@ -127,11 +127,11 @@ function prompt_aws {
     local dir
     dir=${1:-left}
     if zstyle -t ':prompt:bmoyles' aws ; then
-        if [[ -z $AWS_REGION ]] || [[ -z $AWS_ACCOUNT ]]; then
+        if [[ -z $AWS_REGION ]] || [[ -z ${BASTION_ENVIRONMENT:-${AWS_ACCOUNT:-}} ]]; then
             prompt_segment 24 220 $dir "aws:config unavailable"
             return
         fi
-        prompt_segment 24 255 $dir "aws:${FX[bold]}%F{226}${AWS_ACCOUNT}%f\${fg}${FX[no-bold]}@${FX[bold]}%F{226}${AWS_REGION}%f\${fg}${FX[no-bold]}"
+        prompt_segment 24 255 $dir "aws:${FX[bold]}%F{226}${BASTION_ENVIRONMENT:-${AWS_ACCOUNT}}%f\${fg}${FX[no-bold]}@${FX[bold]}%F{226}${AWS_REGION}%f\${fg}${FX[no-bold]}"
     fi
 }
 
