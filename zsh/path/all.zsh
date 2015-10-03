@@ -2,6 +2,7 @@ typeset -Ux path manpath
 
 path=(
     ${DOTDIR}/bin
+    ${DOTLOCAL}/python/bin(N/)
     ${GOPATH:+${GOPATH}/bin}(N/)
     /usr/local/opt/ruby/bin(N/)
     /opt/X11/bin(N/)
