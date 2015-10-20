@@ -13,7 +13,8 @@ log() {
 : ${DOTDIR:=~/.dotfiles}
 : ${DOTREPO:="https://github.com/bmoyles/dotfiles.git"}
 : ${OS:=$(uname -s)}
-readonly DOTDIR DOTREPO OS
+: ${PYTHONUSERBASE=~/.local/python}
+readonly DOTDIR DOTREPO OS PYTHONUSERBASE
 
 
 move_existing_dotfiles() {
@@ -137,6 +138,37 @@ EOF
   fi
 }
 
+install_powerline() {
+  local _pip
+  if ! _pip=$(which pip2.7 2>/dev/null); then
+    log "pip2.7 not found, not installing powerline"
+    return
+  fi
+  readonly _pip
+  local -r _py_lib_dir="${PYTHONUSERBASE}/lib/python/site-packages"
+  log "Installing powerline"
+  log "Using PYTHONUSERBASE=${PYTHONUSERBASE}"
+  log "Using pip ${_pip}"
+  if [[ ! -d ${_py_lib_dir} ]]; then
+    mkdir -p "${_py_lib_dir}"
+  fi
+  "${_pip}" install --user powerline-status
+}
+
+viminit() {
+  local _vim
+  if ! _vim=$(which vim 2>/dev/null); then
+    log "vim not found, not initializing vim"
+    return
+  fi
+  readonly _vim
+  log "Initializing vim"
+  pushd ${DOTDIR} > /dev/null 2>&1
+  git submodule update --init --recursive
+  vim +PluginInstall +qall
+  popd > /dev/null 2>&1
+}
+
 os_specific_tasks() {
   log "Looking for os-specific tasks"
 
@@ -186,6 +218,8 @@ main() {
   setup_zsh
   setup_config
   use_zsh
+  install_powerline
+  viminit
   os_specific_tasks
 }
 

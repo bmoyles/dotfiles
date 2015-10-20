@@ -21,4 +21,6 @@ export GOPATH=~/work/golang
 
 export PYTHONUSERBASE=~/.local/python
 
+export POWERLINE_CONFIG_COMMAND=~/.local/python/bin/powerline-config
+
 # vim: ft=zsh ts=2 sts=2 sw=2 expandtab
