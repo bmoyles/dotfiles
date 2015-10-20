@@ -1,1 +1,8 @@
-. ~/.local/python/lib/python/site-packages/powerline/bindings/zsh/powerline.zsh
+prompt_powerline_setup() {
+  emulate -L zsh
+
+  prompt_opts=(cr percent subst)
+  . ~/.local/python/lib/python/site-packages/powerline/bindings/zsh/powerline.zsh
+}
+
+prompt_powerline_setup "$@"
