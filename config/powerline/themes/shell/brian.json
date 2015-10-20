@@ -1,0 +1,73 @@
+{
+  "segment_data": {
+    "powerline_ext.segments.aws": {
+     "before": "aws:"
+    },
+    "powerline.segments.common.net.hostname": {
+      "before": ""
+    }
+  },
+  "segments": {
+    "above": [
+      {
+        "left": [
+          {
+            "function": "powerline.segments.shell.cwd",
+            "args": {
+              "use_path_separator": false
+            }
+          },
+          {
+            "function": "powerline.segments.common.vcs.branch",
+            "args": {
+              "status_colors": true
+            }
+          },
+          {
+            "function": "powerline.segments.common.env.virtualenv",
+            "priority": 50
+          }
+        ]
+      },
+      {
+        "left": [
+          {
+            "function": "powerline_ext.segments.aws",
+            "priority": 50
+          }
+        ]
+      }
+    ],
+    "left": [
+      {
+        "function": "powerline_ext.segments.history",
+        "include_function": "powerline_ext.lib.has_zpython"
+      },
+      {
+        "function": "powerline.segments.common.env.user"
+      },
+      {
+        "function": "powerline.segments.common.net.hostname",
+        "args": {
+          "exclude_domain": true,
+          "only_if_ssh": false
+        }
+      }
+    ],
+    "right": [
+      {
+        "function": "powerline.segments.common.time.date",
+        "args": {
+          "format": "%a %b %d"
+        }
+      },
+      {
+        "function": "powerline.segments.common.time.date",
+        "args": {
+          "format": "%H:%M",
+          "istime": true
+        }
+      }
+    ]
+  }
+}

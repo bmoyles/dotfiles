@@ -12,4 +12,7 @@ done
 unset func
 unset funcdirs
 
+typeset -Ux module_path
+module_path=( ${module_path} /usr/local/lib/zpython )
+
 # vim: filetype=zsh:ts=4:sw=4:expandtab

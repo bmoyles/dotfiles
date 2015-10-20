@@ -1,11 +1,19 @@
 {
     "common": {
-        "term_truecolor": true
+        "term_truecolor": true,
+        "log_file": "~/.local/powerline.log",
+        "paths": [
+          "~/.dotfiles/powerline"
+        ]
     },
     "ext": {
+        "shell": {
+            "theme": "brian",
+            "colorscheme": "default"
+        },
         "tmux": {
-            "colorscheme": "default",
-            "theme": "brian"
+            "theme": "brian",
+            "colorscheme": "default"
         },
         "vim": {
             "colorscheme": "solarized",

@@ -1,0 +1,13 @@
+{
+  "groups": {
+    "aws": { "fg": "brightorange", "bg": "darkestgreen", "attrs": [] },
+    "user": { "fg": "white", "bg": "darkblue", "attrs": [] },
+    "hostname": { "fg": "white", "bg": "darkestblue", "attrs": [] },
+    "cwd": { "fg": "black", "bg": "brightorange", "attrs": [] },
+    "cwd:current_folder": { "fg": "black", "bg": "brightorange", "attrs": ["bold"] },
+    "cwd:divider": { "fg": "black", "bg": "brightorange", "attrs": []},
+    "history": { "fg": "white", "bg": "green", "attrs": []},
+    "time": { "fg": "white", "bg": "red_52", "attrs": [] },
+    "date": { "fg": "white", "bg": "purple_53", "attrs": [] }
+  }
+}
