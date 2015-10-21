@@ -14,4 +14,4 @@ class HasZpython(object):
 has_zpython = HasZpython()
 
 def show_vcs(pl, segment_info, *args, **kwargs):
-    return (segment_info['environ'].get('POWERLINE_NO_VCS', None) is not None)
+    return (segment_info['environ'].get('POWERLINE_NO_VCS', None) is None)
