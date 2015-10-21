@@ -2,7 +2,13 @@ prompt_powerline_setup() {
   emulate -L zsh
 
   prompt_opts=(cr percent subst)
-  . ~/.local/python/lib/python/site-packages/powerline/bindings/zsh/powerline.zsh
+  if which powerline &>/dev/null; then
+    local -r _powerline_base="$(python -c 'import os, powerline; print(os.path.dirname(powerline.__file__))')"
+    local -r _powerline_binding="${_powerline_base}/bindings/zsh/powerline.zsh}"
+    if [[ -r ${_powerline_binding} ]]; then
+      . "${_powerline_binding}"
+    fi
+  fi
 }
 
 prompt_powerline_setup "$@"
