@@ -14,13 +14,7 @@
           {
             "function": "powerline.segments.shell.cwd",
             "args": {
-              "use_path_separator": false
-            }
-          },
-          {
-            "function": "powerline.segments.common.vcs.branch",
-            "args": {
-              "status_colors": true
+              "use_path_separator": true
             }
           },
           {
@@ -34,6 +28,12 @@
           {
             "function": "powerline_ext.segments.aws",
             "priority": 50
+          },
+          {
+            "function": "powerline.segments.common.vcs.branch",
+            "args": {
+              "status_colors": true
+            }
           }
         ]
       }

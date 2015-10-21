@@ -1,12 +1,17 @@
 {
   "groups": {
-    "aws": { "fg": "brightorange", "bg": "darkestgreen", "attrs": [] },
-    "user": { "fg": "white", "bg": "darkblue", "attrs": [] },
-    "hostname": { "fg": "white", "bg": "darkestblue", "attrs": [] },
-    "cwd": { "fg": "black", "bg": "brightorange", "attrs": [] },
-    "cwd:current_folder": { "fg": "black", "bg": "brightorange", "attrs": ["bold"] },
-    "cwd:divider": { "fg": "black", "bg": "brightorange", "attrs": []},
-    "history": { "fg": "white", "bg": "green", "attrs": []},
+    "aws:region": { "fg": "white", "bg": "blue_25", "attrs": ["bold"] },
+    "aws:env": { "fg": "white", "bg": "blue_27", "attrs": ["bold"] },
+    "branch": { "fg": "white", "bg": "blue_33", "attrs": ["bold"] },
+    "branch_clean": { "fg": "white", "bg": "blue_33", "attrs": ["bold"] },
+    "branch_dirty": { "fg": "white", "bg": "brightred", "attrs": ["bold"] },
+    "history": { "fg": "black", "bg": "brightestorange", "attrs": []},
+    "user": { "fg": "black", "bg": "brightorange", "attrs": [] },
+    "hostname": { "fg": "black", "bg": "orangered", "attrs": [] },
+    "cwd": { "fg": "white", "bg": "darkestgreen", "attrs": ["bold"] },
+    "cwd:current_folder": { "fg": "white", "bg": "darkestgreen", "attrs": ["bold"] },
+    "cwd:divider": { "fg": "white", "bg": "darkestgreen", "attrs": []},
+    "virtualenv": { "fg": "white", "bg": "darkestcyan", "attrs": ["bold"] },
     "time": { "fg": "white", "bg": "red_52", "attrs": [] },
     "date": { "fg": "white", "bg": "purple_53", "attrs": [] }
   }

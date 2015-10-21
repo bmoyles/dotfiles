@@ -5,17 +5,20 @@ from powerline.theme import requires_segment_info
 
 
 @requires_segment_info
-def aws(pl, segment_info, region_var='AWS_REGION', account_var='BASTION_ENVIRONMENT'):
-    region = segment_info['environ'].get('AWS_REGION', None)
-    account = segment_info['environ'].get('BASTION_ENVIRONMENT', None)
-    if all((region, account)):
+def aws(pl, segment_info, region_var='AWS_REGION', env_var='BASTION_ENVIRONMENT'):
+    region = segment_info['environ'].get(region_var, None)
+    env = segment_info['environ'].get(env_var, None)
+    if all((region, env)):
         ret = [
                 {
                     'contents': region,
                     'draw_inner_divider': True,
+                    'highlight_groups': ['aws:region']
                 },
-                {
-                    'contents': account
+                { 
+                    'contents': env,
+                    'draw_inner_divider': True,
+                    'highlight_groups': ['aws:env']
                 }
               ]
         return ret
@@ -27,9 +30,5 @@ def history(pl):
     zsh.eval('_POWERLINE_REPLY=$(print -P "%!")')
     history_num = zsh.getvalue('_POWERLINE_REPLY')
     zsh.setvalue('_POWERLINE_REPLY', None)
-    ret = [
-        {
-            'contents': history_num
-        }
-    ]
+    ret = [ { 'contents': history_num } ]
     return ret
