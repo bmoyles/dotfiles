@@ -1,0 +1,94 @@
+prompt_basic_setup() {
+    emulate -L zsh
+    setopt localoptions
+    prompt_opts=(cr percent subst)
+
+    PROMPT='$(prompt_basic_reset)$(prompt_basic_build_prompt)'
+    RPROMPT='$(prompt_basic_reset)$(prompt_basic_build_rprompt)'
+}
+
+prompt_basic_reset() {
+    emulate -L zsh
+
+    echo -n "%{%f%k%b%}"
+}
+
+prompt_basic_segment() {
+    emulate -L zsh
+
+    local -r fg=$1; shift
+    local -r bg=$1; shift
+    local -r msg="$*"
+
+    if [[ $fg == none ]]; then
+        echo -n "%{%f%}"
+    else
+        echo -n "%{%F{${fg}}%}"
+    fi
+    if [[ $bg == none ]]; then
+        echo -n "%{%k%}"
+    else
+        echo -n "%{%K{${bg}}%}"
+    fi
+    echo -n " ${msg} "
+}
+
+prompt_basic_aws() {
+    if [[ -n ${AWS_REGION} ]] && [[ -n ${BASTION_ENVIRONMENT} ]]; then
+        prompt_basic_segment 231 27 "aws:${FX[bold]}${BASTION_ENVIRONMENT}${FX[no-bold]}@${FX[bold]}${AWS_REGION}${FX[no-bold]}"
+        return 0
+    fi
+    return 1
+}
+
+prompt_basic_user_at() {
+    prompt_basic_segment 0 208 '%n@%m'
+}
+
+prompt_basic_cwd() {
+    prompt_basic_segment 231 22 "${FX[bold]}%~${FX[no-bold]}"
+}
+
+prompt_basic_history() {
+    prompt_basic_segment 0 214 '%!'
+}
+
+prompt_basic_date() {
+    prompt_basic_segment 231 53 '%D{%l:%M %p}'
+}
+
+prompt_basic_time() {
+    prompt_basic_segment 231 52 '%D{%a %b %e}'
+}
+
+prompt_basic_promptchar() {
+    prompt_basic_segment 0 202 '%#'
+}
+
+prompt_basic_build_prompt() {
+    emulate -L zsh
+
+    echo -n $prompt_newline
+    if prompt_basic_aws; then
+        prompt_basic_reset
+        echo -n $prompt_newline
+    fi
+    prompt_basic_cwd
+    prompt_basic_reset
+    echo -n $prompt_newline
+    prompt_basic_history
+    prompt_basic_user_at
+    prompt_basic_promptchar
+    prompt_basic_reset
+}
+
+prompt_basic_build_rprompt() {
+    emulate -L zsh
+    prompt_basic_date
+    prompt_basic_time
+    prompt_basic_reset
+}
+
+prompt_basic_setup "$@"
+
+# vim: ft=zsh sw=4 sts=4 ts=4 expandtab
