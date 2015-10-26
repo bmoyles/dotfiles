@@ -45,7 +45,8 @@
             "width": "auto",
             "highlight_groups": ["blank"],
             "draw_soft_divider": false,
-            "draw_hard_divider": false
+            "draw_hard_divider": false,
+            "draw_inner_divider": false
           }
         ]
       }
