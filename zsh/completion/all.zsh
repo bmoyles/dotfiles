@@ -103,4 +103,8 @@ if [[ -r /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]
 
 fi
 
+if which aws_zsh_completer.sh &>/dev/null; then
+    . =aws_zsh_completer.sh
+fi
+
 # vim: filetype=zsh:ts=4:sw=4:expandtab
