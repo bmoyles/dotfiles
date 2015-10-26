@@ -1,5 +1,6 @@
 {
   "groups": {
+    "blank": { "fg": "white", "bg": "bg_0", "attrs": [] },
     "aws:region": { "fg": "white", "bg": "blue_25", "attrs": ["bold"] },
     "aws:env": { "fg": "white", "bg": "blue_27", "attrs": ["bold"] },
     "branch": { "fg": "white", "bg": "blue_33", "attrs": ["bold"] },

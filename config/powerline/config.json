@@ -1,6 +1,6 @@
 {
     "common": {
-        "term_truecolor": true,
+        "term_truecolor": false,
         "log_file": "~/.local/powerline.log",
         "paths": [
           "~/.dotfiles/powerline"
@@ -16,7 +16,7 @@
             "colorscheme": "default"
         },
         "vim": {
-            "colorscheme": "solarized",
+            "colorscheme": "default",
             "theme": "default",
             "local_themes": {
                 "__tabline__": "tabline",
