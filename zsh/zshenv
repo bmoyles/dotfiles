@@ -40,4 +40,15 @@ done
 
 unset _config_dir _config_sections _config_section _config_file
 
+
+TRAPUSR1() {
+  if [[ -o INTERACTIVE ]]; then
+    if [[ -o zle ]]; then
+      zle -I
+    fi
+    printf "\nReceived USR1, restarting zsh (%s)\n" "${SHELL}"
+    exec "${SHELL}"
+  fi
+}
+
 # vim: ft=zsh sts=2 ts=2 sw=2 expandtab
