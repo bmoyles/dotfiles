@@ -1,4 +1,5 @@
 {
+	"bootstrapped": true,
 	"in_process_packages":
 	[
 	],
@@ -7,14 +8,21 @@
 		"Alignment",
 		"Anaconda",
 		"Base16 Color Schemes",
+		"Better CoffeeScript",
 		"Bracketeer",
 		"BracketHighlighter",
+		"CoffeeComplete Plus (Autocompletion)",
 		"DashDoc",
 		"GitGutter",
+		"GoOracle",
 		"GoSublime",
+		"Gradle_Language",
 		"Markdown Preview",
 		"MarkdownEditing",
+		"MarkdownTOC",
 		"Package Control",
+		"Pretty JSON",
+		"Pretty YAML",
 		"requirementstxt",
 		"SideBarEnhancements",
 		"Theme - Soda"

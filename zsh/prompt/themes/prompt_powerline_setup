@@ -6,7 +6,7 @@ prompt_powerline_setup() {
     local -r _powerline_base="$(python -c 'import os, powerline; print(os.path.dirname(powerline.__file__))')"
     local -r _powerline_binding="${_powerline_base}/bindings/zsh/powerline.zsh"
     if [[ -r ${_powerline_binding} ]]; then
-      powerline-daemon -q
+      powerline-daemon --replace -q
       . "${_powerline_binding}"
     fi
   fi

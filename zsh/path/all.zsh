@@ -2,7 +2,7 @@ typeset -Ux path manpath
 
 path=(
     ${DOTDIR}/bin
-    ${DOTLOCAL}/python/bin(N/)
+    ${DOTLOCAL}/bin(N/)
     ${GOPATH:+${GOPATH}/bin}(N/)
     ${GOROOT:+${GOROOT}/libexec/bin}(N/)
     /usr/local/{bin,sbin}

@@ -10,11 +10,13 @@ log() {
   echo "[$(date +'%Y-%m-%dT%H:%M:%S%z')]: " "$@" >&1
 }
 
-: ${DOTDIR:=~/.dotfiles}
+: ${DOTDIR:=${HOME}/.dotfiles}
 : ${DOTREPO:="https://github.com/bmoyles/dotfiles.git"}
+: ${DOTLOCAL=${HOME}/.local}
+: ${PYTHONUSERBASE=${DOTLOCAL}}
 : ${OS:=$(uname -s)}
-: ${PYTHONUSERBASE=~/.local/python}
-readonly DOTDIR DOTREPO OS PYTHONUSERBASE
+readonly DOTDIR DOTREPO DOTLOCAL PYTHONUSERBASE OS
+export DOTDIR DOTREPO DOTLOCAL PYTHONUSERBASE OS
 
 
 move_existing_dotfiles() {
@@ -139,20 +141,15 @@ EOF
 }
 
 install_powerline() {
-  local _pip
-  if ! _pip=$(which pip2.7 2>/dev/null); then
-    log "pip2.7 not found, not installing powerline"
-    return
-  fi
-  readonly _pip
-  local -r _py_lib_dir="${PYTHONUSERBASE}/lib/python/site-packages"
   log "Installing powerline"
-  log "Using PYTHONUSERBASE=${PYTHONUSERBASE}"
-  log "Using pip ${_pip}"
-  if [[ ! -d ${_py_lib_dir} ]]; then
-    mkdir -p "${_py_lib_dir}"
+  if ! which pip2.7 &>/dev/null; then
+    err "Unable to find pip2.7"
+    return 1
   fi
-  "${_pip}" install --user powerline-status
+  pip2.7 install -U --user powerline-status
+  log "Attempting to install extra libs"
+  pip2.7 install -U --user pyuv
+  pip2.7 install -U --user pygit2
 }
 
 viminit() {
