@@ -1,0 +1,6 @@
+{
+  "shell": ["/usr/local/bin/zsh", "-l", "-c", "$CMD"],
+  "autocomplete_builtins": "true",
+  "autocomplete_suggest_imports": "true",
+  "fmt_cmd": ["goimports"]
+}
