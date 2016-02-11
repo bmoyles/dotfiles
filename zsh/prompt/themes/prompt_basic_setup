@@ -34,8 +34,9 @@ prompt_basic_segment() {
 }
 
 prompt_basic_aws() {
-    if [[ -n ${AWS_REGION} ]] && [[ -n ${BASTION_ENVIRONMENT} ]]; then
-        prompt_basic_segment 231 27 "aws:${FX[bold]}${BASTION_ENVIRONMENT}${FX[no-bold]}@${FX[bold]}${AWS_REGION}${FX[no-bold]}"
+    local -r region=${AWS_REGION:-${EC2_REGION:-}}
+    if [[ -n ${region:-} ]] && [[ -n ${BASTION_ENVIRONMENT} ]]; then
+        prompt_basic_segment 231 27 "aws:${FX[bold]}${BASTION_ENVIRONMENT}${FX[no-bold]}@${FX[bold]}${region}${FX[no-bold]}"
         return 0
     fi
     return 1

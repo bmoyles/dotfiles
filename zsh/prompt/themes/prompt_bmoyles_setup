@@ -126,12 +126,13 @@ function prompt_end {
 function prompt_aws {
     local dir
     dir=${1:-left}
+    local -r region=${AWS_REGION:-${EC2_REGION:-}}
     if zstyle -t ':prompt:bmoyles' aws ; then
-        if [[ -z $AWS_REGION ]] || [[ -z ${BASTION_ENVIRONMENT:-${AWS_ACCOUNT:-}} ]]; then
+        if [[ -z ${region:-} ]] || [[ -z ${BASTION_ENVIRONMENT:-}} ]]; then
             prompt_segment 24 220 $dir "aws:config unavailable"
             return
         fi
-        prompt_segment 24 255 $dir "aws:${FX[bold]}%F{226}${BASTION_ENVIRONMENT:-${AWS_ACCOUNT}}%f\${fg}${FX[no-bold]}@${FX[bold]}%F{226}${AWS_REGION}%f\${fg}${FX[no-bold]}"
+        prompt_segment 24 255 $dir "aws:${FX[bold]}%F{226}${BASTION_ENVIRONMENT}%f\${fg}${FX[no-bold]}@${FX[bold]}%F{226}${region}%f\${fg}${FX[no-bold]}"
     fi
 }
 
