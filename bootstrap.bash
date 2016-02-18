@@ -141,15 +141,25 @@ EOF
 }
 
 install_powerline() {
-  log "Installing powerline"
-  if ! which pip2.7 &>/dev/null; then
-    err "Unable to find pip2.7"
-    return 1
+  log "Attempting to install powerline"
+  local pip
+  if ! pip=$(which pip2.7); then
+    if ! pip=$(which pip-2.7); then
+      err "Unable to find pip"
+      return 1
+    fi
   fi
-  pip2.7 install -U --user powerline-status
-  log "Attempting to install extra libs"
-  pip2.7 install -U --user pyuv
-  pip2.7 install -U --user pygit2
+  if ${pip} install -U --user powerline-status; then
+    log "Attempting to install extra libs"
+    if ! ${pip} install -U --user pyuv; then
+      err "Unable to install pyuv, check dependencies and pip output"
+    fi
+    if ! ${pip} install -U --user pygit2; then
+      err "Unable to install pygit2, check dependencies and pip output"
+    fi
+  else
+    err "Unable to install powerline, check dependencies and pip output"
+  fi
 }
 
 viminit() {
@@ -210,8 +220,10 @@ setup_sublime_text_prefs() {
 
 main() {
   log "Dotfiles bootstrap"
-  move_existing_dotfiles
-  clone_fresh_dotfiles
+  if [[ ${1:-} != noclone ]]; then
+    move_existing_dotfiles
+    clone_fresh_dotfiles
+  fi
   setup_zsh
   setup_config
   use_zsh
