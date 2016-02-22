@@ -12,10 +12,11 @@ export LS_OPTIONS="-F"
 
 export VIRTUAL_ENV_DISABLE_PROMPT="disable"
 
-typeset -ax TMUXOPTS
-typeset -x TMUXRC
-TMUXRC=${DOTDIR}/tmux/tmux.conf
-[[ -r ${TMUXRC} ]] && TMUXOPTS=( -f ${TMUXRC} )
+typeset -a TMUXOPTS
+TMUXCONF="${DOTDIR}/tmux"
+TMUXRC="${TMUXCONF}/tmux.conf"
+[[ -r ${TMUXRC} ]] && TMUXOPTS+=( -f ${TMUXRC} )
+export TMUXOPTS TMUXCONF TMUXRC
 
 export GOPATH=~/work/golang
 
