@@ -140,6 +140,37 @@ EOF
   fi
 }
 
+install_python_user_base() {
+  local -a _libs
+  _libs=( pip setuptools )
+  readonly _libs
+  log "Installing python user base (${PYTHONUSERBASE}). Libs: [ ${_libs[@]} ]"
+  local _python_installer
+  local -a _installer_opts
+  if ! _python_installer=$(which pip2.7); then
+    if ! _python_installer=$(which pip-2.7); then
+      log "Global pip not found, attempting to use easy_install"
+      if ! _python_installer=$(which easy_install2.7); then
+        if ! _python_installer=$(which easy_install-2.7); then
+          err "Unable to locate pip or easy_install"
+          return 1
+        fi
+      fi
+    fi
+  fi
+  readonly _python_installer
+  log "Using installer ${_python_installer}"
+  if [[ ${_python_installer} == *pip* ]]; then
+    _installer_opts+=( install )
+  fi
+  _installer_opts+=( -U --user )
+  readonly _installer_opts
+  if ! ${_python_installer} "${_installer_opts[@]}" "${_libs[@]}"; then
+    err "Unable to install ${_libs[@]} using ${_python_installer}"
+    return 1
+  fi
+}
+
 install_powerline() {
   log "Attempting to install powerline"
   local pip
@@ -227,7 +258,9 @@ main() {
   setup_zsh
   setup_config
   use_zsh
-  install_powerline
+  if install_python_user_base; then
+    install_powerline
+  fi
   viminit
   os_specific_tasks
 }
