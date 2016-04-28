@@ -1,10 +1,10 @@
 set nocompatible
 filetype off
 
-set rtp+=${DOTDIR}/vim/bundle/vundle
+set rtp+=${DOTDIR}/vim/bundle/Vundle.vim
 call vundle#begin(expand('$DOTDIR/vim/bundle'))
 
-Plugin 'gmarik/Vundle.git'
+Plugin 'VundleVim/Vundle.vim'
 Plugin 'chriskempson/base16-vim'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
@@ -12,13 +12,9 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-markdown'
 Plugin 'scrooloose/nerdtree'
 Plugin 'wincent/Command-T'
-Plugin 'derekwyatt/vim-scala'
-Plugin 'jnwhiteh/vim-golang'
+Plugin 'fatih/vim-go'
 Plugin 'davidhalter/jedi-vim'
-Plugin 'guns/vim-clojure-static'
 Plugin 'elzr/vim-json'
-Plugin 'pangloss/vim-javascript'
-Plugin 'wting/rust.vim'
 
 call vundle#end()
 filetype plugin indent on
@@ -70,6 +66,15 @@ set showcmd
 set mouse=a
 
 au BufNewFile,BufRead *.gradle setf groovy
+
+au FileType go set sw=8 ts=8 sts=8 noet
+let g:go_auto_type_info = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+let g:go_highlight_interfaces = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_build_constraints = 1
 
 python << EOF
 try:

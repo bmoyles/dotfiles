@@ -19,6 +19,7 @@ TMUXRC="${TMUXCONF}/tmux.conf"
 export TMUXOPTS TMUXCONF TMUXRC
 
 export GOPATH=~/work/golang
+export GO15VENDOREXPERIMENT=1
 
 export PYTHONUSERBASE=${HOME}/.local
 
