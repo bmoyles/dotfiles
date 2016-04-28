@@ -1,3 +1,7 @@
 {
-  "anaconda_linting": false
+  "anaconda_linting_behavior": "save-only",
+  "anaconda_gutter_theme": "retina",
+  "anaconda_linter_mark_style": "fill",
+  "anaconda_linting": false,
+  "complete_parameters": true
 }

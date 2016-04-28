@@ -12,7 +12,6 @@
 	"highlight_line": true,
 	"ignored_packages":
 	[
-		"Markdown",
 		"Vintage"
 	],
 	"indent_guide_options":
@@ -20,20 +19,16 @@
 		"draw_normal",
 		"draw_active"
 	],
-	"material_theme_compact_sidebar": true,
-	"material_theme_contrast_mode": true,
-	"material_theme_small_statusbar": true,
-	"material_theme_small_tab": true,
+	"match_brackets": false,
 	"overlay_scroll_bars": true,
 	"rulers":
 	[
-		80,
-		100
+		80
 	],
 	"scroll_past_end": true,
 	"shift_tab_unindent": true,
 	"tab_size": 2,
-	"theme": "Material-Theme-Darker.sublime-theme",
+	"theme": "SoDaReloaded Dark.sublime-theme",
 	"translate_tabs_to_spaces": true,
 	"trim_trailing_white_space_on_save": true,
 	"word_wrap": false

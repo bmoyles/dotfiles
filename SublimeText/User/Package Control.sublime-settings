@@ -8,25 +8,19 @@
 		"Alignment",
 		"Anaconda",
 		"Base16 Color Schemes",
-		"Better CoffeeScript",
 		"Bracketeer",
 		"BracketHighlighter",
-		"CoffeeComplete Plus (Autocompletion)",
-		"DashDoc",
 		"Dotfiles Syntax Highlighting",
 		"Git",
 		"GitGutter",
-		"GoOracle",
 		"GoSublime",
 		"Gradle_Language",
-		"Markdown Preview",
-		"MarkdownEditing",
-		"MarkdownTOC",
-		"Material Theme",
 		"Package Control",
 		"Pretty JSON",
 		"Pretty YAML",
 		"requirementstxt",
-		"SideBarEnhancements"
+		"SideBarEnhancements",
+		"Theme - Soda",
+		"Theme - SoDaReloaded"
 	]
 }
