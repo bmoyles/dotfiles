@@ -1,7 +1,14 @@
 {
-  "anaconda_linting_behavior": "save-only",
+  "anaconda_linting_behavior": "always",
   "anaconda_gutter_theme": "retina",
-  "anaconda_linter_mark_style": "fill",
-  "anaconda_linting": false,
-  "complete_parameters": true
+  "anaconda_linter_mark_style": "outline",
+  "anaconda_linting": true,
+  "auto_python_builder_enabled": true,
+  "complete_parameters": false,
+  "python_interpreter": "/usr/local/bin/python",
+  "pep8_ignore": [
+    "E309",
+    "E501",
+  ],
+  //"pep8_max_line_length": 100
 }

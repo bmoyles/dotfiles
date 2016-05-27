@@ -1,4 +1,7 @@
 {
+	"auto_upgrade_ignore":
+	[
+	],
 	"bootstrapped": true,
 	"in_process_packages":
 	[
@@ -15,11 +18,13 @@
 		"GitGutter",
 		"GoSublime",
 		"Gradle_Language",
+		"MagicPython",
 		"Package Control",
 		"Pretty JSON",
 		"Pretty YAML",
 		"requirementstxt",
 		"SideBarEnhancements",
+		"Theme - Otto",
 		"Theme - Soda",
 		"Theme - SoDaReloaded"
 	]

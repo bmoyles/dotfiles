@@ -8,8 +8,6 @@ export LESS="-g -i -M -R -w"
 
 export TZ="PST8PDT"
 
-export LS_OPTIONS="-F"
-
 export VIRTUAL_ENV_DISABLE_PROMPT="disable"
 
 typeset -a TMUXOPTS
@@ -20,6 +18,9 @@ export TMUXOPTS TMUXCONF TMUXRC
 
 export GOPATH=~/work/golang
 export GO15VENDOREXPERIMENT=1
+if (( ${+commands[go]} )); then
+  export GOROOT="$(go env GOROOT)"
+fi
 
 export PYTHONUSERBASE=${HOME}/.local
 

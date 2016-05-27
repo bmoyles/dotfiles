@@ -1,1 +1,1 @@
-export HELPDIR=/usr/local/share/zsh/helpfiles
+export HELPDIR=/usr/local/share/zsh/help

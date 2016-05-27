@@ -1,5 +1,3 @@
-typeset -Ux path manpath
-
 path=(
   /usr/local/opt/coreutils/libexec/gnubin(N/)
   /usr/local/opt/gnu-tar/libexec/gnubin(N/)

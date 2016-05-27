@@ -1,7 +1,7 @@
-typeset -rx ZDOTDIR=${${:-~/.zshenv}:A:h}
-typeset -rx DOTDIR=${ZDOTDIR:h}
-typeset -rx DOTLOCAL=~/.local
-typeset -rx DOTCONFIG=~/.config
+typeset -rgx ZDOTDIR=${${:-~/.zshenv}:A:h}
+typeset -rgx DOTDIR=${ZDOTDIR:h}
+typeset -rgx DOTLOCAL=~/.local
+typeset -rgx DOTCONFIG=~/.config
 
 
 source ${ZDOTDIR}/.zshenv
