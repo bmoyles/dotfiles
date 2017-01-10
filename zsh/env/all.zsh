@@ -18,9 +18,9 @@ export TMUXOPTS TMUXCONF TMUXRC
 
 export GOPATH=~/work/golang
 export GO15VENDOREXPERIMENT=1
-if (( ${+commands[go]} )); then
-  export GOROOT="$(go env GOROOT)"
-fi
+#if (( ${+commands[go]} )); then
+#  export GOROOT="$(go env GOROOT)"
+#fi
 
 export PYTHONUSERBASE=${HOME}/.local
 

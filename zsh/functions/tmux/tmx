@@ -1,14 +1,11 @@
 local session=general
 
-function _tmux_create_or_attach {
-    if ! tmux has-session -t ${session} 2>/dev/null ; then
+function _tmux_start {
         if [[ -r ${DOTDIR}/tmux/${session}.tmx ]] ; then
             source ${DOTDIR}/tmux/${session}.tmx
         else
-            tmux new-session -d -s ${session}
+            tmux new-session -A -D -s ${session} "$@"
         fi
-    fi
-    tmux attach -d -t ${session}
 }
 
 if (( $# > 0 )) ; then
@@ -22,10 +19,13 @@ if (( $# > 0 )) ; then
             ;;
         *)
             session=$1
+            shift
             ;;
     esac
 fi
-_tmux_create_or_attach
+_tmux_start "$@"
+#_tmux_create_or_attach
+#tmux new-session -A -D -s ${session} "$@"
 unset session
 
 # vim:filetype=zsh ts=4 sw=4 sts=4 et

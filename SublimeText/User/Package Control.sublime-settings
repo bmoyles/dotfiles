@@ -5,12 +5,14 @@
 	"bootstrapped": true,
 	"in_process_packages":
 	[
+		"Package Control"
 	],
 	"installed_packages":
 	[
 		"Alignment",
 		"Anaconda",
 		"Base16 Color Schemes",
+		"Boxy Theme",
 		"Bracketeer",
 		"BracketHighlighter",
 		"Dotfiles Syntax Highlighting",
@@ -24,7 +26,6 @@
 		"Pretty YAML",
 		"requirementstxt",
 		"SideBarEnhancements",
-		"Theme - Otto",
 		"Theme - Soda",
 		"Theme - SoDaReloaded"
 	]

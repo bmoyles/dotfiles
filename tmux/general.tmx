@@ -1,1 +1,1 @@
-tmux new-session -d -s ${session} -n 'shell'
+tmux new-session -A -D -s ${session} -n 'shell' "$@"
