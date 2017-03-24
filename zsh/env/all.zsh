@@ -16,7 +16,8 @@ TMUXRC="${TMUXCONF}/tmux.conf"
 [[ -r ${TMUXRC} ]] && TMUXOPTS+=( -f ${TMUXRC} )
 export TMUXOPTS TMUXCONF TMUXRC
 
-export GOPATH=~/work/golang
+#export GOPATH=~/work/golang
+export GOPATH=${HOME}/go
 export GO15VENDOREXPERIMENT=1
 #if (( ${+commands[go]} )); then
 #  export GOROOT="$(go env GOROOT)"
