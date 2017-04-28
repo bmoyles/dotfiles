@@ -8,21 +8,8 @@ export LESS="-g -i -M -R -w"
 
 export TZ="PST8PDT"
 
-export VIRTUAL_ENV_DISABLE_PROMPT="disable"
-
-typeset -a TMUXOPTS
-TMUXCONF="${DOTDIR}/tmux"
-TMUXRC="${TMUXCONF}/tmux.conf"
-[[ -r ${TMUXRC} ]] && TMUXOPTS+=( -f ${TMUXRC} )
-export TMUXOPTS TMUXCONF TMUXRC
-
-#export GOPATH=~/work/golang
-export GOPATH=${HOME}/go
-export GO15VENDOREXPERIMENT=1
-#if (( ${+commands[go]} )); then
-#  export GOROOT="$(go env GOROOT)"
-#fi
-
-export PYTHONUSERBASE=${HOME}/.local
+source ${ZDOTDIR}/env/tmux/tmux.zsh
+source ${ZDOTDIR}/env/go/go.zsh
+source ${ZDOTDIR}/env/python/python.zsh
 
 # vim: ft=zsh ts=2 sts=2 sw=2 expandtab
