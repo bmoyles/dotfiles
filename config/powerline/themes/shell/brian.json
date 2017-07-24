@@ -41,20 +41,16 @@
       {
         "left": [
           {
-            "type": "string",
-            "width": "auto",
-            "highlight_groups": ["blank"],
-            "draw_soft_divider": false,
-            "draw_hard_divider": false,
-            "draw_inner_divider": false
+            "function": "powerline_ext.segments.nl"
           }
         ]
       }
     ],
     "left": [
       {
-        "function": "powerline_ext.segments.history",
-        "include_function": "powerline_ext.lib.has_zpython"
+        "name": "history",
+        "type": "string",
+        "contents": "!"
       },
       {
         "function": "powerline.segments.common.env.user"

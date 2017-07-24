@@ -15,7 +15,7 @@ def aws(pl, segment_info, region_var='AWS_REGION', env_var='BASTION_ENVIRONMENT'
                     'draw_inner_divider': True,
                     'highlight_groups': ['aws:region']
                 },
-                { 
+                {
                     'contents': env,
                     'draw_inner_divider': True,
                     'highlight_groups': ['aws:env']
@@ -25,10 +25,11 @@ def aws(pl, segment_info, region_var='AWS_REGION', env_var='BASTION_ENVIRONMENT'
     return None
 
 
-def history(pl):
-    import zsh
-    zsh.eval('_POWERLINE_REPLY=$(print -P "%!")')
-    history_num = zsh.getvalue('_POWERLINE_REPLY')
-    zsh.setvalue('_POWERLINE_REPLY', None)
-    ret = [ { 'contents': history_num } ]
-    return ret
+def nl(pl):
+    return [{
+        'contents': None,
+        'literal_contents': (
+            0,
+            ' ',
+        )
+    }]
