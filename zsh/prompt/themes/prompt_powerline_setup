@@ -1,15 +1,13 @@
 prompt_powerline_setup() {
   emulate -L zsh
 
-  prompt_opts=(cr percent subst)
-  if zmodload zsh/zpython 2>/dev/null; then
-    . "$(zpython 'from powerline.config import BINDINGS_DIRECTORY; print(BINDINGS_DIRECTORY)')/zsh/powerline.zsh"
-  elif which powerline-daemon &>/dev/null; then
-    local -r _powerline_base="$(python -c 'from powerline.config import BINDINGS_DIRECTORY; print(BINDINGS_DIRECTORY)')"
-    local -r _powerline_binding="${_powerline_base}/zsh/powerline.zsh"
-    if [[ -r ${_powerline_binding} ]]; then
-      powerline-daemon --replace -q
-      . "${_powerline_binding}"
+  prompt_opts=(cr percent subst bang)
+  local -r _powerline_base="$(python -c 'from powerline.config import BINDINGS_DIRECTORY; print(BINDINGS_DIRECTORY)')"
+  local -r _powerline_binding="${_powerline_base}/zsh/powerline.zsh"
+  if [[ -r ${_powerline_binding} ]]; then
+    . "${_powerline_binding}"
+    if which powerline-daemon &>/dev/null && [[ -n ${POWERLINE_NO_ZSH_ZPYTHON:-} ]]; then
+      ( powerline-daemon --replace -q & )
     fi
   fi
 }
