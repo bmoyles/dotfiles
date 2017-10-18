@@ -24,7 +24,7 @@ _zsh_config_dirs=( "${ZDOTDIR}" "${DOTLOCAL}/zsh" )
 readonly _zsh_config_dirs
 
 local -a _config_sections
-_config_sections=( env path functions )
+_config_sections=( pre_zshenv env path functions post_zshenv )
 
 local _config_dir
 local _config_section

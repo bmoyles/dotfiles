@@ -1,5 +1,5 @@
 local -a _config_sections
-_config_sections=( config editor completion aliases prompt ext )
+_config_sections=( pre_zshrc config editor completion aliases prompt ext post_zshrc )
 
 local _config_dir
 local _config_section
