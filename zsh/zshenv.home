@@ -3,7 +3,6 @@ typeset -rgx DOTDIR=${ZDOTDIR:h}
 typeset -rgx DOTLOCAL=~/.local
 typeset -rgx DOTCONFIG=~/.config
 
-
 source ${ZDOTDIR}/.zshenv
 
 # vim: filetype=zsh:ts=4:sw=4:expandtab

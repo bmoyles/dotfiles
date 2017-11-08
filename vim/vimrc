@@ -68,7 +68,8 @@ let g:go_highlight_interfaces = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 
-python << EOF
+if has('python')
+    python << EOF
 try:
     from powerline.vim import setup as powerline_setup
     powerline_setup()
@@ -76,6 +77,7 @@ try:
 except ImportError as e:
     pass
 EOF
+endif
 
 " Include user's local vim config
 if filereadable(expand("$DOTLOCAL/vim/vimrc"))
