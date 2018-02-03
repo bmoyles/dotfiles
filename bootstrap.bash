@@ -149,11 +149,11 @@ install_powerline() {
     return 1
   fi
 
-  log "Building powerline virtualenv under ${powerline_virtualenv}"
+  log "Building powerline virtualenv under ${powerline_venv}"
   "${python}" -mvenv --without-pip "${powerline_venv}"
   "${powerline_venv}/bin/python3" "${DOTLOCAL}/get-pip.py"
   "${powerline_venv}/bin/python3" -mpip install -U pip setuptools wheel
-  log "Installing powerline into ${powerline_virtualenv}"
+  log "Installing powerline into ${powerline_venv}"
   if "${powerline_venv}/bin/python3" -mpip install -U powerline-status; then
     log "Powerline installed"
     log "Attempting to install extra libraries for powerline"
