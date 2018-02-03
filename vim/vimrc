@@ -1,21 +1,18 @@
-set nocompatible
-filetype off
+let &rtp = expand('$DOTDIR/vim').','.&rtp
+call plug#begin(expand('$DOTDIR/vim/plugged'))
 
-set rtp+=${DOTDIR}/vim/bundle/Vundle.vim
-call vundle#begin(expand('$DOTDIR/vim/bundle'))
+Plug 'chriskempson/base16-vim'
+Plug 'editorconfig/editorconfig-vim'
 
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'chriskempson/base16-vim'
-Plugin 'editorconfig/editorconfig-vim'
+call plug#end()
 
-call vundle#end()
 filetype plugin indent on
 syntax on
 
 " colors and terminal
 set t_Co=256
 set background=dark
-color base16-tomorrow
+silent! color base16-tomorrow
 set noexrc " disable local exrc/vimrc foo
 let mapleader = "," " switch the leader to something more reachable
 " enable line numbers but allow them to be easily toggled

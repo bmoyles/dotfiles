@@ -16,6 +16,8 @@ log() {
 : ${OS:=$(uname -s)}
 readonly DOTDIR DOTREPO DOTLOCAL OS
 export DOTDIR DOTREPO DOTLOCAL OS
+export MYVIMRC=${DOTDIR}/vim/vimrc
+export VIMINIT="so ${MYVIMRC}"
 
 
 move_existing_dotfiles() {
@@ -179,10 +181,7 @@ viminit() {
   fi
   readonly _vim
   log "Initializing vim"
-  pushd ${DOTDIR} > /dev/null 2>&1
-  git submodule update --init --recursive
-  vim +PluginInstall +qall
-  popd > /dev/null 2>&1
+  vim +PlugInstall +qall
 }
 
 os_specific_tasks() {
