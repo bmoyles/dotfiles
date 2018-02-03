@@ -5,6 +5,10 @@
     },
     "powerline.segments.common.net.hostname": {
       "before": ""
+    },
+    "powerline.segments.common.env.virtualenv": {
+      "before": "(venv:",
+      "after": ")"
     }
   },
   "segments": {

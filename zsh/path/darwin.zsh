@@ -31,3 +31,8 @@ if (( ${+commands[python2]} )); then
   )
   unset _py_user_base
 fi
+
+path=(
+  ${HOME}/.local/powerline/bin(N/)
+  ${path}
+)

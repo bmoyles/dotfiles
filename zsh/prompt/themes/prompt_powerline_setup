@@ -2,7 +2,8 @@ prompt_powerline_setup() {
   emulate -L zsh
 
   prompt_opts=(cr percent subst bang)
-  local -r _powerline_base="$(python -c 'from powerline.config import BINDINGS_DIRECTORY; print(BINDINGS_DIRECTORY)')"
+  local -r _powerline_venv=$(dirname $(which powerline))
+  local -r _powerline_base="$(${_powerline_venv}/python -c 'from powerline.config import BINDINGS_DIRECTORY; print(BINDINGS_DIRECTORY)')"
   local -r _powerline_binding="${_powerline_base}/zsh/powerline.zsh"
   if [[ -r ${_powerline_binding} ]]; then
     . "${_powerline_binding}"

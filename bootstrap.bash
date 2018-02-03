@@ -13,10 +13,9 @@ log() {
 : ${DOTDIR:=${HOME}/.dotfiles}
 : ${DOTREPO:="https://github.com/bmoyles/dotfiles.git"}
 : ${DOTLOCAL=${HOME}/.local}
-: ${PYTHONUSERBASE=${DOTLOCAL}}
 : ${OS:=$(uname -s)}
-readonly DOTDIR DOTREPO DOTLOCAL PYTHONUSERBASE OS
-export DOTDIR DOTREPO DOTLOCAL PYTHONUSERBASE OS
+readonly DOTDIR DOTREPO DOTLOCAL OS
+export DOTDIR DOTREPO DOTLOCAL OS
 
 
 move_existing_dotfiles() {
@@ -122,7 +121,7 @@ case "\${SHELL}" in
   *)
     # for all other shells, check for NO_ZSH and ~/.no_zsh before switching
     # so we can disable auto-switch to zsh if need be
-    if [[ -n "\${NO_ZSH}" || -e "\${HOME}/.no_zsh" ]]; then
+    if [[ -n "\${NO_ZSH}" || -e "\${HOME}/.no_zsh" || ( ! -x /usr/local/bin/zsh && ! -x /bin/zsh ) ]]; then
       if [[ -e ${profile_backup} ]]; then
         # if we've got a profile backup, pull that in
         . ${profile_backup}
@@ -140,54 +139,33 @@ EOF
   fi
 }
 
-install_python_user_base() {
-  local -a _libs
-  _libs=( pip setuptools )
-  readonly _libs
-  log "Installing python user base (${PYTHONUSERBASE}). Libs: [ ${_libs[@]} ]"
-  local _python_installer
-  local -a _installer_opts
-  if ! _python_installer=$(which pip2.7); then
-    if ! _python_installer=$(which pip-2.7); then
-      log "Global pip not found, attempting to use easy_install"
-      if ! _python_installer=$(which easy_install2.7); then
-        if ! _python_installer=$(which easy_install-2.7); then
-          err "Unable to locate pip or easy_install"
-          return 1
-        fi
-      fi
-    fi
-  fi
-  readonly _python_installer
-  log "Using installer ${_python_installer}"
-  if [[ ${_python_installer} == *pip* ]]; then
-    _installer_opts+=( install )
-  fi
-  _installer_opts+=( -U --user )
-  readonly _installer_opts
-  if ! ${_python_installer} "${_installer_opts[@]}" "${_libs[@]}"; then
-    err "Unable to install ${_libs[@]} using ${_python_installer}"
-    return 1
-  fi
-}
-
 install_powerline() {
   log "Attempting to install powerline"
-  local pip
-  if ! pip=$(which pip2.7); then
-    if ! pip=$(which pip-2.7); then
-      err "Unable to find pip"
-      return 1
-    fi
+  local powerline_venv="${DOTLOCAL}/powerline"
+  local -a powerline_libs=( pyuv pygit2 )
+  local python
+  if ! python=$(which python3); then
+    err "Unable to find python3"
+    return 1
   fi
-  if ${pip} install -U --user powerline-status; then
-    log "Attempting to install extra libs"
-    if ! ${pip} install -U --user pyuv; then
-      err "Unable to install pyuv, check dependencies and pip output"
-    fi
-    if ! ${pip} install -U --user pygit2; then
-      err "Unable to install pygit2, check dependencies and pip output"
-    fi
+
+  log "Building powerline virtualenv under ${powerline_virtualenv}"
+  "${python}" -mvenv --without-pip "${powerline_venv}"
+  "${powerline_venv}/bin/python3" "${DOTLOCAL}/get-pip.py"
+  "${powerline_venv}/bin/python3" -mpip install -U pip setuptools wheel
+  log "Installing powerline into ${powerline_virtualenv}"
+  if "${powerline_venv}/bin/python3" -mpip install -U powerline-status; then
+    log "Powerline installed"
+    log "Attempting to install extra libraries for powerline"
+    local _lib
+    for _lib in "${powerline_libs[@]}"; do
+      log "Attempting to install lib ${_lib}"
+      if ! "${powerline_venv}/bin/python3" -mpip install -U "${_lib}"; then
+        err "Unable to install lib ${_lib}, check dependencies adn pip output"
+      else
+        log "Successfully installed lib ${_lib}"
+      fi
+    done
   else
     err "Unable to install powerline, check dependencies and pip output"
   fi
@@ -258,9 +236,7 @@ main() {
   setup_zsh
   setup_config
   use_zsh
-  if install_python_user_base; then
-    install_powerline
-  fi
+  install_powerline
   viminit
   os_specific_tasks
 }
