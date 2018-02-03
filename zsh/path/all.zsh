@@ -1,6 +1,7 @@
 path=(
     ${DOTDIR}/bin
     ${DOTLOCAL}/bin(N/)
+    ${DOTLOCAL}/powerline/bin(N/)
     ${GOPATH:+${GOPATH}/bin}(N/)
     ${GOROOT:+${GOROOT}/libexec/bin}(N/)
     /usr/local/{bin,sbin}
