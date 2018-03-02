@@ -2,7 +2,7 @@ setopt autopushd
 setopt pushd_ignore_dups
 
 export HISTFILE=${HOME}/.zsh_history
-export HISTSIZE=1000
+export HISTSIZE=10000
 export SAVEHIST=10000
 setopt append_history
 setopt extended_history
