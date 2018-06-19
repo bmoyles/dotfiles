@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 local -a _config_sections
 _config_sections=( pre_zshrc config editor completion aliases prompt ext post_zshrc )
 

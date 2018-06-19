@@ -92,8 +92,7 @@ zstyle ':completion:*:(ssh|scp|rsync):*:hosts-ipaddr' ignored-patterns '^(<->.<-
 
 # load more complex completions if they exist
 local compdir=${ZDOTDIR}/completion
-for file in ${COMPDIR}/*/*.zsh(N)
-do
+for file in ${COMPDIR}/*/*.zsh(N); do
     source ${file}
 done
 
@@ -103,8 +102,12 @@ if [[ -r /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]
 
 fi
 
-if which aws_zsh_completer.sh &>/dev/null; then
-    . =aws_zsh_completer.sh
+if (( ${+commands[aws_zsh_completer.sh]} )); then
+    if [[ ${commands[aws_zsh_completer.sh]} == *pyenv* ]]; then
+        . "$(pyenv which aws_zsh_completer.sh)"
+    else
+        . =aws_zsh_completer.sh
+    fi
 fi
 
 # vim: filetype=zsh:ts=4:sw=4:expandtab

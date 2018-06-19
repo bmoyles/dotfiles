@@ -23,6 +23,10 @@ function spectrum_ls() {
   done
 }
 
-autoload -Uz promptinit && promptinit
+autoload -Uz promptinit
+prompt() {
+    promptinit
+    prompt "$@"
+}
 
 # vim: ft=zsh sw=4 sts=4 ts=4 expandtab

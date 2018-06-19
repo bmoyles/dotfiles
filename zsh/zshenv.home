@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 typeset -rgx ZDOTDIR=${${:-~/.zshenv}:A:h}
 typeset -rgx DOTDIR=${ZDOTDIR:h}
 typeset -rgx DOTLOCAL=~/.local

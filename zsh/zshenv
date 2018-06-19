@@ -1,3 +1,4 @@
+#!/usr/bin/env zsh
 _zshenv_set_distro() {
   emulate -L zsh
   if [[ ${OS} = linux ]]; then

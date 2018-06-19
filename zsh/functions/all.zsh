@@ -13,7 +13,7 @@ done
 unset func
 unset funcdirs
 
-module_path=( ${module_path} /usr/local/lib/zpython )
+module_path=( ${module_path} /usr/local/lib/zpython(/N) )
 typeset -U module_path
 export MODULE_PATH
 

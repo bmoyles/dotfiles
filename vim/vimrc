@@ -3,6 +3,7 @@ call plug#begin(expand('$DOTDIR/vim/plugged'))
 
 Plug 'chriskempson/base16-vim'
 Plug 'editorconfig/editorconfig-vim'
+Plug 'plytophogy/vim-virtualenv'
 
 call plug#end()
 
@@ -65,8 +66,10 @@ let g:go_highlight_interfaces = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_constraints = 1
 
-if has('python')
-    python << EOF
+if has('python3')
+    let g:virtualenv_directory = expand('~/.pyenv/versions')
+    call virtualenv#activate('powerline')
+    python3 << EOF
 try:
     from powerline.vim import setup as powerline_setup
     powerline_setup()
@@ -75,6 +78,16 @@ except ImportError as e:
     pass
 EOF
 endif
+
+" split nav conveniences
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+set splitbelow
+set splitright
+
 
 " Include user's local vim config
 if filereadable(expand("$DOTLOCAL/vim/vimrc"))

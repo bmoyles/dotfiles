@@ -8,6 +8,8 @@ export LESS="-g -i -M -R -w"
 
 export TZ="PST8PDT"
 
+export PYENV_SHELL="zsh"
+
 source ${ZDOTDIR}/env/tmux/tmux.zsh
 source ${ZDOTDIR}/env/go/go.zsh
 source ${ZDOTDIR}/env/python/python.zsh

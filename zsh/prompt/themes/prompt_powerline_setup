@@ -1,16 +1,15 @@
-prompt_powerline_setup() {
-  emulate -L zsh
+emulate -L zsh
 
-  prompt_opts=(cr percent subst bang)
-  local -r _powerline_venv=$(dirname $(which powerline))
-  local -r _powerline_base="$(${_powerline_venv}/python -c 'from powerline.config import BINDINGS_DIRECTORY; print(BINDINGS_DIRECTORY)')"
-  local -r _powerline_binding="${_powerline_base}/zsh/powerline.zsh"
-  if [[ -r ${_powerline_binding} ]]; then
-    . "${_powerline_binding}"
-    if which powerline-daemon &>/dev/null && [[ -n ${POWERLINE_NO_ZSH_ZPYTHON:-} ]]; then
-      ( powerline-daemon --replace -q & )
-    fi
+if [[ ${POWERLINE_AVAILABLE:-} == 1 ]]; then
+  if [[ ! -r ${POWERLINE_ZSH_BINDINGS:-} ]]; then
+    echo "ERROR: POWERLINE_ZSH_BINDINGS not set or not found: ${POWERLINE_ZSH_BINDINGS:-unset}"
+    return 1
   fi
-}
-
-prompt_powerline_setup "$@"
+  prompt_opts=(cr percent subst bang)
+  export POWERLINE_NO_ZSH_ZPYTHON=1
+  . "${POWERLINE_ZSH_BINDINGS}"
+  ${POWERLINE_BIN}/powerline-daemon --quiet
+else
+  echo "ERROR: Powerline not available (POWERLINE_AVAILABLE unset or != 1)"
+  return 1
+fi

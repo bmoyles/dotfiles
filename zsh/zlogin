@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 # borrowed from https://github.com/sorin-ionescu/prezto
 {
   # Compile the completion dump to increase startup speed.

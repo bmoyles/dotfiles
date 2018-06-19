@@ -1,4 +1,5 @@
 path=(
+  ${HOME}/.pyenv/shims(N/)
   /usr/local/opt/coreutils/libexec/gnubin(N/)
   /usr/local/opt/gnu-tar/libexec/gnubin(N/)
   /usr/local/opt/gnu-sed/libexec/gnubin(N/)
@@ -12,4 +13,5 @@ manpath=(
   /usr/local/opt/gnu-tar/share/man(N/)
   /usr/local/opt/gnu-sed/libexec/gnuman(N/)
   ${manpath}
+  /Library/Developer/CommandLineTools/usr/share/man
 )

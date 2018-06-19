@@ -1,6 +1,5 @@
 function prompt_bmoyles_setup {
     emulate -L zsh
-    setopt localoptions
     prompt_opts=(cr percent subst)
 
     autoload -Uz add-zsh-hook
@@ -83,8 +82,8 @@ function prompt_segment() {
     local bg fg dir
     typeset -x CURBG
 
-    [[ -n $1 ]] && bg="%K{$1}" || bg="%k"
-    [[ -n $2 ]] && fg="%F{$2}" || fg="%f"
+    [[ -n $1 ]] && fg="%F{$1}" || fg="%f"
+    [[ -n $2 ]] && bg="%K{$2}" || bg="%k"
     dir=$3
 
     if [[ $CURBG == 'NONE' ]] || [[ $1 == $CURBG ]] \
@@ -99,12 +98,12 @@ function prompt_segment() {
     [[ -n $4 ]] && echo -n ${(e)4}
 
     if [[ $dir == 'right' ]]; then
-        if [[ $CURBG != 'NONE' ]] && [[ $1 != $CURBG ]]; then
-            echo -n "%F{$1}$SEP"
+        if [[ $CURBG != 'NONE' ]] && [[ $2 != $CURBG ]]; then
+            echo -n "%F{$2}$SEP"
         fi
     fi
 
-    CURBG=$1
+    CURBG=$2
     return $CURBG
 }
 
@@ -126,14 +125,14 @@ function prompt_end {
 function prompt_aws {
     local dir
     dir=${1:-left}
-    local -r region=${AWS_REGION:-${EC2_REGION:-}}
-    if zstyle -t ':prompt:bmoyles' aws ; then
-        if [[ -z ${region:-} ]] || [[ -z ${BASTION_ENVIRONMENT:-} ]]; then
-            prompt_segment 24 220 $dir "aws:config unavailable"
-            return
-        fi
-        prompt_segment 24 255 $dir "aws:${FX[bold]}%F{226}${BASTION_ENVIRONMENT}%f\${fg}${FX[no-bold]}@${FX[bold]}%F{226}${region}%f\${fg}${FX[no-bold]}"
+    local -r region=${AWS_DEFAULT_REGION:-${EC2_REGION:-}}
+
+    if [[ -z ${region:-} ]] || [[ -z ${BASTION_ENVIRONMENT:-} ]]; then
+        prompt_segment 220 24 $dir "aws:config unavailable"
+        return
     fi
+    #prompt_segment 24 255 $dir "aws:${FX[bold]}%F{226}${BASTION_ENVIRONMENT}%f\${fg}${FX[no-bold]}@${FX[bold]}%F{226}${region}%f\${fg}${FX[no-bold]}"
+    prompt_segment 231 27 $dir "aws:${FX[bold]}${BASTION_ENVIRONMENT}${FX[no-bold]}@${FX[bold]}${region}${FX[no-bold]}\${fg}"
 }
 
 function prompt_vcs {
@@ -143,78 +142,73 @@ function prompt_vcs {
 
     dir=${1:-left}
 
-    if zstyle -T ':prompt:bmoyles' vcs_info ; then
-        zstyle -s ":vcs_info:*" "max-exports" maxexports
+    zstyle -s ":vcs_info:*" "max-exports" maxexports
 
-        vcs_info_color=0
-        vcs_info_colors=( 25 26 27 38 39 )
-        for (( i = 0; i < maxexports; i++ ))
-        do
-            if [[ -n ${(P)${:-vcs_info_msg_${i}_}} ]]; then
-                (( vcs_info_color++ ))
-                prompt_segment $vcs_info_colors[$vcs_info_color] 255 $dir ${(P)${:-vcs_info_msg_${i}_}}
-            fi
-        done
-    fi
+    vcs_info_color=0
+    vcs_info_colors=( 25 26 27 38 39 )
+    for (( i = 0; i < maxexports; i++ ))
+    do
+        if [[ -n ${(P)${:-vcs_info_msg_${i}_}} ]]; then
+            (( vcs_info_color++ ))
+            prompt_segment 231 $vcs_info_colors[$vcs_info_color] $dir ${(P)${:-vcs_info_msg_${i}_}}
+        fi
+    done
 }
 
 function prompt_venv {
     local dir
     dir=${1:-left}
-    if [[ -n $VIRTUAL_ENV ]]; then
-        local venv_name=$(basename "${VIRTUAL_ENV}")
-        prompt_segment 154 0 $dir "venv:${venv_name}"
-    fi
+    #local -r venv_name="${VIRTUAL_ENV##*/}"
+    local -r venv_name="${VIRTUAL_ENV}"
+    prompt_segment 231 23 $dir "venv:${FX[bold]}${venv_name}${FX[no-bold]}"
 }
 
-function prompt_user_at {
+function prompt_user {
     local dir
     dir=${1:-left}
 
-    prompt_segment 202 0 $dir "%n@%m"
+    prompt_segment 0 208 $dir '%n'
+}
+
+function prompt_host {
+    local dir
+    dir=${1:-left}
+
+    prompt_segment 0 202 $dir '%m'
 }
 
 function prompt_cwd {
     local dir
     dir=${1:-left}
 
-    prompt_segment 208 0 $dir '%~'
+    prompt_segment 231 22 $dir '%~'
 }
 
 function prompt_history {
     local dir
     dir=${1:-left}
-
-    if [[ $UID = 0 ]]; then
-        prompt_segment 88 255 $dir '%!'
-    else
-        prompt_segment 22 255 $dir '%!'
-    fi
+    prompt_segment 0 214 $dir '%!'
 }
 
 function prompt_promptchar {
     local dir
     dir=${1:-left}
 
-    if [[ $UID -eq 0 ]]; then
-        prompt_segment 124 255 $dir '%#'
-    else
-        prompt_segment 028 255 $dir '%#'
-    fi
+    prompt_segment 0 196 $dir '%#'
 }
 
 function prompt_date {
     local dir
     dir=${1:-left}
 
-    prompt_segment 053 255 $dir "%D{%l:%M %p}"
+    prompt_segment 231 053 $dir " %D{%a %b %e} "
 }
 
 function prompt_time {
     local dir
     dir=${1:-left}
 
-    prompt_segment 055 255 $dir "%D{%a %b %e}"
+    prompt_segment 231 052 $dir " %T "
 }
 
 function prompt_bmoyles_build_prompt {
@@ -225,16 +219,25 @@ function prompt_bmoyles_build_prompt {
     SEP=$chars[right-arrow-filled]
 
     echo -n $prompt_newline
-    prompt_venv
-    prompt_aws
-    prompt_vcs
+    if zstyle -t ':prompt:bmoyles' aws ; then
+        prompt_aws
+        prompt_end
+        echo -n $prompt_newline
+    fi
+    if [[ -n $VIRTUAL_ENV ]]; then
+        prompt_venv
+    fi
+    if zstyle -T ':prompt:bmoyles' vcs_info ; then
+        prompt_vcs
+    fi
     prompt_end
     echo -n $prompt_newline
-    prompt_user_at
     prompt_cwd
     prompt_end
     echo -n $prompt_newline
     prompt_history
+    prompt_user
+    prompt_host
     prompt_promptchar
     prompt_end
 }

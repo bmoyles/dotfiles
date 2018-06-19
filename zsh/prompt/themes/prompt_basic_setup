@@ -1,6 +1,5 @@
 prompt_basic_setup() {
     emulate -L zsh
-    setopt localoptions
     prompt_opts=(cr percent subst)
 
     PROMPT='$(prompt_basic_reset)$(prompt_basic_build_prompt)'
@@ -34,12 +33,17 @@ prompt_basic_segment() {
 }
 
 prompt_basic_aws() {
-    local -r region=${AWS_REGION:-${EC2_REGION:-}}
+    local -r region=${AWS_DEFAULT_REGION:-${EC2_REGION:-}}
     if [[ -n ${region:-} ]] && [[ -n ${BASTION_ENVIRONMENT} ]]; then
         prompt_basic_segment 231 27 "aws:${FX[bold]}${BASTION_ENVIRONMENT}${FX[no-bold]}@${FX[bold]}${region}${FX[no-bold]}"
         return 0
     fi
     return 1
+}
+
+prompt_basic_venv() {
+    local -r venv_name="${VIRTUAL_ENV##*/}"
+    prompt_basic_segment 231 23 "${FX[bold]}(venv:${venv_name})${FX[no-bold]}"
 }
 
 prompt_basic_user_at() {
@@ -75,6 +79,9 @@ prompt_basic_build_prompt() {
         echo -n $prompt_newline
     fi
     prompt_basic_cwd
+    if [[ -n ${VIRTUAL_ENV:-} ]]; then
+        prompt_basic_venv
+    fi
     prompt_basic_reset
     echo -n $prompt_newline
     prompt_basic_history
