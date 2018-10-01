@@ -8,7 +8,10 @@ if (( ${+commands[powerline]} )); then
           POWERLINE_BIN="${POWERLINE_BIN%/*}"
         fi
     fi
-    POWERLINE_BINDINGS="$("${POWERLINE_BIN}"/python -c 'from powerline.config import BINDINGS_DIRECTORY; print(BINDINGS_DIRECTORY)')"
+    _python_cmd="$(head -1 ${POWERLINE_BIN}/powerline-daemon)"
+    _python_cmd="${_python_cmd:2}"
+    POWERLINE_BINDINGS="$("${_python_cmd}" -c 'from powerline.config import BINDINGS_DIRECTORY; print(BINDINGS_DIRECTORY)')"
+    unset _python_cmd
     if [[ -d ${POWERLINE_BINDINGS:-} ]]; then
         export POWERLINE_AVAILABLE=1
         export POWERLINE_BIN
