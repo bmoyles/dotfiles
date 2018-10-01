@@ -1,6 +1,0 @@
-{
-  "shell": ["/usr/local/bin/zsh", "-l", "-c", "$CMD"],
-  "autocomplete_builtins": "true",
-  "autocomplete_suggest_imports": "true",
-  "use_named_imports": "true",
-}
