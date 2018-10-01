@@ -1,9 +1,6 @@
 emulate -L zsh
 if (( ${+commands[pyenv]} )); then
     eval "$(=pyenv init -)"
-    if (( ${+commands[pyenv-virtualenv-init]} )); then
-        eval "$(=pyenv virtualenv-init -)"
-    fi
     pyenv "$@"
 else
     echo "ERROR: command 'pyenv' not found" >&2
