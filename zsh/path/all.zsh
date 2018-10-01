@@ -18,12 +18,5 @@ typeset -U manpath
 export MANPATH
 
 hash -r
-#if (( ${+commands[pyenv]} )); then
-#    eval "$(=pyenv init -)"
-#    if (( ${+commands[pyenv-virtualenv-init]} )); then
-#        eval "$(=pyenv virtualenv-init -)"
-#    fi
-#fi
-
 
 # vim: filetype=zsh:ts=4:sw=4:expandtab
