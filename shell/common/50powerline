@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+if POWERLINE_BIN=$(command -v powerline 2>/dev/null); then
+  POWERLINE_BIN="${POWERLINE_BIN%/*}"
+
+  _python_cmd="$(head -1 "${POWERLINE_BIN}"/powerline-daemon)"
+  _python_cmd="/${_python_cmd#*/}"
+
+  POWERLINE_BINDINGS="$("${_python_cmd}" -c 'from powerline.config import BINDINGS_DIRECTORY; print(BINDINGS_DIRECTORY)')"
+  unset _python_cmd
+
+  if [[ -d ${POWERLINE_BINDINGS:-} ]]; then
+    export POWERLINE_AVAILABLE=1
+    export POWERLINE_BIN
+    export POWERLINE_COMMAND
+    export POWERLINE_CONFIG_COMMAND
+    export POWERLINE_BINDINGS
+    export POWERLINE_ZSH_BINDINGS="${POWERLINE_BINDINGS}/zsh/powerline.zsh"
+    export POWERLINE_BASH_BINDINGS="${POWERLINE_BINDINGS}/bash/powerline.sh"
+    export POWERLINE_TMUX_BINDINGS="${POWERLINE_BINDINGS}/tmux/powerline.conf"
+  else
+    unset \
+      POWERLINE_BIN \
+      POWERLINE_BINDINGS
+    export POWERLINE_AVAILABLE=0
+  fi
+fi

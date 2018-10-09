@@ -17,3 +17,10 @@ unset __common_cfg
 if [[ $- != *i* ]]; then
   return
 fi
+
+## Prompt
+. "${SHELLDOTDIR}"/bash/prompt_basic
+
+if [[ -r ${DOTLOCAL}/shell/bashrc ]]; then
+  . "${DOTLOCAL}"/shell/bashrc
+fi

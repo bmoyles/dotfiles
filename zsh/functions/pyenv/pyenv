@@ -1,8 +1,0 @@
-emulate -L zsh
-if (( ${+commands[pyenv]} )); then
-    eval "$(=pyenv init -)"
-    pyenv "$@"
-else
-    echo "ERROR: command 'pyenv' not found" >&2
-    return 1
-fi

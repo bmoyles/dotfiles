@@ -1,6 +1,0 @@
-if which pkill &>/dev/null; then
-  =pkill -USR1 -u "${UID:-$(id -u)}" zsh
-else
-  printf "Unable to restart zsh: cannot find pkill\n" >&2
-  return 1
-fi

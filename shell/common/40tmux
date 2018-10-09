@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+export TMUXCONF="${DOTDIR}/tmux"
+
+TMUXRC="${TMUXCONF}/tmux.conf"
+declare -a TMUXOPTS
+if command -v tmux &>/dev/null; then
+  TMUXVER=$(command tmux -V | cut -f2 -d' ')
+  export TMUXVER
+  if [[ -r ${TMUXCONF}/tmux${TMUXVER}.conf ]]; then
+    TMUXRC=${TMUXCONF}/tmux${TMUXVER}.conf
+  fi
+fi
+export TMUXRC
+TMUXOPTS+=( "-f" "${TMUXRC}" )
+export TMUXOPTS

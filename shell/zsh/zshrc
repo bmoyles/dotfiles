@@ -17,3 +17,49 @@ unset __common_cfg
 if [[ ! -o interactive ]]; then
   return
 fi
+
+## History
+setopt autopushd
+setopt pushd_ignore_dups
+
+export HISTFILE=${HOME}/.zsh_history
+export HISTSIZE=10000
+export SAVEHIST=10000
+setopt append_history
+setopt extended_history
+setopt hist_ignore_all_dups
+setopt inc_append_history
+setopt share_history
+setopt hist_reduce_blanks
+setopt hist_verify
+
+## Shush
+setopt nobeep
+
+## make sure run-help is available
+unalias run-help 2>/dev/null
+autoload run-help
+export HELPDIR=/usr/share/zsh/help
+
+## Editor
+bindkey -e
+
+autoload -U edit-command-line
+zle -N edit-command-line
+bindkey '^f' edit-command-line
+
+function insert_sudo {
+  zle beginning-of-line
+  zle -U 'sudo '
+}
+zle -N insert-sudo insert_sudo
+bindkey '^[s' insert-sudo
+
+
+## Prompt
+. "${ZDOTDIR}"/prompt/all.zsh
+prompt default
+
+if [[ -r ${DOTLOCAL}/shell/zshrc ]]; then
+  . "${DOTLOCAL}"/shell/zshrc
+fi

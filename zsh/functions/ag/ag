@@ -1,4 +1,0 @@
-emulate -L zsh
-local -a agopts
-[[ -n ${PAGER} ]] && agopts+=( "--pager" "${PAGER}" )
-=ag "${agopts[@]:-}" "$@"
