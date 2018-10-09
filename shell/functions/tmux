@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+tmux() {
+  command tmux ${TMUXOPTS} "$@"
+}

@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+rjconsole() {
+  local -r host="$1"
+  local -r port="$2"
+  local -r proxy_port="$3"
+  ssh -f -N -D"${proxy_port}" "${host}"
+  ssh_pid=$(pgrep -f "ssh -f -N -D${proxy_port} ${host}")
+  sleep 3
+  jconsole \
+    -J-DsocksProxyHost=localhost \
+    -J-DsocksProxyPort="${proxy_port}" \
+    "service:jmx:rmi:///jndi/rmi://${host}:${port}/jmxrmi"
+  kill"${ssh_pid}"
+}

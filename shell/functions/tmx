@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+tmx() {
+  local session="general"
+
+  if (( $# > 0 )); then
+    case "$1" in
+      list|ls)
+        if ! tmux list-sessions 2>/dev/null; then
+          echo "No sessions found"
+          return
+        fi
+        ;;
+      *)
+        session="$1"
+        shift
+        ;;
+    esac
+  fi
+  readonly session
+
+  if [[ -r ${TMUXCONF}/${session}.tmx ]]; then
+    . "${DOTDIR}/tmux/${session}".tmx
+  else
+    tmux new-session -A -D -s "${session}" "${@}"
+  fi
+}
