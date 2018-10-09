@@ -1,0 +1,19 @@
+#!/usr/bin/env zsh
+
+export DOTDIR="${HOME}"/.dotfiles
+setopt nullglob
+
+for __profile_d in /etc/profile.d/*; do
+  emulate sh -c ". ${__profile_d}"
+done
+unset __profile_d
+
+for __common_cfg in "${DOTDIR}"/shell/common/*; do
+  . "${__common_cfg}"
+done
+unset __common_cfg
+
+# interactive-only
+if [[ ! -o interactive ]]; then
+  return
+fi

@@ -1,0 +1,14 @@
+alias vi=vim
+alias ls='ls -F --color=auto'
+alias sa='ssh-add ${HOME}/.ssh/id_rsa'
+alias sl='ssh-add -l'
+alias grpo='git remote prune origin'
+
+# zsh-only
+if [[ -v ZSH_NAME ]]; then
+  alias help='run-help'
+fi
+
+if [[ -r ${DOTLOCAL}/shell/aliases ]]; then
+  . "${DOTLOCAL}"/shell/aliases
+fi

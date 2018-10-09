@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+ag() {
+  local -a agopts
+  [[ -n ${PAGER} ]] && agopts+=( "--pager" "${PAGER}" )
+  command ag "${agopts[@]:-}" "$@"
+}

@@ -1,0 +1,90 @@
+#!/usr/bin/env bash
+
+# derived from autoload.v3 as provided w/ bash under examples/
+# http://git.savannah.gnu.org/cgit/bash.git/tree/examples/functions/autoload.v3
+
+unset _AUTOLOADS
+declare -A _AUTOLOADS
+
+_autoload() {
+  for func in "$@"; do
+
+    # build stub function
+    eval \
+"${func}" '() {
+  local f=$(_autoload_resolve '"${func}"')
+  if [[ $f ]]; then
+    . "${f}"
+    '"${func}"' "$@"
+    return $?
+  else
+    return 1
+  fi
+}'
+
+  _autoload_addlist "${func}"
+  done
+}
+
+
+_autoload_addlist() {
+  [[ -v "_AUTOLOADS[$1]" ]] && return
+  _AUTOLOADS[$1]=1
+}
+
+
+_autoload_dump() {
+  local func
+  for func in "${!_AUTOLOADS[@]}"; do
+    [[ $1 ]] && echo -n "autoload "
+    echo "${func}"
+  done
+}
+
+
+_autoload_remove() {
+  local victim func
+
+  for victim in "$@"; do
+    if [[ -v "_AUTOLOADS[${victim}]" ]]; then
+      unset -f "${func}"
+    else
+      echo "autoload: ${func} not an autoloaded function" >&2
+    fi
+  done
+}
+
+
+_autoload_resolve() {
+  # shellcheck disable=SC2153
+  if (( ${#FPATH[@]} < 1 )); then
+    echo "autoload: empty FPATH" >&2
+    return
+  fi
+  local fpath
+  for fpath in "${FPATH[@]}"; do
+    if [[ -f ${fpath}/$1 ]]; then
+      echo "${fpath}/$1"
+      return
+    fi
+  done
+  echo "autoload: $1: function source file not found" >&2
+}
+
+
+autoload() {
+  if (( $# == 0 )); then
+    _autoload_dump
+    return
+  fi
+
+  local opt OPTIND
+  while getopts pu opt; do
+    case "${opt}" in
+      p) _autoload_dump printable; return;;
+      u) shift $((OPTIND-1)); _autoload_remove "$@"; return;;
+      *) echo "autoload: usage: autoload [-pu] [function...]" >&2; return;;
+    esac
+  done
+  _autoload "$@"
+}

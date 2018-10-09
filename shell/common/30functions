@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+funcdirs=(
+  "${DOTLOCAL}"/shell/functions
+  "${SHELLDOTDIR}"/functions
+)
+
+if [[ -v ZSH_NAME ]]; then
+  fpath=( ${funcdirs} ${fpath} )
+  declare -U fpath
+fi
+
+if [[ -v BASH ]]; then
+  . "${SHELLDOTDIR}"/bash/autoload
+  export FPATH=( "${funcdirs[@]}" )
+fi
+
+for funcdir in "${funcdirs[@]}"; do
+  [[ -d ${funcdir} ]] || continue
+  for funcfile in "${funcdir}"/*; do
+    funcname="${funcfile##*/}"
+    autoload "${funcname}"
+  done
+done
+unset funcdirs funcname funcfile

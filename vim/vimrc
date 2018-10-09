@@ -1,6 +1,8 @@
 let &rtp = expand('$DOTDIR/vim').','.&rtp
 call plug#begin(expand('$DOTDIR/vim/plugged'))
 
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'chriskempson/base16-vim'
 Plug 'editorconfig/editorconfig-vim'
 
@@ -12,7 +14,7 @@ syntax on
 " colors and terminal
 set t_Co=256
 set background=dark
-silent! color base16-tomorrow
+silent! color base16-tomorrow-night
 set noexrc " disable local exrc/vimrc foo
 let mapleader = "," " switch the leader to something more reachable
 " enable line numbers but allow them to be easily toggled

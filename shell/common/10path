@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+path=(
+  "${DOTLOCAL}"/bin
+  "${HOME}"/bin
+  /usr/local/bin
+  /usr/bin
+  /bin
+  /usr/local/sbin
+  /usr/sbin
+  /sbin
+  /snap/bin
+  /usr/games
+)
+
+manpath=(
+  /usr/local/share/man
+  /usr/share/man
+)
+
+if [[ -r ${DOTLOCAL}/shell/path ]]; then
+  . "${DOTLOCAL}"/shell/path
+fi
+
+if [[ -v ZSH_NAME ]]; then
+  declare -U path
+  declare -U manpath
+  return
+fi
+
+if [[ -v BASH ]]; then
+  printf -v PATH '%s:' "${path[@]}"
+  export PATH="${PATH%:}"
+  printf -v MANPATH '%s:' "${manpath[@]}"
+  export MANPATH="${MANPATH%:}"
+  return
+fi

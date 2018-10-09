@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+export SHELLDOTDIR="${DOTDIR:="${HOME}"/.dotfiles}"/shell
+export DOTLOCAL="${HOME}"/.local
+export SHELLDOTLOCAL="${DOTLOCAL}/shell"
+export DOTCONFIG="${HOME}"/.config
+
+export MYVIMRC=${DOTDIR}/vim/vimrc
+export VIMINIT="so ${MYVIMRC}"
+export EDITOR="vim"
+export VISUAL="vim"
+
+export PAGER="less"
+export LESS="FgiMRwX"
+export SYSTEMD_LESS="${LESS}"
+if [[ -x /usr/bin/lesspipe ]]; then
+  export LESSOPEN="| /usr/bin/lesspipe %s"
+  export LESSCLOSE="/usr/bin/lesspipe %s %s"
+fi
+
+export TZ="PST8PDT"
+
+export TMUXCONF="${DOTDIR}/tmux"
+export TMUXRC="${TMUXCONF}/tmux.conf"
+
+if [[ -r ${DOTLOCAL}/shell/env ]]; then
+  . "${DOTLOCAL}"/shell/env
+fi
