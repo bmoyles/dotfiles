@@ -58,7 +58,7 @@ bindkey '^[s' insert-sudo
 
 ## Prompt
 . "${ZDOTDIR}"/prompt/all.zsh
-prompt default
+
 
 if [[ -r ${DOTLOCAL}/shell/zshrc ]]; then
   . "${DOTLOCAL}"/shell/zshrc

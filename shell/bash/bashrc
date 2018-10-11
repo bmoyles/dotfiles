@@ -18,6 +18,29 @@ if [[ $- != *i* ]]; then
   return
 fi
 
+## Config
+set -o emacs
+shopt -s autocd
+shopt -s cdspell
+shopt -s checkhash
+shopt -s checkwinsize
+shopt -s cmdhist
+shopt -s dirspell
+shopt -s extglob
+shopt -s globstar
+shopt -s histappend
+shopt -s histreedit
+shopt -s histverify
+shopt -s lithist
+
+HISTCONTROL=ignoreboth:erasedups
+HISTFILE=~/.bash_history
+HISTSIZE=10000
+HISTFILESIZE=10000
+unset MAILCHECK
+PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
+
+
 ## Prompt
 . "${SHELLDOTDIR}"/bash/prompt_basic
 
