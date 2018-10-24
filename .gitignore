@@ -4,3 +4,4 @@ __pycache__
 .zcompdump
 .zcompdump.*
 .zcompcache
+*.zwc

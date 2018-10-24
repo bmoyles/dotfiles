@@ -1,7 +1,16 @@
-{
-  # Compile the completion dump to increase startup speed.
-  zcompdump="${ZDOTDIR}/".zcompdump
-  if [[ -s "${zcompdump}" && (! -s "${zcompdump}.zwc" || "${zcompdump}" -nt "${zcompdump}.zwc") ]]; then
-    zcompile "${zcompdump}"
-  fi
-} &!
+(
+  autoload -Uz zrecompile
+
+  declare -a files=(
+    "${ZDOTDIR}"/.zcompdump
+    "${ZDOTDIR}"/.zshrc
+    "${ZDOTDIR}"/completion
+    "${ZDOTDIR}"/prompt/all.zsh
+    "${ZDOTDIR}"/prompt/themes/*
+  )
+  for file in "${files[@]}"; do
+    if zrecompile -pq "${file}"; then
+      rm -f "${file}.zwc.old"
+    fi
+  done
+) &!

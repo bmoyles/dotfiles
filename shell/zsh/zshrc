@@ -60,6 +60,26 @@ bindkey '^[s' insert-sudo
 . "${ZDOTDIR}"/prompt/all.zsh
 
 
+## zplug
+export ZPLUG_HOME=~/.zplug
+if [[ -r ${ZPLUG_HOME}/init.zsh ]]; then
+  . "${ZPLUG_HOME}"/init.zsh
+
+  zplug 'zplug/zplug', hook-build:'zplug --self-manage'
+  zplug "zsh-users/zsh-completions"
+  zplug "zsh-users/zsh-history-substring-search"
+  if (( ${+commands[fuck]} )); then
+    zplug "plugins/thefuck", from:oh-my-zsh
+  fi
+  zplug "zsh-users/zsh-syntax-highlighting", defer:2
+  zplug load
+
+  if zplug check "zsh-users/zsh-history-substring-search"; then
+    bindkey '^[[A' history-substring-search-up
+    bindkey '^[[B' history-substring-search-down
+  fi
+fi
+
 if [[ -r ${DOTLOCAL}/shell/zshrc ]]; then
   . "${DOTLOCAL}"/shell/zshrc
 fi

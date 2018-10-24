@@ -11,7 +11,7 @@ export EDITOR="vim"
 export VISUAL="vim"
 
 export PAGER="less"
-export LESS="FgiMRw"
+export LESS="giMRw"
 export SYSTEMD_LESS="${LESS}"
 if [[ -x /usr/bin/lesspipe ]]; then
   export LESSOPEN="| /usr/bin/lesspipe %s"
