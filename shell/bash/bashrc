@@ -33,12 +33,26 @@ shopt -s histreedit
 shopt -s histverify
 shopt -s lithist
 
+
+## History
 HISTCONTROL=ignoreboth:erasedups
 HISTFILE=~/.bash_history
 HISTSIZE=10000
 HISTFILESIZE=10000
 unset MAILCHECK
 PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
+
+
+## command-not-found
+command_not_found_handle() {
+  if [[ -x /usr/lib/command-not-found ]]; then
+    /usr/lib/command-not-found -- "$1"
+    return $?
+  else
+    printf '%s: command not found\n' "$1" >&2
+    return 127
+  fi
+}
 
 
 ## Prompt
