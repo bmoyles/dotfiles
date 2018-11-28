@@ -1,0 +1,22 @@
+#!/bin/bash
+
+set -eu
+
+
+is_up() {
+    local -r vpn="$1"
+    nmcli -g connection.id conn show --active "${vpn}" 2>/dev/null | grep -q -F "${vpn}"
+}
+
+
+shmain() {
+    local vpn="$1"
+    if is_up "${vpn}"; then
+        exec nmcli conn down "${vpn}" &>/dev/null
+    else
+        nmcli conn up "${vpn}" &>/dev/null
+    fi
+}
+
+
+shmain "$@"
