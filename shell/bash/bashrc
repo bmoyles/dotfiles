@@ -61,3 +61,8 @@ command_not_found_handle() {
 if [[ -r ${DOTLOCAL}/shell/bashrc ]]; then
   . "${DOTLOCAL}"/shell/bashrc
 fi
+
+if [[ ${BASH_VERSINFO[0]} == 4 && ${BASH_VERSINFO[1]} < 4 ]]; then
+  # bash 4.3, for some reason, nullglob on causes tab completion to break
+  shopt -u nullglob
+fi
