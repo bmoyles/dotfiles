@@ -25,6 +25,5 @@ function spectrum_ls() {
 
 autoload -Uz promptinit
 promptinit
-prompt default
 
 # vim: ft=zsh sw=4 sts=4 ts=4 expandtab
