@@ -22,13 +22,13 @@ if [[ -r ${DOTLOCAL}/shell/path ]]; then
   . "${DOTLOCAL}"/shell/path
 fi
 
-if [[ -v ZSH_NAME ]]; then
+if [[ -n ${ZSH_NAME:-} ]]; then
   declare -U path
   declare -U manpath
   return
 fi
 
-if [[ -v BASH ]]; then
+if [[ -n ${BASH:-} ]]; then
   printf -v PATH '%s:' "${path[@]}"
   export PATH="${PATH%:}"
   printf -v MANPATH '%s:' "${manpath[@]}"

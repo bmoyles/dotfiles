@@ -5,12 +5,12 @@ funcdirs=(
   "${SHELLDOTDIR}"/functions
 )
 
-if [[ -v ZSH_NAME ]]; then
+if [[ -n ${ZSH_NAME:-} ]]; then
   fpath=( ${funcdirs} ${fpath} )
   declare -U fpath
 fi
 
-if [[ -v BASH ]]; then
+if [[ -n ${BASH:-} ]]; then
   . "${SHELLDOTDIR}"/bash/autoload
   export FPATH=( "${funcdirs[@]}" )
 fi

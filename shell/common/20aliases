@@ -6,7 +6,7 @@ alias grpo='git remote prune origin'
 alias grep='grep --color=auto'
 
 # zsh-only
-if [[ -v ZSH_NAME ]]; then
+if [[ -n ${ZSH_NAME:-} ]]; then
   alias help='run-help'
 fi
 
