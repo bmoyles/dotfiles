@@ -1,15 +1,19 @@
-emulate -L zsh
+prompt_powerline_setup() {
+  emulate -L zsh
 
-if [[ ${POWERLINE_AVAILABLE:-} == 1 ]]; then
-  if [[ ! -r ${POWERLINE_ZSH_BINDINGS:-} ]]; then
-    echo "ERROR: POWERLINE_ZSH_BINDINGS not set or not found: ${POWERLINE_ZSH_BINDINGS:-unset}"
+  if [[ ${POWERLINE_AVAILABLE:-} == 1 ]]; then
+    if [[ ! -r ${POWERLINE_ZSH_BINDINGS:-} ]]; then
+      echo "ERROR: POWERLINE_ZSH_BINDINGS not set or not found: ${POWERLINE_ZSH_BINDINGS:-unset}"
+      return 1
+    fi
+    prompt_opts=(cr percent subst bang)
+    export POWERLINE_NO_ZSH_ZPYTHON=1
+    . "${POWERLINE_ZSH_BINDINGS}"
+    ${POWERLINE_BIN}/powerline-daemon --quiet
+  else
+    echo "ERROR: Powerline not available (POWERLINE_AVAILABLE unset or != 1)"
     return 1
   fi
-  prompt_opts=(cr percent subst bang)
-  export POWERLINE_NO_ZSH_ZPYTHON=1
-  . "${POWERLINE_ZSH_BINDINGS}"
-  ${POWERLINE_BIN}/powerline-daemon --quiet
-else
-  echo "ERROR: Powerline not available (POWERLINE_AVAILABLE unset or != 1)"
-  return 1
-fi
+}
+
+prompt_powerline_setup "$@"
