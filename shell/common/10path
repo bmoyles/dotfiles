@@ -3,6 +3,7 @@
 declare -ax path=(
   "${DOTLOCAL}"/bin
   "${HOME}"/bin
+  ${PYENV_ROOT:+"${PYENV_ROOT}/bin"}
   /usr/local/bin
   /usr/bin
   /bin

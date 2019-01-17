@@ -24,6 +24,8 @@ export WD="${HOME}/work"
 export WD_STASH="${WD}/stash"
 export WD_GITHUB="${WD}/github"
 
+export PYENV_ROOT="${HOME}/.pyenv"
+
 if [[ -r ${DOTLOCAL}/shell/env ]]; then
   . "${DOTLOCAL}"/shell/env
 fi
