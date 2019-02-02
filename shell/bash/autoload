@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # derived from autoload.v3 as provided w/ bash under examples/
 # http://git.savannah.gnu.org/cgit/bash.git/tree/examples/functions/autoload.v3

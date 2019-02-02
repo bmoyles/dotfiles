@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 if POWERLINE_BIN=$(command -v powerline 2>/dev/null); then
   POWERLINE_BIN="${POWERLINE_BIN%/*}"

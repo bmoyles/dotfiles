@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 rjconsole() {
   local -r host="$1"

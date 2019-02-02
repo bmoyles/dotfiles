@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 tmux() {
   command tmux "${TMUXOPTS[@]}" "$@"

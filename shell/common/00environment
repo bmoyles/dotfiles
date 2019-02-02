@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 export SHELLDOTDIR="${DOTDIR:="${HOME}"/.dotfiles}"/shell
 export DOTLOCAL="${HOME}"/.local
@@ -11,8 +11,8 @@ export EDITOR="vim"
 export VISUAL="vim"
 
 export PAGER="less"
-export LESS="giMRw"
-export SYSTEMD_LESS="${LESS}"
+export LESS="giwFRMX"
+export SYSTEMD_LESS="${LESS}K"
 if [[ -x /usr/bin/lesspipe ]]; then
   export LESSOPEN="| /usr/bin/lesspipe %s"
   export LESSCLOSE="/usr/bin/lesspipe %s %s"

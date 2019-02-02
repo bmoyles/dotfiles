@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 funcdirs=(
   "${DOTLOCAL}"/shell/functions
@@ -6,7 +6,7 @@ funcdirs=(
 )
 
 if [[ -n ${ZSH_NAME:-} ]]; then
-  fpath=( ${funcdirs} ${fpath} )
+  fpath=( "${funcdirs[@]}" "${fpath[@]}" )
   declare -U fpath
 fi
 

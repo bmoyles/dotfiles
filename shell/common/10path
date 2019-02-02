@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 declare -ax path=(
   "${DOTLOCAL}"/bin
@@ -19,6 +19,10 @@ declare -ax manpath=(
   /usr/share/man
 )
 
+declare -ax cdpath=(
+  .
+)
+
 if [[ -r ${DOTLOCAL}/shell/path ]]; then
   . "${DOTLOCAL}"/shell/path
 fi
@@ -26,6 +30,7 @@ fi
 if [[ -n ${ZSH_NAME:-} ]]; then
   declare -U path
   declare -U manpath
+  declare -U cdpath
   return
 fi
 
@@ -35,6 +40,7 @@ if [[ -n ${BASH:-} ]]; then
     export PATH="${PATH%:}"
     printf -v MANPATH '%s:' "${manpath[@]}"
     export MANPATH="${MANPATH%:}"
+    printf -v CDPATH '%s:' "${cdpath[@]}"
     return
   }
   setpath

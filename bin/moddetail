@@ -1,0 +1,35 @@
+#!/bin/bash
+
+set -eu
+
+
+SCRIPT="$(realpath ${BASH_SOURCE[0]})"
+readonly SCRIPT="${SCRIPT##*/}"
+
+
+shmain() {
+    local -r mod="${1:-}"
+    if [[ -z ${mod:-} ]]; then
+        printf 'Usage: %s MODULE\n' "${SCRIPT}" >&2
+        exit 1
+    fi
+    local doas=""
+    (( EUID )) && doas="sudo"
+    readonly doas
+
+    {
+        ${doas:-} systool -m "${mod}" -av \
+            | perl -n00e 'next unless /Param/; chop; s/(?:.*?Param.*?\n| +|")//g; s/=/:|/g; print' \
+            | column -s'|' -t
+        local line
+        while IFS="" read -r line; do
+            line="${line%%\(*}"
+            printf '%s\n' "${line%%:*}zz|${line#*:}"
+        done < <(modinfo -F parm "${mod}")
+    } | sort \
+      | sed 's/^.*zz|//g' \
+      | awk 'ORS=NR % 2?RS:RS RS'
+}
+
+
+shmain "$@"

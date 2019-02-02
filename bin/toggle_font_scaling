@@ -1,0 +1,17 @@
+#!/bin/bash
+
+shmain() {
+  local -r path="org.gnome.desktop.interface"
+  local -r key="text-scaling-factor"
+  local -r offval="1.0"
+  local -r onval="1.4"
+
+  local -r curval="$(gsettings get ${path} ${key})"
+  if [[ ${curval} == ${offval} ]]; then
+    gsettings set "${path}" "${key}" "${onval}"
+  else
+    gsettings set "${path}" "${key}" "${offval}"
+  fi
+}
+
+shmain "$@"

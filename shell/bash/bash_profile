@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 if [[ $- == *i* && -e ${HOME}/.use_zsh && ${SHELL} != *zsh* && ${SHLVL} == 1 ]]; then
     export SHELL=/usr/bin/zsh
