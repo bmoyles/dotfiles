@@ -1,0 +1,77 @@
+[
+	{
+		"enabled": true,
+		"updateUrl": null,
+		"md5Url": null,
+		"url": null,
+		"originalMd5": null,
+		"installDate": 1550205786514,
+		"name": "manpages.ubuntu.com",
+		"sections": [
+			{
+				"code": ".row {\n    max-width: unset;\n}\npre {\n    font-size: unset;\n}",
+				"urlPrefixes": [
+					"http://manpages.ubuntu.com/manpages/"
+				]
+			}
+		],
+		"id": 2
+	},
+	{
+		"enabled": true,
+		"updateUrl": null,
+		"md5Url": null,
+		"url": null,
+		"originalMd5": null,
+		"installDate": 1564547959945,
+		"name": "github.com",
+		"sections": [
+			{
+				"code": ".blob-code {\n    font-size: 16px;\n}\n.blob-num {\n    font-size: 16px;\n}\npre {\n    font-size: 16px;\n}\n.container-lg {\n    max-width: none;\n}",
+				"domains": [
+					"github.com"
+				]
+			}
+		],
+		"updateDate": 1564548421504,
+		"id": 3
+	},
+	{
+		"enabled": true,
+		"updateUrl": null,
+		"md5Url": null,
+		"url": null,
+		"originalMd5": null,
+		"installDate": 1564692497548,
+		"name": "lobste.rs",
+		"sections": [
+			{
+				"code": "div.comment_text {\n    max-width: none;\n    font-size: 12pt;\n}\ndiv.byline {\n    font-size: 11pt;\n}\nbody {\n    font-family: \"Fira Sans\", sans-serif;\n}\ndiv#wrapper {\n    max-width: 80%;\n}\ndiv#header {\n    font-size: 12pt;\n}",
+				"domains": [
+					"lobste.rs"
+				]
+			}
+		],
+		"updateDate": 1564693896526,
+		"id": 4
+	},
+	{
+		"enabled": true,
+		"updateUrl": null,
+		"md5Url": null,
+		"url": null,
+		"originalMd5": null,
+		"installDate": 1564694217101,
+		"name": "news.ycombinator.com",
+		"sections": [
+			{
+				"code": "body {\n    font-family: \"Fira Sans\", sans-serif;\n    font-size: 12pt;\n    font-weight: 300;\n}\n\ntd,\ntr,\ntable,\n.default,\n.admin,\n.title,\n.subtext,\n.yclinks,\n.pagetop,\n.comhead,\n.comment,\n.comtext.c00 {\n    font-family: inherit;\n    font-size: inherit;\n    font-weight: inherit;\n}\n.title,\n.pagetop {\n    font-size: 16pt;\n    font-weight: 300;\n}\ninput {\n    font-family: inherit;\n}",
+				"regexps": [
+					"https://news.ycombinator.com/(?![^.]*\\.).*"
+				]
+			}
+		],
+		"updateDate": 1564804877441,
+		"id": 5
+	}
+]

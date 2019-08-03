@@ -1,0 +1,47 @@
+#!/bin/bash
+
+debx() {
+    if (( $# < 1 )); then
+        printf 'usage: debx PACKAGE [DIRECTORY]\n' >&2
+        return 1
+    fi
+    local -r pkg="$1"
+    if [[ ! -e ${pkg} ]]; then
+        printf 'package file %s not found\n' "${pkg}" >&2
+        return 1
+    fi
+
+    local target_dir
+    target_dir="$(realpath "${2:-.}")"
+    readonly target_dir
+
+    local pkg_name
+    if ! pkg_name="$(dpkg-deb -f "${pkg}" Package)"; then
+        printf 'no directory specified and unable to extract package name from %s\n' "${pkg}" >&2
+        return 1
+    fi
+    readonly pkg_name
+
+    local extract_dir="${target_dir}/${pkg_name}"
+    if [[ -d ${extract_dir} ]]; then
+        printf -v extract_dir '%s_%s' "${extract_dir}" "$(date +'%Y%m%d%H%M%S')"
+    fi
+    readonly extract_dir
+    printf 'extracting data and control from %s to %s\n' "${pkg}" "${extract_dir}" >&2
+
+    if ! mkdir -p "${extract_dir}"; then
+        printf 'unable to create directory %s\n' "${extract_dir}" >&2
+        return 1
+    fi
+
+    if ! dpkg-deb -e "${pkg}" "${extract_dir}/control"; then
+        printf 'unable to extract control from %s to %s\n' "${pkg}" "${extract_dir}/control" >&2
+        return 1
+    fi
+
+    if ! dpkg-deb -x "${pkg}" "${extract_dir}/data"; then
+        printf 'unable to extract data from %s to %s\n' "${pkg}" "${extract_dir}/data" >&2
+        return 1
+    fi
+    return 0
+}

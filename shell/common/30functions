@@ -6,18 +6,28 @@ funcdirs=(
 )
 
 if [[ -n ${ZSH_NAME:-} ]]; then
-  fpath=( "${funcdirs[@]}" "${fpath[@]}" )
+  fpath=(
+    "${DOTLOCAL}/shell/functions/zsh"
+    "${SHELLDOTDIR}/functions/zsh"
+    "${funcdirs[@]}"
+    "${fpath[@]}"
+  )
   declare -U fpath
 fi
 
 if [[ -n ${BASH:-} ]]; then
   . "${SHELLDOTDIR}"/bash/autoload
-  export FPATH=( "${funcdirs[@]}" )
+  export FPATH=(
+    "${DOTLOCAL}/shell/functions/bash"
+    "${SHELLDOTDIR}/functions/bash"
+    "${funcdirs[@]}"
+  )
 fi
 
 for funcdir in "${funcdirs[@]}"; do
   [[ -d ${funcdir} ]] || continue
   for funcfile in "${funcdir}"/*; do
+    [[ -f ${funcfile} ]] || continue
     funcname="${funcfile##*/}"
     autoload "${funcname}"
   done

@@ -1,9 +1,11 @@
 #!/bin/bash
 
 declare -ax path=(
-  "${DOTLOCAL}"/bin
-  "${HOME}"/bin
+  "${HOME}"/.poetry/bin
   ${PYENV_ROOT:+"${PYENV_ROOT}/bin"}
+  "${DOTLOCAL}"/bin
+  "${DOTDIR}"/bin
+  "${HOME}"/bin
   /usr/local/bin
   /usr/bin
   /bin

@@ -3,7 +3,7 @@
 export DOTDIR="${HOME}"/.dotfiles
 shopt -s nullglob
 
-for __profile_d in /etc/profile.d/*; do
+for __profile_d in /etc/profile.d/*.sh; do
   . "${__profile_d}"
 done
 unset __profile_d

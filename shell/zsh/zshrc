@@ -3,7 +3,7 @@
 export DOTDIR="${HOME}"/.dotfiles
 setopt nullglob
 
-for __profile_d in /etc/profile.d/*; do
+for __profile_d in /etc/profile.d/*.sh; do
   emulate sh -c ". ${__profile_d}"
 done
 unset __profile_d
@@ -91,6 +91,8 @@ if [[ -r ${ZPLUG_HOME}/init.zsh ]]; then
     zplug "plugins/thefuck", from:oh-my-zsh
   fi
   zplug "zsh-users/zsh-syntax-highlighting", defer:2
+  zplug "${ZDOTDIR}/plugins", from:local, if:"[[ -d ${ZDOTDIR}/plugins ]]"
+  zplug "${DOTLOCAL}/shell/zsh/plugins", from:local, if:"[[ -d ${DOTLOCAL}/shell/zsh/plugins ]]"
   zplug load
 
   if zplug check "zsh-users/zsh-history-substring-search"; then
