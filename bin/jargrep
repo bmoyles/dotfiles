@@ -1,0 +1,83 @@
+#!/usr/bin/perl
+
+#
+# jargrep - grep through Java classes inside jar files
+# original by @rlongstaff
+#
+
+use warnings;
+use strict;
+
+use Getopt::Long qw(:config pass_through);
+use Archive::Zip;
+use Archive::Zip::MemberRead;
+
+my $verbose     = 0;
+my $debug       = 0;
+my $insensitive = 0;
+my $data_mask   = "<data>";
+
+GetOptions(
+    "verbose+"    => \$verbose,
+    "debug"       => \$debug,
+    "insensitive" => \$insensitive,
+);
+
+if ( @ARGV < 2 ) {
+    print <<DOC
+USAGE: $0 [-v [-v]] [-i] <pattern> <jar_file> [<jar_file> ...]
+    -v  verbose: will print out the matching line in addition
+        to the name and line number. A second -v will print
+        out data matched from inside a class file as well
+    -i  case-insensitive
+DOC
+        ;
+    exit 1;
+}
+
+my ( $pattern, @zips ) = @ARGV;
+
+my $pat       = ($insensitive) ? qr/$pattern/i : qr/$pattern/;
+my $class_pat = qr/\.class$/;
+my $img_pat   = qr/\.(gif|png|jpg|wmv|mov|mpg)$/;
+
+unless ($debug) {
+
+    # Archive::Zip forces the carp error level up 2 levels for a stacktrace
+    #   This quiets it up a bit so we can provide more human-friendly output
+    Archive::Zip::setErrorHandler( sub { } );
+}
+
+foreach my $zip_file (@zips) {
+
+    my $zip = Archive::Zip->new($zip_file);
+
+    unless ($zip) {
+        warn "Cannot open $zip_file: $!\n";
+        next;
+    }
+
+    foreach my $member ( $zip->members ) {
+
+        next if ( $member->fileName =~ m/$img_pat/ );
+
+        my $is_class = $member->fileName =~ m/$class_pat/;
+
+        my $fh = Archive::Zip::MemberRead->new( $zip, $member->fileName );
+        while ( defined( my $line = $fh->getline() ) ) {
+
+            next unless ( $line =~ m/$pat/ );
+
+            print $member->fileName . ", " . $fh->input_line_number;
+            if ($verbose) {
+                if ( $verbose < 2 && $is_class ) {
+                    print ": $data_mask";
+                } else {
+                    print ": $line";
+                }
+            }
+            print "\n";
+        }
+    }
+}
+
