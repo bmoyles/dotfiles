@@ -14,7 +14,6 @@ shmain() {
         done < "${flags_file}"
         export CHROME_USER_FLAGS="${chrome_user_flags[*]}"
     fi
-    printenv | sort > /tmp/$$.env
     exec "/usr/bin/google-chrome" "${chrome_user_flags[@]}" "$@"
 }
 

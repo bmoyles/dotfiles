@@ -1,14 +1,17 @@
-fpath=( ${ZDOTDIR}/prompt/themes/ ${fpath} )
+#!/bin/zsh
 
-typeset -Ax chars
-chars[branch]=''
-chars[right-arrow-filled]=''
-chars[right-arrow]=''
-chars[left-arrow-filled]=''
-chars[left-arrow]=''
+# zsh prompt/theming config
 
-typeset -Ag FX
-FX=(
+fpath=( ${ZDOTDIR}/themes/ ${fpath} )
+
+typeset -Ax chars=(
+    [branch]=''
+    [right-arrow-filled]=''
+    [right-arrow]=''
+    [left-arrow-filled]=''
+    [left-arrow]=''
+)
+typeset -Ag FX=(
     reset     "%{[00m%}"
     bold      "%{[01m%}" no-bold      "%{[22m%}"
     italic    "%{[03m%}" no-italic    "%{[23m%}"
@@ -17,13 +20,15 @@ FX=(
     reverse   "%{[07m%}" no-reverse   "%{[27m%}"
 )
 
-function spectrum_ls() {
-  for code in {000..255}; do
-    print -P -- "$code: %F{$code}Test%f%K{$code}Test%k"
-  done
+spectrum_ls() {
+    for code in {000..255}; do
+        print -P -- "$code: %F{$code}Test%f%K{$code}Test%k"
+    done
 }
 
 autoload -Uz promptinit
 promptinit
 
-# vim: ft=zsh sw=4 sts=4 ts=4 expandtab
+if [[ -r ${ZDOTLOCAL}/themes.zsh ]]; then
+    source "${ZDOTLOCAL}"/themes.zsh
+fi

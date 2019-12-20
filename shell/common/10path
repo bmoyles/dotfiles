@@ -3,8 +3,9 @@
 declare -ax path=(
   "${HOME}"/.poetry/bin
   ${PYENV_ROOT:+"${PYENV_ROOT}/bin"}
-  "${DOTLOCAL}"/bin
-  "${DOTDIR}"/bin
+  "${DOTLOCAL}/dotbin"
+  "${DOTLOCALBIN}"
+  "${DOTBIN}"
   "${HOME}"/bin
   /usr/local/bin
   /usr/bin

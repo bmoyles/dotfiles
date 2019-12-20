@@ -1,9 +1,11 @@
 #!/bin/bash
 
-export SHELLDOTDIR="${DOTDIR:="${HOME}"/.dotfiles}"/shell
-export DOTLOCAL="${HOME}"/.local
+export SHELLDOTDIR="${DOTDIR}/shell"
+export DOTBIN="${DOTDIR}/bin"
+export DOTLOCAL="${HOME}/.local"
+export DOTLOCALBIN="${DOTLOCAL}/bin"
 export SHELLDOTLOCAL="${DOTLOCAL}/shell"
-export DOTCONFIG="${HOME}"/.config
+export DOTCONFIG="${HOME}/.config"
 
 export MYVIMRC=${DOTDIR}/vim/vimrc
 export VIMINIT="so ${MYVIMRC}"

@@ -15,21 +15,24 @@ use Archive::Zip::MemberRead;
 my $verbose     = 0;
 my $debug       = 0;
 my $insensitive = 0;
+my $match_names = 0;
 my $data_mask   = "<data>";
 
 GetOptions(
     "verbose+"    => \$verbose,
     "debug"       => \$debug,
     "insensitive" => \$insensitive,
+    "match-names" => \$match_names,
 );
 
 if ( @ARGV < 2 ) {
     print <<DOC
-USAGE: $0 [-v [-v]] [-i] <pattern> <jar_file> [<jar_file> ...]
+USAGE: $0 [-v [-v]] [-i] [-m] <pattern> <jar_file> [<jar_file> ...]
     -v  verbose: will print out the matching line in addition
         to the name and line number. A second -v will print
         out data matched from inside a class file as well
     -i  case-insensitive
+    -m  only consider class files whose names also match the pattern
 DOC
         ;
     exit 1;
@@ -38,11 +41,9 @@ DOC
 my ( $pattern, @zips ) = @ARGV;
 
 my $pat       = ($insensitive) ? qr/$pattern/i : qr/$pattern/;
-my $class_pat = qr/\.class$/;
-my $img_pat   = qr/\.(gif|png|jpg|wmv|mov|mpg)$/;
+my $class_pat = ($match_names) ? qr/$pattern.+?\.class$/ : qr/\.class$/;
 
 unless ($debug) {
-
     # Archive::Zip forces the carp error level up 2 levels for a stacktrace
     #   This quiets it up a bit so we can provide more human-friendly output
     Archive::Zip::setErrorHandler( sub { } );
@@ -57,20 +58,21 @@ foreach my $zip_file (@zips) {
         next;
     }
 
-    foreach my $member ( $zip->members ) {
+    my @members = grep {!$_->isDirectory} $zip->membersMatching($class_pat);
+    my $count = scalar(@members);
+    if ($count < 1) {
+      next;
+    }
 
-        next if ( $member->fileName =~ m/$img_pat/ );
-
-        my $is_class = $member->fileName =~ m/$class_pat/;
-
-        my $fh = Archive::Zip::MemberRead->new( $zip, $member->fileName );
+    foreach my $member ( @members ) {
+        my $fh = $member->readFileHandle;
         while ( defined( my $line = $fh->getline() ) ) {
 
             next unless ( $line =~ m/$pat/ );
 
-            print $member->fileName . ", " . $fh->input_line_number;
+            print $zip_file . ":" . $member->fileName . ":" . $fh->input_line_number;
             if ($verbose) {
-                if ( $verbose < 2 && $is_class ) {
+                if ( $verbose < 2 ) {
                     print ": $data_mask";
                 } else {
                     print ": $line";

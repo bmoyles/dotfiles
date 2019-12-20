@@ -1,16 +1,17 @@
 (
-  autoload -Uz zrecompile
-
-  declare -a files=(
-    "${ZDOTDIR}"/.zcompdump
-    "${ZDOTDIR}"/.zshrc
-    "${ZDOTDIR}"/completion
-    "${ZDOTDIR}"/prompt/all.zsh
-    "${ZDOTDIR}"/prompt/themes/*
-  )
-  for file in "${files[@]}"; do
-    if zrecompile -pq "${file}"; then
-      rm -f "${file}.zwc.old"
-    fi
-  done
+    autoload -Uz zrecompile
+    setopt nullglob
+    declare -a files=(
+        "${ZDOTDIR}"/.zshrc
+        "${ZDOTDIR}"/themes/prompt_*_setup
+        "${ZDOTDIR}"/*.zsh
+	"${ZDOTLOCAL}"/*.zsh
+	"${ZDOTLOCAL}"/zshrc
+	"${HOME}"/.dotfiles/shell/functions/*
+    )
+    for file in "${files[@]}"; do
+        if zrecompile -pq "${file}"; then
+            rm -f "${file}.zwc.old"
+        fi
+    done
 ) &!

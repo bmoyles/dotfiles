@@ -1,8 +1,6 @@
 from __future__ import unicode_literals
+from prompt_toolkit.styles import Style
 from ptpython.layout import CompletionVisualisation
-from pygments.style import Style
-from pygments.token import Keyword, Name, Comment, String, Error, Text, \
-     Number, Operator, Generic, Whitespace, Punctuation, Other, Literal
 
 
 __all__ = (
@@ -23,84 +21,84 @@ BLUE = "#81a2be"
 PURPLE = "#b294bb"
 _tomorrow_night_style = {
     # No corresponding class for the following:
-    Text:                      FOREGROUND,  # class:  ''
-    Whitespace:                "",          # class: 'w'
-    Error:                     RED,         # class: 'err'
-    Other:                     "",          # class 'x'
+    'pygments.text':                      FOREGROUND,  # class:  ''
+    'pygments.whitespace':                "",          # class: 'w'
+    'pygments.error':                     RED,         # class: 'err'
+    'pygments.other':                     "",          # class 'x'
 
-    Comment:                   COMMENT,   # class: 'c'
-    Comment.Multiline:         "",        # class: 'cm'
-    Comment.Preproc:           "",        # class: 'cp'
-    Comment.Single:            "",        # class: 'c1'
-    Comment.Special:           "",        # class: 'cs'
+    'pygments.comment':                   COMMENT,   # class: 'c'
+    'pygments.comment.multiline':         "",        # class: 'cm'
+    'pygments.comment.preproc':           "",        # class: 'cp'
+    'pygments.comment.single':            "",        # class: 'c1'
+    'pygments.comment.special':           "",        # class: 'cs'
 
-    Keyword:                   PURPLE,    # class: 'k'
-    Keyword.Constant:          "",        # class: 'kc'
-    Keyword.Declaration:       "",        # class: 'kd'
-    Keyword.Namespace:         AQUA,      # class: 'kn'
-    Keyword.Pseudo:            "",        # class: 'kp'
-    Keyword.Reserved:          "",        # class: 'kr'
-    Keyword.Type:              YELLOW,    # class: 'kt'
+    'pygments.keyword':                   PURPLE,    # class: 'k'
+    'pygments.keyword.constant':          "",        # class: 'kc'
+    'pygments.keyword.declaration':       "",        # class: 'kd'
+    'pygments.keyword.namespace':         AQUA,      # class: 'kn'
+    'pygments.keyword.pseudo':            "",        # class: 'kp'
+    'pygments.keyword.reserved':          "",        # class: 'kr'
+    'pygments.keyword.type':              YELLOW,    # class: 'kt'
 
-    Operator:                  AQUA,      # class: 'o'
-    Operator.Word:             "",        # class: 'ow' - like keywords
+    'pygments.operator':                  AQUA,      # class: 'o'
+    'pygments.operator.word':             "",        # class: 'ow' - like keywords
 
-    Punctuation:               FOREGROUND,  # class: 'p'
+    'pygments.punctuation':               FOREGROUND,  # class: 'p'
 
-    Name:                      FOREGROUND,  # class: 'n'
-    Name.Attribute:            BLUE,        # class: 'na' - to be revised
-    Name.Builtin:              "",          # class: 'nb'
-    Name.Builtin.Pseudo:       "",          # class: 'bp'
-    Name.Class:                YELLOW,      # class: 'nc' - to be revised
-    Name.Constant:             RED,         # class: 'no' - to be revised
-    Name.Decorator:            AQUA,        # class: 'nd' - to be revised
-    Name.Entity:               "",          # class: 'ni'
-    Name.Exception:            RED,         # class: 'ne'
-    Name.Function:             BLUE,        # class: 'nf'
-    Name.Property:             "",          # class: 'py'
-    Name.Label:                "",          # class: 'nl'
-    Name.Namespace:            YELLOW,      # class: 'nn' - to be revised
-    Name.Other:                BLUE,        # class: 'nx'
-    Name.Tag:                  AQUA,        # class: 'nt' - like a keyword
-    Name.Variable:             RED,         # class: 'nv' - to be revised
-    Name.Variable.Class:       "",          # class: 'vc' - to be revised
-    Name.Variable.Global:      "",          # class: 'vg' - to be revised
-    Name.Variable.Instance:    "",          # class: 'vi' - to be revised
+    'pygments.name':                      FOREGROUND,  # class: 'n'
+    'pygments.name.attribute':            BLUE,        # class: 'na' - to be revised
+    'pygments.name.builtin':              "",          # class: 'nb'
+    'pygments.name.builtin.pseudo':       "",          # class: 'bp'
+    'pygments.name.class':                YELLOW,      # class: 'nc' - to be revised
+    'pygments.name.constant':             RED,         # class: 'no' - to be revised
+    'pygments.name.decorator':            AQUA,        # class: 'nd' - to be revised
+    'pygments.name.entity':               "",          # class: 'ni'
+    'pygments.name.exception':            RED,         # class: 'ne'
+    'pygments.name.function':             BLUE,        # class: 'nf'
+    'pygments.name.property':             "",          # class: 'py'
+    'pygments.name.label':                "",          # class: 'nl'
+    'pygments.name.namespace':            YELLOW,      # class: 'nn' - to be revised
+    'pygments.name.other':                BLUE,        # class: 'nx'
+    'pygments.name.tag':                  AQUA,        # class: 'nt' - like a keyword
+    'pygments.name.variable':             RED,         # class: 'nv' - to be revised
+    'pygments.name.variable.class':       "",          # class: 'vc' - to be revised
+    'pygments.name.variable.global':      "",          # class: 'vg' - to be revised
+    'pygments.name.variable.instance':    "",          # class: 'vi' - to be revised
 
-    Number:                    ORANGE,    # class: 'm'
-    Number.Float:              "",        # class: 'mf'
-    Number.Hex:                "",        # class: 'mh'
-    Number.Integer:            "",        # class: 'mi'
-    Number.Integer.Long:       "",        # class: 'il'
-    Number.Oct:                "",        # class: 'mo'
+    'pygments.number':                    ORANGE,    # class: 'm'
+    'pygments.number.float':              "",        # class: 'mf'
+    'pygments.number.hex':                "",        # class: 'mh'
+    'pygments.number.integer':            "",        # class: 'mi'
+    'pygments.number.integer.long':       "",        # class: 'il'
+    'pygments.number.oct':                "",        # class: 'mo'
 
-    Literal:                   ORANGE,    # class: 'l'
-    Literal.Date:              GREEN,     # class: 'ld'
+    'pygments.literal':                   ORANGE,    # class: 'l'
+    'pygments.literal.date':              GREEN,     # class: 'ld'
 
-    String:                    GREEN,       # class: 's'
-    String.Backtick:           "",          # class: 'sb'
-    String.Char:               FOREGROUND,  # class: 'sc'
-    String.Doc:                COMMENT,     # class: 'sd' - like a comment
-    String.Double:             "",          # class: 's2'
-    String.Escape:             ORANGE,      # class: 'se'
-    String.Heredoc:            "",          # class: 'sh'
-    String.Interpol:           ORANGE,      # class: 'si'
-    String.Other:              "",          # class: 'sx'
-    String.Regex:              "",          # class: 'sr'
-    String.Single:             "",          # class: 's1'
-    String.Symbol:             "",          # class: 'ss'
+    'pygments.string':                    GREEN,       # class: 's'
+    'pygments.string.backtick':           "",          # class: 'sb'
+    'pygments.string.char':               FOREGROUND,  # class: 'sc'
+    'pygments.string.doc':                COMMENT,     # class: 'sd' - like a comment
+    'pygments.string.double':             "",          # class: 's2'
+    'pygments.string.escape':             ORANGE,      # class: 'se'
+    'pygments.string.heredoc':            "",          # class: 'sh'
+    'pygments.string.interpol':           ORANGE,      # class: 'si'
+    'pygments.string.other':              "",          # class: 'sx'
+    'pygments.string.regex':              "",          # class: 'sr'
+    'pygments.string.single':             "",          # class: 's1'
+    'pygments.string.symbol':             "",          # class: 'ss'
 
-    Generic:                   "",                    # class: 'g'
-    Generic.Deleted:           RED,                   # class: 'gd',
-    Generic.Emph:              "italic",              # class: 'ge'
-    Generic.Error:             "",                    # class: 'gr'
-    Generic.Heading:           "bold " + FOREGROUND,  # class: 'gh'
-    Generic.Inserted:          GREEN,                 # class: 'gi'
-    Generic.Output:            "",                    # class: 'go'
-    Generic.Prompt:            "bold " + COMMENT,     # class: 'gp'
-    Generic.Strong:            "bold",                # class: 'gs'
-    Generic.Subheading:        "bold " + AQUA,        # class: 'gu'
-    Generic.Traceback:         "",                    # class: 'gt'
+    'pygments.generic':                   "",                    # class: 'g'
+    'pygments.generic.deleted':           RED,                   # class: 'gd',
+    'pygments.generic.emph':              "italic",              # class: 'ge'
+    'pygments.generic.error':             "",                    # class: 'gr'
+    'pygments.generic.heading':           "bold " + FOREGROUND,  # class: 'gh'
+    'pygments.generic.inserted':          GREEN,                 # class: 'gi'
+    'pygments.generic.output':            "",                    # class: 'go'
+    'pygments.generic.prompt':            "bold " + COMMENT,     # class: 'gp'
+    'pygments.generic.strong':            "bold",                # class: 'gs'
+    'pygments.generic.subheading':        "bold " + AQUA,        # class: 'gu'
+    'pygments.generic.traceback':         "",                    # class: 'gt'
 }
 
 
@@ -188,14 +186,16 @@ def configure(repl):
     # syntax errors.)
     repl.enable_input_validation = True
 
+    # Set color depth (keep in mind that not all terminals support true color).
+    # repl.color_depth = 'DEPTH_1_BIT'  # Monochrome.
+    # repl.color_depth = 'DEPTH_4_BIT'  # ANSI colors only.
+    # repl.color_depth = 'DEPTH_8_BIT'  # The default, 256 colors.
+    repl.color_depth = 'DEPTH_24_BIT'  # True color.
+
+    # Syntax.
+    repl.enable_syntax_highlighting = True
+
     # Use this colorscheme for the code.
-    repl.install_code_colorscheme('tomorrow-night', _tomorrow_night_style)
+    # repl.install_code_colorscheme('tomorrow-night', _tomorrow_night_style)
+    repl.code_styles['tomorrow-night'] = Style.from_dict(_tomorrow_night_style)
     repl.use_code_colorscheme('tomorrow-night')
-
-    # Enable 24bit True color. (Not all terminals support this. -- maybe check
-    # $TERM before changing.)
-    repl.true_color = True
-
-
-
-

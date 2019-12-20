@@ -9,7 +9,7 @@ prompt_powerline_setup() {
     prompt_opts=(cr percent subst bang)
     export POWERLINE_NO_ZSH_ZPYTHON=1
     . "${POWERLINE_ZSH_BINDINGS}"
-    ${POWERLINE_BIN}/powerline-daemon --quiet
+    #${POWERLINE_BIN}/powerline-daemon --quiet
   else
     echo "ERROR: Powerline not available (POWERLINE_AVAILABLE unset or != 1)"
     return 1
