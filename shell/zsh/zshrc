@@ -23,9 +23,6 @@ source "${ZDOTDIR}"/themes.zsh
 ## miscellaneous config
 source "${ZDOTDIR}"/misc.zsh
 
-## zplug
-#source "${ZDOTDIR}"/zplug.zsh
-
 ## local zshrc
 if [[ -r ${ZDOTLOCAL}/zshrc ]]; then
     source "${ZDOTLOCAL}"/zshrc

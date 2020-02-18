@@ -7,8 +7,8 @@ funcdirs=(
 
 if [[ -n ${ZSH_NAME:-} ]]; then
   fpath=(
-    "${DOTLOCAL}/shell/functions/zsh"
-    "${SHELLDOTDIR}/functions/zsh"
+    "${DOTLOCAL}/shell/zsh/functions"
+    "${SHELLDOTDIR}/zsh/functions"
     "${funcdirs[@]}"
     "${fpath[@]}"
   )
@@ -16,10 +16,11 @@ if [[ -n ${ZSH_NAME:-} ]]; then
 fi
 
 if [[ -n ${BASH:-} ]]; then
+  # shellcheck source=../bash/autoload
   . "${SHELLDOTDIR}"/bash/autoload
   export FPATH=(
-    "${DOTLOCAL}/shell/functions/bash"
-    "${SHELLDOTDIR}/functions/bash"
+    "${DOTLOCAL}/shell/bash/functions"
+    "${SHELLDOTDIR}/bash/functions"
     "${funcdirs[@]}"
   )
 fi

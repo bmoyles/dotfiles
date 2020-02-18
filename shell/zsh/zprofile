@@ -5,9 +5,9 @@
         "${ZDOTDIR}"/.zshrc
         "${ZDOTDIR}"/themes/prompt_*_setup
         "${ZDOTDIR}"/*.zsh
-	"${ZDOTLOCAL}"/*.zsh
-	"${ZDOTLOCAL}"/zshrc
-	"${HOME}"/.dotfiles/shell/functions/*
+        "${ZDOTLOCAL}"/*.zsh
+        "${ZDOTLOCAL}"/zshrc
+        "${HOME}"/.dotfiles/shell/functions/*
     )
     for file in "${files[@]}"; do
         if zrecompile -pq "${file}"; then

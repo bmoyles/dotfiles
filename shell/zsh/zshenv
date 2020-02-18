@@ -7,6 +7,3 @@ export ZDOTDIR="${DOTDIR}"/shell/zsh
 export ZDOTLOCAL="${HOME}"/.local/shell/zsh
 
 export PS4='+[%D{%F %T%z}][%0x:%I][%2N:%i]: '
-#set -x
-#exec 3>&2
-#exec 2>>~/zsh.$$.trc
