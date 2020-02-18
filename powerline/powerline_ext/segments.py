@@ -8,19 +8,20 @@ from powerline.theme import requires_segment_info
 def aws(pl, segment_info, region_var='AWS_REGION', env_var='BASTION_ENVIRONMENT'):
     region = segment_info['environ'].get(region_var, None)
     env = segment_info['environ'].get(env_var, None)
-    if all((region, env)):
-        ret = [
-                {
-                    'contents': region,
-                    'draw_inner_divider': True,
-                    'highlight_groups': ['aws:region']
-                },
-                {
-                    'contents': env,
-                    'draw_inner_divider': True,
-                    'highlight_groups': ['aws:env']
-                }
-              ]
+    if any((region, env)):
+        ret = []
+        if region is not None:
+            ret.append({
+                'contents': region,
+                'draw_inner_divider': True,
+                'highlight_groups': ['aws:region']
+            })
+        if env is not None:
+            ret.append({
+                'contents': env,
+                'draw_inner_divider': True,
+                'highlight_groups': ['aws:env']
+            })
         return ret
     return None
 
