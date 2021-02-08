@@ -4,11 +4,13 @@ export DOTDIR="${HOME}"/.dotfiles
 shopt -s nullglob
 
 for __profile_d in /etc/profile.d/*.sh; do
+  # shellcheck disable=SC1090
   . "${__profile_d}"
 done
 unset __profile_d
 
 for __common_cfg in "${DOTDIR}"/shell/common/*; do
+  # shellcheck disable=SC1090
   . "${__common_cfg}"
 done
 unset __common_cfg
@@ -60,10 +62,17 @@ command_not_found_handle() {
 . "${SHELLDOTDIR}"/bash/prompt_basic
 
 if [[ -r ${DOTLOCAL}/shell/bashrc ]]; then
+  # shellcheck disable=SC1090
   . "${DOTLOCAL}"/shell/bashrc
 fi
 
 if [[ ${BASH_VERSINFO[0]} == 4 && ${BASH_VERSINFO[1]} < 4 ]]; then
   # bash 4.3, for some reason, nullglob on causes tab completion to break
   shopt -u nullglob
+fi
+
+## completion
+if [[ -n ${ASDF_DIR:-} && -d ${ASDF_DIR}/completions && -r ${ASDF_DIR}/completions/asdf.bash ]]; then
+  # shellcheck disable=SC1090
+  . "${ASDF_DIR}/completions/asdf.bash"
 fi

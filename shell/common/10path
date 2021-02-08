@@ -1,8 +1,6 @@
 #!/bin/bash
 
 declare -ax path=(
-  "${HOME}"/.poetry/bin
-  ${PYENV_ROOT:+"${PYENV_ROOT}/bin"}
   "${DOTLOCAL}/dotbin"
   "${DOTLOCALBIN}"
   "${DOTBIN}"
@@ -27,6 +25,7 @@ declare -ax cdpath=(
 )
 
 if [[ -r ${DOTLOCAL}/shell/path ]]; then
+  # shellcheck disable=SC1090
   . "${DOTLOCAL}"/shell/path
 fi
 
