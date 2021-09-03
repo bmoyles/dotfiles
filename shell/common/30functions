@@ -13,6 +13,10 @@ if [[ -n ${ZSH_NAME:-} ]]; then
     "${fpath[@]}"
   )
   declare -U fpath
+  if [[ -r ${DOTLOCAL}/shell/zsh/fpath.zsh ]]; then
+    # shellcheck disable=SC1090
+    source "${DOTLOCAL}"/shell/zsh/fpath.zsh
+  fi
 fi
 
 if [[ -n ${BASH:-} ]]; then
@@ -23,6 +27,10 @@ if [[ -n ${BASH:-} ]]; then
     "${SHELLDOTDIR}/bash/functions"
     "${funcdirs[@]}"
   )
+  if [[ -r ${DOTLOCAL}/shell/bash/fpath.bash ]]; then
+    # shellcheck disable=SC1090
+    source "${DOTLOCAL}"/shell/bash/fpath.bash
+  fi
 fi
 
 for funcdir in "${funcdirs[@]}"; do

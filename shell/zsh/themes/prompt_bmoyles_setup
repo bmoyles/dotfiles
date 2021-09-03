@@ -1,6 +1,12 @@
 function prompt_bmoyles_setup {
     emulate -L zsh
-    prompt_opts=(cr percent subst)
+    if zstyle -g _prompt_cleanup :prompt-theme cleanup; then
+      zstyle -t :prompt-theme cleanup
+      zstyle -e :prompt-theme cleanup "${_prompt_cleanup[@]}"
+      unset _prompt_cleanup
+    fi  
+    prompt_opts=(cr percent subst bang)
+    #prompt_opts=(cr percent subst)
 
     autoload -Uz add-zsh-hook
     add-zsh-hook precmd prompt_bmoyles_precmd

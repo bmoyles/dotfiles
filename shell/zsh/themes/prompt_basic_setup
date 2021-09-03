@@ -1,6 +1,11 @@
 prompt_basic_setup() {
     emulate -L zsh
-    prompt_opts=(cr percent subst)
+    if zstyle -g _prompt_cleanup :prompt-theme cleanup; then
+      zstyle -t :prompt-theme cleanup
+      zstyle -e :prompt-theme cleanup "${_prompt_cleanup[@]}"
+      unset _prompt_cleanup
+    fi  
+    prompt_opts=(cr percent subst bang)
 
     PROMPT='$(prompt_basic_reset)$(prompt_basic_build_prompt)'
     RPROMPT='$(prompt_basic_reset)$(prompt_basic_build_rprompt)'

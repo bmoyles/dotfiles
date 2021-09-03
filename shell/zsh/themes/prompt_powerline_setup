@@ -1,3 +1,4 @@
+
 prompt_powerline_setup() {
   emulate -L zsh
 
@@ -6,8 +7,14 @@ prompt_powerline_setup() {
       echo "ERROR: POWERLINE_ZSH_BINDINGS not set or not found: ${POWERLINE_ZSH_BINDINGS:-unset}"
       return 1
     fi
-    prompt_opts=(cr percent subst bang)
     export POWERLINE_NO_ZSH_ZPYTHON=1
+    if zstyle -g _prompt_cleanup :prompt-theme cleanup; then
+      zstyle -t :prompt-theme cleanup
+      zstyle -e :prompt-theme cleanup "${_prompt_cleanup[@]}"
+      unset _prompt_cleanup
+    fi
+    prompt_opts=(cr percent subst bang)
+      
     . "${POWERLINE_ZSH_BINDINGS}"
     #${POWERLINE_BIN}/powerline-daemon --quiet
   else
