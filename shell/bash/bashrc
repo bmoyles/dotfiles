@@ -62,17 +62,22 @@ command_not_found_handle() {
 . "${SHELLDOTDIR}"/bash/prompt_basic
 
 if [[ -r ${DOTLOCAL}/shell/bashrc ]]; then
-  # shellcheck disable=SC1090
+  # shellcheck disable=SC1091
   . "${DOTLOCAL}"/shell/bashrc
+fi
+set -x
+## completion
+for compfile in "${SHELLDOTDIR}"/bash/completion/*.bash; do
+  # shellcheck disable=SC1090
+  . "${compfile}"
+done
+set +x
+if [[ -n ${ASDF_DIR:-} && -d ${ASDF_DIR}/completions && -r ${ASDF_DIR}/completions/asdf.bash ]]; then
+  # shellcheck disable=SC1091
+  . "${ASDF_DIR}/completions/asdf.bash"
 fi
 
 if [[ ${BASH_VERSINFO[0]} == 4 && ${BASH_VERSINFO[1]} < 4 ]]; then
   # bash 4.3, for some reason, nullglob on causes tab completion to break
   shopt -u nullglob
-fi
-
-## completion
-if [[ -n ${ASDF_DIR:-} && -d ${ASDF_DIR}/completions && -r ${ASDF_DIR}/completions/asdf.bash ]]; then
-  # shellcheck disable=SC1090
-  . "${ASDF_DIR}/completions/asdf.bash"
 fi

@@ -7,7 +7,8 @@
         "${ZDOTDIR}"/*.zsh
         "${ZDOTLOCAL}"/*.zsh
         "${ZDOTLOCAL}"/zshrc
-        "${HOME}"/.dotfiles/shell/functions/*
+        "${ZDOTDIR}"/functions/*
+        "${DOTDIR}"/shell/functions/*
     )
     for file in "${files[@]}"; do
         if zrecompile -pq "${file}"; then

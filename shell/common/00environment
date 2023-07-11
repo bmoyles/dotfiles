@@ -27,6 +27,6 @@ export WD_STASH="${WD}/stash"
 export WD_GITHUB="${WD}/github"
 
 if [[ -r ${DOTLOCAL}/shell/env ]]; then
-  # shellcheck disable=SC1090
+  # shellcheck disable=SC1091
   . "${DOTLOCAL}"/shell/env
 fi
