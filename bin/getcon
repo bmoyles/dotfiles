@@ -1,0 +1,25 @@
+#!/bin/bash
+
+set -eu
+
+shmain() {
+    if (( $# < 1 )) || (( $# > 2 )); then
+        echo "Usage: $0 <instance> [region(default: us-east-1)]" >&2
+        return 1
+    fi
+    local -r instance="$1"
+    local -r region="${2:-us-east-1}"
+    local -r outfile="${instance}-console-output.out"
+
+    echo "Output saved to ${outfile}" >&2
+    aws ec2 --output text \
+        --region "${region}" \
+        get-console-output \
+        --latest \
+        --instance-id "${instance}" \
+        | tee "${outfile}.raw"
+    strings "${outfile}.raw" > "${outfile}"
+    rm "${outfile}.raw"
+}
+
+shmain "$@"

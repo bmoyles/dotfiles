@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -eu
+shopt -s nullglob extglob globstar
+
+for f in i-*.out; do
+    i="${f%-*-*.out}"
+    [[ -d ${i} ]] || mkdir "${i}"
+    mv -v "${i}-*" "${i}/"
+done

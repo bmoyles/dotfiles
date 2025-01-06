@@ -1,0 +1,27 @@
+#!/bin/bash
+
+set -eu
+
+shmain() {
+    if (( $# < 1 )) || (( $# > 2 )); then
+        echo "Usage: $0 <instance> [region(default: us-east-1)]" >&2
+        return 1
+    fi
+    local -r instance="$1"
+    local -r region="${2:-us-east-1}"
+    local -r outfile="${instance}-serial-session.out"
+    local -r host="${instance}.port0@serial-console.ec2-instance-connect.${region}.aws"
+    local -r sshkey="${HOME}/.ssh/id_ed25519"
+    echo "Establishing connection to ${host}" >&2
+    echo "Output available in ${outfile}" >&2
+    export NFSSH_DISABLED=1
+    ssh \
+        -oIdentitiesOnly=yes \
+        -i "${sshkey}" \
+        "${host}" \
+        |& tee -a "${outfile}.raw"
+    #strings "${outfile}.raw" > "${outfile}"
+    #rm "${outfile}.raw"
+}
+
+shmain "$@"

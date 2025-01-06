@@ -1,0 +1,8 @@
+#!/bin/bash
+
+bd() {
+  if [[ -z $when ]]; then
+    when=now
+  fi
+  GIT_AUTHOR_DATE="$(date -d "${when}")" GIT_COMMITTER_DATE="${GIT_AUTHOR_DATE}" git "$@"
+}
