@@ -27,4 +27,8 @@ source "${ZDOTDIR}"/misc.zsh
 if [[ -r ${ZDOTLOCAL}/zshrc ]]; then
     source "${ZDOTLOCAL}"/zshrc
 fi
-source "${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/zshrc"
+
+asdf_zshrc="${XDG_CONFIG_HOME:-$HOME/.config}/asdf-direnv/zshrc"
+if [[ -r ${asdf_zshrc} ]]; then
+    source "${asdf_zshrc}"
+fi
